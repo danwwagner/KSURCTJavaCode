@@ -5,8 +5,16 @@
  */
 package ksurctjavacode;
 
+import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
-import java.lang.*;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+
+
 
 /**
  *
@@ -14,12 +22,15 @@ import java.lang.*;
  */
 public class BasestationGUI extends javax.swing.JDialog {
 
+    
     /**
      * Creates new form BasestationGUI
      */
     public BasestationGUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();        
+        initComponents();
+        registerKeyCommands();
+        
     }
 
     /**
@@ -49,11 +60,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         armStatusButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                formKeyPressed(evt);
-            }
-        });
 
         leftMotorLabel.setText("Left Motor");
 
@@ -164,18 +170,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        // TODO add your handling code here:
-        char key = evt.getKeyChar();
-        switch (key)
-        {
-            case 'w':
-                leftMotorProgress.setValue(100);
-                break;
-        }
-        
-    }//GEN-LAST:event_formKeyPressed
-
     /**
      * @param args the command line arguments
      */
@@ -217,6 +211,133 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         });
     }
+    
+    /**
+    * Registers the key commands for maneuvering the robot to the GUI.
+    */
+    private void registerKeyCommands()
+    {
+        // Initialize the Action and Input maps.
+        _leftMotorAction = leftMotorProgress.getActionMap();
+        _leftMotorInput =  leftMotorProgress.getInputMap();
+        _rightMotorAction = rightMotorProgress.getActionMap();
+        _rightMotorInput =  rightMotorProgress.getInputMap();
+        
+        Action moveForward = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (_throttle <= 100)
+                {    
+                    leftMotorProgress.setValue(_throttle += 5);
+                    rightMotorProgress.setValue(_throttle += 5);
+                }
+                
+            }
+                 
+        };
+        
+        Action moveBackward = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                if (_throttle >= 0)
+                {
+                    leftMotorProgress.setValue(_throttle -= 5);
+                    rightMotorProgress.setValue(_throttle -= 5);
+                }
+            }
+        };
+        
+        Action turnLeft = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                 leftMotorProgress.setValue(50);
+                 rightMotorProgress.setValue(25);
+            }
+        };
+        
+        Action turnRight = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                 leftMotorProgress.setValue(25);
+                 rightMotorProgress.setValue(50);
+            }
+        };
+        
+        Action toggleLED = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                if ("OFF".equals(ledStatusButton.getText()))
+                {
+                    ledStatusButton.setText("ON");
+                }
+                else
+                {
+                    ledStatusButton.setText("OFF");
+                }
+            }
+        };
+        
+        Action launchArm = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                armStatusButton.setText("THREW");
+                armStatusButton.setEnabled(false);
+            }
+        };
+        
+        Action returnArm = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                armStatusButton.setText("LAUNCH");
+                armStatusButton.setEnabled(true);
+            }
+        };
+        
+        // Set up the bindings for the key commands of the left motor.
+        _leftMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
+        _leftMotorAction.put("moveForward", moveForward);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("S"), "moveBackward");
+        _leftMotorAction.put("moveBackward", moveBackward);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("A"), "turnLeft");
+        _leftMotorAction.put("turnLeft", turnLeft);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("D"), "turnRight");
+        _leftMotorAction.put("turnRight", turnRight);        
+        _leftMotorInput.put(KeyStroke.getKeyStroke("L"), "toggleLED");
+        _leftMotorAction.put("toggleLED", toggleLED);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("Q"), "launchArm");
+        _leftMotorAction.put("launchArm", launchArm);  
+        _leftMotorInput.put(KeyStroke.getKeyStroke("E"), "returnArm");
+        _leftMotorAction.put("returnArm", returnArm); 
+        
+        
+        // Set up the bindings for the key commands of the right motor.
+        _rightMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
+        _rightMotorAction.put("moveForward", moveForward);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("S"), "moveBackward");
+        _rightMotorAction.put("moveBackward", moveBackward);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("A"), "turnLeft");
+        _rightMotorAction.put("turnLeft", turnLeft);     
+        _rightMotorInput.put(KeyStroke.getKeyStroke("D"), "turnRight");
+        _rightMotorAction.put("turnRight", turnRight);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("L"), "toggleLED");
+        _rightMotorAction.put("toggleLED", toggleLED);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("Q"), "launchArm");
+        _rightMotorAction.put("launchArm", launchArm);   
+        _rightMotorInput.put(KeyStroke.getKeyStroke("E"), "returnArm");
+        _rightMotorAction.put("returnArm", returnArm);         
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel armStateLabel;
@@ -236,4 +357,11 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JLabel rightMotorLabel;
     private javax.swing.JProgressBar rightMotorProgress;
     // End of variables declaration//GEN-END:variables
+
+   // Throttle variable for incrementing/decrementing motor controls.
+    private int _throttle = 0;
+    private ActionMap _leftMotorAction; 
+    private InputMap _leftMotorInput;
+    private ActionMap _rightMotorAction;
+    private InputMap _rightMotorInput;
 }
