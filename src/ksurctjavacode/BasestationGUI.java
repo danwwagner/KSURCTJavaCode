@@ -5,6 +5,7 @@
  */
 package ksurctjavacode;
 
+
 import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
 import java.awt.event.KeyEvent;
@@ -13,7 +14,8 @@ import javax.swing.KeyStroke;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-
+import java.net.URI;
+import com.google.protobuf.*;
 
 
 /**
@@ -30,6 +32,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         registerKeyCommands();
+
         
     }
 
@@ -210,6 +213,12 @@ public class BasestationGUI extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+       
+       // Why is this shit not working?
+       // Need to figure out how to create a new Robot message with the newBuilder()?
+        Main.Robot.Builder robot = Main.Robot.newBuilder();
+       
+        
     }
     
     /**
