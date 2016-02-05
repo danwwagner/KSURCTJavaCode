@@ -1,0 +1,1 @@
+org.java_websocket.handshake.HandshakeImpl1Server

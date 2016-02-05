@@ -1,0 +1,2 @@
+com.google.protobuf.ExtensionRegistryLite$ObjectIntPair
+com.google.protobuf.ExtensionRegistryLite

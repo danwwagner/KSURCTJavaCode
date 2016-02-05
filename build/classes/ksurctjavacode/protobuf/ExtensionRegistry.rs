@@ -1,0 +1,3 @@
+com.google.protobuf.ExtensionRegistry$DescriptorIntPair
+com.google.protobuf.ExtensionRegistry$ExtensionInfo
+com.google.protobuf.ExtensionRegistry

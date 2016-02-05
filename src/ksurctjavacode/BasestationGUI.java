@@ -1,30 +1,39 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+ * KSURCT Basestation code for the OSU Mercury Robotics Competition 2016
+ * Primary author: Dan Wagner
+ * 
+*/
+
 package ksurctjavacode;
 
 
 import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
-import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import java.net.URI;
-import com.google.protobuf.*;
+import java.net.URISyntaxException;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft_10;
+import org.java_websocket.handshake.ServerHandshake;
 
 
 /**
  *
- * @author ksurct
- */
+ * @author Dan Wagner
+**/
 public class BasestationGUI extends javax.swing.JDialog {
 
     
+    private static WebSocketClient client;
     /**
      * Creates new form BasestationGUI
      */
@@ -175,8 +184,9 @@ public class BasestationGUI extends javax.swing.JDialog {
 
     /**
      * @param args the command line arguments
+     * @throws URISyntaxException exception thrown with incorrect URI
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws URISyntaxException{
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -212,14 +222,75 @@ public class BasestationGUI extends javax.swing.JDialog {
                 });
                 dialog.setVisible(true);
             }
-        });
-       
-       // Why is this shit not working?
-       // Need to figure out how to create a new Robot message with the newBuilder()?
+        });   
+        
+        setUpNetworking();
+
+    }
+    
+    /**
+     * Builds a protobuf message to send to the Raspberry Pi.
+     * TODO
+     */
+    private void buildRobotMessage()
+    {
+        // Build each component of the message.
         Main.Robot.Builder robot = Main.Robot.newBuilder();
-       
+        Main.Robot.Motor.Builder motor1 = robot.getMotor1Builder();
+        Main.Robot.Motor.Builder motor2 = robot.getMotor2Builder();
+        Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
+        Main.Robot.ServoOrBuilder servo = Main.Robot.Servo.newBuilder(); // TODO: WTF.
+        
+        // Set the correct values of each motor, sensor, etc.
+        motor1.setSpeed(100);
+        motor2.setSpeed(100);
+        LED.setOn(true);
+        
+        // Build the message.
+        robot.build();
+        
+        // Send the message - TODO: Format of the message? 
+        client.send(robot.toString());
+        
         
     }
+    
+    /**
+     * Sets up the network connection between the BaseStation and the Raspberry Pi.
+     * @throws URISyntaxException exception thrown with incorrect URI
+     */
+    private static void setUpNetworking() throws URISyntaxException 
+    {
+            // Frame for displaying confirmation/debugging modal dialogs.
+            final JFrame frame = new JFrame();
+            
+            // Initialize the WebSocket Client.
+            client = new WebSocketClient( new URI("ws://localhost:8888"), new Draft_10()) {
+            @Override
+            public void onOpen(ServerHandshake handshakedata) {
+                 JOptionPane.showMessageDialog(frame, "Opened connection!");
+            }
+
+            @Override
+            public void onMessage(String message) {
+                JOptionPane.showMessageDialog(frame, "Opened connection!"); 
+            }
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+                JOptionPane.showMessageDialog(frame, "Closed connection!");
+            }
+
+            @Override
+            public void onError(Exception ex) {
+               JOptionPane.showMessageDialog(frame, ex.toString());
+            }
+        };
+            
+            client.connect();
+        
+    }
+    
     
     /**
     * Registers the key commands for maneuvering the robot to the GUI.

@@ -1,0 +1,4 @@
+com.google.protobuf.RepeatedFieldBuilder$MessageOrBuilderExternalList
+com.google.protobuf.RepeatedFieldBuilder$MessageExternalList
+com.google.protobuf.RepeatedFieldBuilder
+com.google.protobuf.RepeatedFieldBuilder$BuilderExternalList

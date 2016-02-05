@@ -1,0 +1,3 @@
+com.google.protobuf.AbstractMessageLite
+com.google.protobuf.AbstractMessageLite$Builder
+com.google.protobuf.AbstractMessageLite$Builder$LimitedInputStream
