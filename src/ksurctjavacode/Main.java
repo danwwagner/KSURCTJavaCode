@@ -86,6 +86,19 @@ public final class Main {
      */
     Main.Robot.ProcedureOrBuilder getProceduresOrBuilder(
         int index);
+
+    /**
+     * <code>optional .Robot.Servo arm = 5;</code>
+     */
+    boolean hasArm();
+    /**
+     * <code>optional .Robot.Servo arm = 5;</code>
+     */
+    Main.Robot.Servo getArm();
+    /**
+     * <code>optional .Robot.Servo arm = 5;</code>
+     */
+    Main.Robot.ServoOrBuilder getArmOrBuilder();
   }
   /**
    * Protobuf type {@code Robot}
@@ -174,6 +187,19 @@ public final class Main {
                 mutable_bitField0_ |= 0x00000008;
               }
               procedures_.add(input.readMessage(Main.Robot.Procedure.parser(), extensionRegistry));
+              break;
+            }
+            case 42: {
+              Main.Robot.Servo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = arm_.toBuilder();
+              }
+              arm_ = input.readMessage(Main.Robot.Servo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(arm_);
+                arm_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -2694,6 +2720,27 @@ public final class Main {
       return procedures_.get(index);
     }
 
+    public static final int ARM_FIELD_NUMBER = 5;
+    private Main.Robot.Servo arm_;
+    /**
+     * <code>optional .Robot.Servo arm = 5;</code>
+     */
+    public boolean hasArm() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .Robot.Servo arm = 5;</code>
+     */
+    public Main.Robot.Servo getArm() {
+      return arm_ == null ? Main.Robot.Servo.getDefaultInstance() : arm_;
+    }
+    /**
+     * <code>optional .Robot.Servo arm = 5;</code>
+     */
+    public Main.Robot.ServoOrBuilder getArmOrBuilder() {
+      return arm_ == null ? Main.Robot.Servo.getDefaultInstance() : arm_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2724,6 +2771,9 @@ public final class Main {
       for (int i = 0; i < procedures_.size(); i++) {
         output.writeMessage(4, procedures_.get(i));
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(5, getArm());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2747,6 +2797,10 @@ public final class Main {
       for (int i = 0; i < procedures_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, procedures_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, getArm());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2854,6 +2908,7 @@ public final class Main {
           getMotor1FieldBuilder();
           getMotor2FieldBuilder();
           getProceduresFieldBuilder();
+          getArmFieldBuilder();
         }
       }
       public Builder clear() {
@@ -2882,6 +2937,12 @@ public final class Main {
         } else {
           proceduresBuilder_.clear();
         }
+        if (armBuilder_ == null) {
+          arm_ = null;
+        } else {
+          armBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2939,6 +3000,14 @@ public final class Main {
         } else {
           result.procedures_ = proceduresBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (armBuilder_ == null) {
+          result.arm_ = arm_;
+        } else {
+          result.arm_ = armBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2989,6 +3058,9 @@ public final class Main {
               proceduresBuilder_.addAllMessages(other.procedures_);
             }
           }
+        }
+        if (other.hasArm()) {
+          mergeArm(other.getArm());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3651,6 +3723,124 @@ public final class Main {
           procedures_ = null;
         }
         return proceduresBuilder_;
+      }
+
+      private Main.Robot.Servo arm_ = null;
+      private com.google.protobuf.SingleFieldBuilder<
+          Main.Robot.Servo, Main.Robot.Servo.Builder, Main.Robot.ServoOrBuilder> armBuilder_;
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      public boolean hasArm() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      public Main.Robot.Servo getArm() {
+        if (armBuilder_ == null) {
+          return arm_ == null ? Main.Robot.Servo.getDefaultInstance() : arm_;
+        } else {
+          return armBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      public Builder setArm(Main.Robot.Servo value) {
+        if (armBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          arm_ = value;
+          onChanged();
+        } else {
+          armBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      public Builder setArm(
+          Main.Robot.Servo.Builder builderForValue) {
+        if (armBuilder_ == null) {
+          arm_ = builderForValue.build();
+          onChanged();
+        } else {
+          armBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      public Builder mergeArm(Main.Robot.Servo value) {
+        if (armBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              arm_ != null &&
+              arm_ != Main.Robot.Servo.getDefaultInstance()) {
+            arm_ =
+              Main.Robot.Servo.newBuilder(arm_).mergeFrom(value).buildPartial();
+          } else {
+            arm_ = value;
+          }
+          onChanged();
+        } else {
+          armBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      public Builder clearArm() {
+        if (armBuilder_ == null) {
+          arm_ = null;
+          onChanged();
+        } else {
+          armBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      public Main.Robot.Servo.Builder getArmBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getArmFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      public Main.Robot.ServoOrBuilder getArmOrBuilder() {
+        if (armBuilder_ != null) {
+          return armBuilder_.getMessageOrBuilder();
+        } else {
+          return arm_ == null ?
+              Main.Robot.Servo.getDefaultInstance() : arm_;
+        }
+      }
+      /**
+       * <code>optional .Robot.Servo arm = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          Main.Robot.Servo, Main.Robot.Servo.Builder, Main.Robot.ServoOrBuilder> 
+          getArmFieldBuilder() {
+        if (armBuilder_ == null) {
+          armBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              Main.Robot.Servo, Main.Robot.Servo.Builder, Main.Robot.ServoOrBuilder>(
+                  getArm(),
+                  getParentForChildren(),
+                  isClean());
+          arm_ = null;
+        }
+        return armBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Robot)
@@ -4699,18 +4889,19 @@ public final class Main {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nmain.proto\"\346\002\n\005Robot\022\036\n\nheadlights\030\001 \001" +
+      "\n\nmain.proto\"\201\003\n\005Robot\022\036\n\nheadlights\030\001 \001" +
       "(\0132\n.Robot.LED\022\035\n\007motor_1\030\002 \001(\0132\014.Robot." +
       "Motor\022\035\n\007motor_2\030\003 \001(\0132\014.Robot.Motor\022$\n\n" +
-      "procedures\030\004 \003(\0132\020.Robot.Procedure\032&\n\005Mo" +
-      "tor\022\016\n\006update\030\001 \001(\010\022\r\n\005speed\030\002 \001(\005\032\'\n\005Se" +
-      "rvo\022\016\n\006update\030\001 \001(\010\022\016\n\006degree\030\002 \001(\005\032!\n\003L" +
-      "ED\022\016\n\006update\030\001 \001(\010\022\n\n\002on\030\002 \001(\010\032e\n\tProced" +
-      "ure\022-\n\006circle\030\001 \001(\0132\033.Robot.Procedure.Go" +
-      "InCircleH\000\032\034\n\nGoInCircle\022\016\n\006radius\030\001 \002(\005" +
-      "B\013\n\tprocedure\"O\n\013BaseStation\022%\n\007battery\030",
-      "\001 \001(\0132\024.BaseStation.Battery\032\031\n\007Battery\022\016" +
-      "\n\006charge\030\001 \001(\005"
+      "procedures\030\004 \003(\0132\020.Robot.Procedure\022\031\n\003ar" +
+      "m\030\005 \001(\0132\014.Robot.Servo\032&\n\005Motor\022\016\n\006update" +
+      "\030\001 \001(\010\022\r\n\005speed\030\002 \001(\005\032\'\n\005Servo\022\016\n\006update" +
+      "\030\001 \001(\010\022\016\n\006degree\030\002 \001(\005\032!\n\003LED\022\016\n\006update\030" +
+      "\001 \001(\010\022\n\n\002on\030\002 \001(\010\032e\n\tProcedure\022-\n\006circle" +
+      "\030\001 \001(\0132\033.Robot.Procedure.GoInCircleH\000\032\034\n" +
+      "\nGoInCircle\022\016\n\006radius\030\001 \002(\005B\013\n\tprocedure",
+      "\"O\n\013BaseStation\022%\n\007battery\030\001 \001(\0132\024.BaseS" +
+      "tation.Battery\032\031\n\007Battery\022\016\n\006charge\030\001 \001(" +
+      "\005"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4729,7 +4920,7 @@ public final class Main {
     internal_static_Robot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Robot_descriptor,
-        new java.lang.String[] { "Headlights", "Motor1", "Motor2", "Procedures", });
+        new java.lang.String[] { "Headlights", "Motor1", "Motor2", "Procedures", "Arm", });
     internal_static_Robot_Motor_descriptor =
       internal_static_Robot_descriptor.getNestedTypes().get(0);
     internal_static_Robot_Motor_fieldAccessorTable = new

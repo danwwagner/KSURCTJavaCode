@@ -18,6 +18,9 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -83,6 +86,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxIPBox = new javax.swing.JTextField();
         uxConnectButton = new javax.swing.JButton();
         uxDisconnectButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        uxEventLog = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -129,6 +134,12 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         });
 
+        uxEventLog.setColumns(20);
+        uxEventLog.setRows(5);
+        uxEventLog.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        uxEventLog.setEnabled(false);
+        jScrollPane1.setViewportView(uxEventLog);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,40 +149,38 @@ public class BasestationGUI extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(frontLeftIRLabel)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(frontRightIRLabel))
-                                                .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(91, 91, 91))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(rightMotorLabel)
-                                            .addGap(156, 156, 156)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(leftMotorLabel)
-                                        .addGap(165, 165, 165)))
+                                        .addComponent(frontLeftIRLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(frontRightIRLabel))
+                                    .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(uxIPBox, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(uxConnectButton)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(rearLeftIRLabel)
-                                        .addGap(54, 54, 54)
-                                        .addComponent(rearRightIRLabel))
-                                    .addComponent(uxDisconnectButton))))
+                                    .addComponent(rightMotorLabel)
+                                    .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(leftMotorLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(uxIPBox, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(uxConnectButton)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rearLeftIRLabel)
+                                .addGap(54, 54, 54)
+                                .addComponent(rearRightIRLabel))
+                            .addComponent(uxDisconnectButton))
                         .addGap(26, 26, 26))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(frontLeftIRText)
                         .addGap(47, 47, 47)
                         .addComponent(frontRightIRText)
-                        .addGap(71, 71, 71)
-                        .addComponent(rearLeftIRText)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rearLeftIRText)
+                        .addGap(36, 36, 36)
                         .addComponent(rearRightIRText)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -193,22 +202,25 @@ public class BasestationGUI extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(leftMotorLabel)
-                    .addComponent(uxIPBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
-                        .addComponent(rightMotorLabel)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(leftMotorLabel)
+                            .addComponent(uxIPBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(uxConnectButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(uxDisconnectButton)))
-                .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(uxConnectButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(uxDisconnectButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)
+                                .addComponent(rightMotorLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(frontLeftIRLabel)
                     .addComponent(frontRightIRLabel)
@@ -227,7 +239,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     .addComponent(armStateLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(armStatusButton)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -305,7 +317,6 @@ public class BasestationGUI extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                
             }
         });   
 
@@ -313,7 +324,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     /**
      * Builds & sends a protobuf message to send to the Raspberry Pi.
-     * TODO
      */
     private void sendUpdates()
     {
@@ -322,15 +332,19 @@ public class BasestationGUI extends javax.swing.JDialog {
         Main.Robot.Motor.Builder leftMotor = robot.getMotor1Builder();
         Main.Robot.Motor.Builder rightMotor = robot.getMotor2Builder();
         Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
-        //Main.Robot.Servo.Builder servo; TODO: NYI
+        Main.Robot.Servo.Builder armature = robot.getArmBuilder();
         
-        // Set the correct values of each motor, sensor, etc.
+        // Set the correct values of each motor and signify update.
         leftMotor.setSpeed(leftMotorProgress.getValue());
         rightMotor.setSpeed(rightMotorProgress.getValue());
         leftMotor.setUpdate(true);
         rightMotor.setUpdate(true);
         
+        // Set the correct values of the arm and signify update. TODO
+        armature.setDegree(60);
+        armature.setUpdate(true);
       
+        // Set the correct values of the LED and signify update.
         LED.setOn("ON".equals(ledStatusButton.getText()));
         LED.setUpdate(true);
        
@@ -341,7 +355,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     }
     
     /**
-     * Decodes a message from the Pi into data to display onto the GUI.
+     * Decodes a message from the Pi into data to display onto the GUI. TODO
      * @param piMessage Message from the Raspberry Pi
      * 
      */
@@ -363,18 +377,18 @@ public class BasestationGUI extends javax.swing.JDialog {
             client = new WebSocketClient( new URI("ws://" + ipAddress + ":8002"), new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
-                 uxConnectButton.setText("Connected");
-                 uxDisconnectButton.setText("Disconnect");
                  uxIPBox.setEnabled(false);
                  uxConnectButton.setEnabled(false);
                  uxDisconnectButton.setEnabled(true);
+                 uxEventLog.setText("");
+                 uxEventLog.append("Connected to PEBBL.\n");
             
             }
             
 
             @Override
             public void onMessage(String message) {
-                 JOptionPane.showMessageDialog(frame, message);
+                 uxEventLog.append(message);
              //   decodeMessage(message.getBytes());
              //   buildMessageAndSend();
             }
@@ -382,16 +396,36 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 uxIPBox.setEnabled(true);
-                uxDisconnectButton.setText("Disconnected");
-                uxConnectButton.setText("Connect");
                 uxConnectButton.setEnabled(true);
                 uxDisconnectButton.setEnabled(false);
+                uxEventLog.append("Disconnected from PEBBL.\n");
 
             }
 
             @Override
+            @SuppressWarnings("SleepWhileInLoop")
             public void onError(Exception ex) {
-               JOptionPane.showMessageDialog(frame, ex.getCause());
+               uxEventLog.append("Error: Retrying connection...\n");
+               for(int i = 1; i <= 10; i++)
+               {
+                   try {
+                       uxConnectButton.setText(i + "...");
+                       Thread.sleep(1000);
+                   } catch (InterruptedException ex1) {
+                       Logger.getLogger(BasestationGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                   }
+               }
+               
+               // Retry connectivity.
+               try
+               {
+                   
+                   setUpNetworking();
+               } catch (URISyntaxException ex1) {
+                    Logger.getLogger(BasestationGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+               
+               
             }
         };
             
@@ -485,7 +519,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 armStatusButton.setText("THREW");
                 armStatusButton.setEnabled(false);
-                //sendUpdates();
+                sendUpdates();
             }
         };
         
@@ -496,7 +530,6 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 armStatusButton.setText("LAUNCH");
                 armStatusButton.setEnabled(true);
-                sendUpdates();
             }
         };
         
@@ -541,6 +574,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JLabel frontLeftIRText;
     private javax.swing.JLabel frontRightIRLabel;
     private javax.swing.JLabel frontRightIRText;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel ledStateLabel;
     private javax.swing.JToggleButton ledStatusButton;
     private javax.swing.JLabel leftMotorLabel;
@@ -553,6 +587,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JProgressBar rightMotorProgress;
     private javax.swing.JButton uxConnectButton;
     private javax.swing.JButton uxDisconnectButton;
+    private javax.swing.JTextArea uxEventLog;
     private javax.swing.JTextField uxIPBox;
     // End of variables declaration//GEN-END:variables
 
