@@ -1,2 +1,0 @@
-org.java_websocket.client.WebSocketClient$WebsocketWriteThread
-org.java_websocket.client.WebSocketClient

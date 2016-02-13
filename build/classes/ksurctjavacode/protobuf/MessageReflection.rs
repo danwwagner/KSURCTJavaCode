@@ -1,5 +1,0 @@
-com.google.protobuf.MessageReflection$BuilderAdapter
-com.google.protobuf.MessageReflection$ExtensionAdapter
-com.google.protobuf.MessageReflection
-com.google.protobuf.MessageReflection$MergeTarget$ContainerType
-com.google.protobuf.MessageReflection$MergeTarget

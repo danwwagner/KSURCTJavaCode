@@ -1,5 +1,0 @@
-com.google.protobuf.MapFieldLite
-com.google.protobuf.MapFieldLite$MutatabilityAwareSet
-com.google.protobuf.MapFieldLite$MutatabilityAwareCollection
-com.google.protobuf.MapFieldLite$MutatabilityAwareIterator
-com.google.protobuf.MapFieldLite$MutatabilityAwareMap

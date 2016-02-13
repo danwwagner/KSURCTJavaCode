@@ -1,2 +1,0 @@
-WebSocketChatClient
-SSLClientExample
