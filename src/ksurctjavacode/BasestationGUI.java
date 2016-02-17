@@ -329,8 +329,8 @@ public class BasestationGUI extends javax.swing.JDialog {
     {
         // Build each component of the message.
         Main.Robot.Builder robot = Main.Robot.newBuilder();
-        Main.Robot.Motor.Builder leftMotor = robot.getMotor1Builder();
-        Main.Robot.Motor.Builder rightMotor = robot.getMotor2Builder();
+        Main.Robot.Motor.Builder leftMotor = robot.getMotorLeftBuilder();
+        Main.Robot.Motor.Builder rightMotor = robot.getMotorRightBuilder();
         Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
         Main.Robot.Servo.Builder armature = robot.getArmBuilder();
         
