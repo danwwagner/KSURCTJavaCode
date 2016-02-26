@@ -9,6 +9,7 @@
 package ksurctjavacode;
 
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
 import javax.swing.AbstractAction;
@@ -18,17 +19,15 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
+import java.nio.ByteBuffer;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 
 
 
@@ -44,6 +43,16 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     // IP Address to connect to the Pi.
     private String ipAddress;
+    
+    // Robot message portions
+    private Main.Robot.Builder robot = Main.Robot.newBuilder();
+    private Main.Robot.Motor.Builder leftMotor = robot.getMotorLeftBuilder();
+    private Main.Robot.Motor.Builder rightMotor = robot.getMotorRightBuilder();
+    private Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
+    private Main.Robot.Servo.Builder armature = robot.getArmBuilder();
+    
+    // Robot's status message
+    private Main.BaseStation roboStatus;
     
     /**
      * Creates new form BasestationGUI
@@ -105,13 +114,13 @@ public class BasestationGUI extends javax.swing.JDialog {
 
         ledStateLabel.setText("LED");
 
-        frontLeftIRText.setText("...........");
+        frontLeftIRText.setText(".");
 
-        frontRightIRText.setText("...........");
+        frontRightIRText.setText(".");
 
-        rearLeftIRText.setText("...........");
+        rearLeftIRText.setText(".");
 
-        rearRightIRText.setText("...........");
+        rearRightIRText.setText(".");
 
         ledStatusButton.setText("OFF");
 
@@ -149,54 +158,55 @@ public class BasestationGUI extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rightMotorLabel)
+                            .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(leftMotorLabel)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(frontLeftIRLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(frontRightIRLabel))
-                                    .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(rightMotorLabel)
-                                    .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(leftMotorLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(ledStateLabel)
+                                    .addComponent(frontLeftIRLabel))
+                                .addGap(45, 45, 45)
+                                .addComponent(frontRightIRLabel)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(uxIPBox, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(uxConnectButton)
+                            .addComponent(uxDisconnectButton)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(rearLeftIRLabel)
-                                .addGap(54, 54, 54)
-                                .addComponent(rearRightIRLabel))
-                            .addComponent(uxDisconnectButton))
-                        .addGap(26, 26, 26))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(frontLeftIRText)
-                        .addGap(47, 47, 47)
-                        .addComponent(frontRightIRText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(rearLeftIRText)
-                        .addGap(36, 36, 36)
-                        .addComponent(rearRightIRText)
-                        .addContainerGap())
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(rearLeftIRText, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(rearLeftIRLabel))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(54, 54, 54)
+                                        .addComponent(rearRightIRLabel))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(62, 62, 62)
+                                        .addComponent(rearRightIRText)))))
+                        .addGap(28, 28, 28))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(ledStateLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ledStatusButton)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(165, 165, 165)
-                                .addComponent(armStateLabel)
-                                .addGap(91, 91, 91))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(165, 165, 165)
+                                    .addComponent(armStateLabel)
+                                    .addGap(91, 91, 91))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(armStatusButton)
+                                    .addGap(54, 54, 54)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(armStatusButton)
-                                .addGap(54, 54, 54))))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(ledStatusButton)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(frontLeftIRText)
+                                        .addGap(99, 99, 99)
+                                        .addComponent(frontRightIRText, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(428, 428, 428))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,13 +242,14 @@ public class BasestationGUI extends javax.swing.JDialog {
                     .addComponent(frontRightIRText)
                     .addComponent(rearLeftIRText)
                     .addComponent(rearRightIRText))
-                .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ledStateLabel)
-                    .addComponent(ledStatusButton)
-                    .addComponent(armStateLabel))
+                .addGap(45, 45, 45)
+                .addComponent(armStateLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(armStatusButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(armStatusButton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ledStateLabel)
+                        .addComponent(ledStatusButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -276,6 +287,7 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void uxDisconnectButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uxDisconnectButtonMouseClicked
         client.close();
+        uxDisconnectButton.setEnabled(false);
     }//GEN-LAST:event_uxDisconnectButtonMouseClicked
 
     /**
@@ -327,12 +339,6 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void sendUpdates()
     {
-        // Build each component of the message.
-        Main.Robot.Builder robot = Main.Robot.newBuilder();
-        Main.Robot.Motor.Builder leftMotor = robot.getMotorLeftBuilder();
-        Main.Robot.Motor.Builder rightMotor = robot.getMotorRightBuilder();
-        Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
-        Main.Robot.Servo.Builder armature = robot.getArmBuilder();
         
         // Set the correct values of each motor and signify update.
         leftMotor.setSpeed(leftMotorProgress.getValue());
@@ -357,10 +363,20 @@ public class BasestationGUI extends javax.swing.JDialog {
     /**
      * Decodes a message from the Pi into data to display onto the GUI. TODO
      * @param piMessage Message from the Raspberry Pi
+     * @throws InvalidProcolBufferException
      * 
      */
-    private void decodeMessage(byte[] piMessage)
+    private void decodeMessage(ByteBuffer piMessage) throws InvalidProtocolBufferException
     {
+        // Obtain the robot's status packet & parse it
+        roboStatus = Main.BaseStation.parseFrom(piMessage.array());
+        Main.BaseStation.Distance irSensors = roboStatus.getSensorData();
+        frontLeftIRText.setText(Integer.toString((irSensors.getFrontLeft())));
+        frontRightIRText.setText(Integer.toString((irSensors.getFrontRight())));
+        rearLeftIRText.setText(Integer.toString((irSensors.getBackLeft())));
+        rearRightIRText.setText(Integer.toString((irSensors.getBackRight())));
+        
+       // uxEventLog.append("Decoded message\n");
         
     }
     /**
@@ -369,10 +385,7 @@ public class BasestationGUI extends javax.swing.JDialog {
      *  TODO
      */
     private void setUpNetworking() throws URISyntaxException 
-    {
-            // Frame for displaying confirmation/debugging modal dialogs.
-            final JFrame frame = new JFrame();
-            
+    {       
             // Initialize the WebSocket Client, port 8002
             client = new WebSocketClient( new URI("ws://" + ipAddress + ":8002"), new Draft_17()) {
             @Override
@@ -387,10 +400,15 @@ public class BasestationGUI extends javax.swing.JDialog {
             
 
             @Override
-            public void onMessage(String message) {
-                 uxEventLog.append(message);
-             //   decodeMessage(message.getBytes());
-             //   buildMessageAndSend();
+            public void onMessage(ByteBuffer message) {
+             try { 
+                decodeMessage(message);
+                sendUpdates();
+             }
+             catch (InvalidProtocolBufferException ex)
+             {
+                 Logger.getLogger(BasestationGUI.class.getName()).log(Level.SEVERE, null, ex);
+             }
             }
 
             @Override
@@ -405,28 +423,37 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             @SuppressWarnings("SleepWhileInLoop")
             public void onError(Exception ex) {
-               uxEventLog.append("Error: Retrying connection...\n");
-               for(int i = 1; i <= 10; i++)
-               {
-                   try {
-                       uxConnectButton.setText(i + "...");
-                       Thread.sleep(1000);
-                   } catch (InterruptedException ex1) {
-                       Logger.getLogger(BasestationGUI.class.getName()).log(Level.SEVERE, null, ex1);
-                   }
+                if (ex instanceof  WebsocketNotConnectedException)
+                {
+                     uxEventLog.append("Error: Retrying connection...\n");
+                     for(int i = 1; i <= 10; i++)
+                     {
+                        try 
+                        {
+                            uxConnectButton.setText(i + "...");
+                            Thread.sleep(1000);
+                        } 
+                        catch (InterruptedException ex1)
+                        {
+                            Logger.getLogger(BasestationGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
+                     }
+                     
+                     uxConnectButton.setText("Retry Comms");
                }
-               
-               // Retry connectivity.
-               try
-               {
-                   
-                   setUpNetworking();
-               } catch (URISyntaxException ex1) {
-                    Logger.getLogger(BasestationGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                
+                else 
+                {
+                    client.close();
                 }
                
-               
             }
+
+                // This is here because Java is not a nice person.
+                @Override
+                public void onMessage(String message) {
+                    
+                }
         };
             
             // Establish connection to the Pi.
