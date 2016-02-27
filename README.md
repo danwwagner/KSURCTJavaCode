@@ -22,23 +22,32 @@ Guaranteed to run in Linux.  Not sure for other OS.
   * Error log
   * IP address box
   * Connect & disconnect buttons
+  * Hand servo degree labels
+  * Up/Down camera position adjustment sliding scale
+  * Left/Right camera position adjustment sliding scale
 * Connect to the robot by entering the IP in the text box and pressing Connect button.
   * Once connected, the error log will be cleared.
 * Disconnect from the robot by pressing the Disconnect button.
 * When a protobuf packet is received from the robot, the appropriate components are updated to reflect any changes in robot status.
 * When a control is pressed, a protobuf packet is sent to the robot.
+* To perform a turn, use the Q or E key.
+* To perform a zero-point turn, use the A or D key.
 
 
 #### Controls
 
-* The W, A, S, D keys control motor power settings.
+* The W, A, S, D, Q, E keys control motor power settings.
   * W increases the throttle on both motors
-  * A sets up a left turn
+  * A sets up a zero-point left turn
   * S decreases the throttle on both motors
-  * D sets up a right turn.
+  * D sets up a zero-point right turn.
+  * Q decreases the throttle on the left motor.
+  * E decreases the throttle on the right motor.
 * The L key toggles the headlights of the robot on and off.
   * Current status signified by the button on the GUI  
-* The Q key engages the servo on the robot's arm to open.
+* The Z key causes the robot's arm to launch.
+* The X and V keys increase and decrease the robot hand's angle, respectively.
+* The C key opens the robot's hand in order to grasp/release objects.
 
 #### Events
 * In the case of a disconnection from the robot, a timeout of ten seconds is initiated in order to prevent hammering the robot with connect requests.
