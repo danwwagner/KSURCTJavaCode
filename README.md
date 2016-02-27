@@ -22,7 +22,7 @@ Guaranteed to run in Linux.  Not sure for other OS.
   * Error log
   * IP address box
   * Connect & disconnect buttons
-* Connect to the robot by entering it's IP in the text box and pressing Connect button.
+* Connect to the robot by entering the IP in the text box and pressing Connect button.
 * Disconnect from the robot by pressing the Disconnect button.
 * When a protobuf packet is received from the robot, the appropriate components are updated to reflect any changes in robot status.
 * When a control is pressed, a protobuf packet is sent to the robot.
