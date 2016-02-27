@@ -371,11 +371,15 @@ public class BasestationGUI extends javax.swing.JDialog {
         // Obtain the robot's status packet & parse it
         roboStatus = Main.BaseStation.parseFrom(piMessage.array());
         Main.BaseStation.Distance irSensors = roboStatus.getSensorData();
-        frontLeftIRText.setText(Integer.toString((irSensors.getFrontLeft())));
-        frontRightIRText.setText(Integer.toString((irSensors.getFrontRight())));
-        rearLeftIRText.setText(Integer.toString((irSensors.getBackLeft())));
-        rearRightIRText.setText(Integer.toString((irSensors.getBackRight())));
         
+        // If there's an update available, update to the newest information.
+        if (irSensors.getUpdate())
+        {           
+            frontLeftIRText.setText(Integer.toString((irSensors.getFrontLeft())));
+            frontRightIRText.setText(Integer.toString((irSensors.getFrontRight())));
+            rearLeftIRText.setText(Integer.toString((irSensors.getBackLeft())));
+            rearRightIRText.setText(Integer.toString((irSensors.getBackRight())));
+        }
        // uxEventLog.append("Decoded message\n");
         
     }
