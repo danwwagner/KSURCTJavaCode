@@ -50,6 +50,15 @@ public class BasestationGUI extends javax.swing.JDialog {
     private Main.Robot.Motor.Builder rightMotor = robot.getMotorRightBuilder();
     private Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
     private Main.Robot.Servo.Builder armature = robot.getArmBuilder();
+    private Main.Robot.Servo.Builder claw = robot.getClawBuilder();
+    
+    // Booleans to determine update status of certain portions of the protobuf.
+    private boolean leftMotorUpdate = false;
+    private boolean rightMotorUpdate = false;
+    private boolean LEDUpdate = false;
+    private boolean armUpdate = false;
+    private boolean clawUpdate = false;
+    
     
     // Robot's status message
     private Main.BaseStation roboStatus;
@@ -434,16 +443,18 @@ public class BasestationGUI extends javax.swing.JDialog {
         // Set the correct values of each motor and signify update.
         leftMotor.setSpeed(leftMotorProgress.getValue());
         rightMotor.setSpeed(rightMotorProgress.getValue());
-        leftMotor.setUpdate(true);
-        rightMotor.setUpdate(true);
+        leftMotor.setUpdate(leftMotorUpdate);
+        rightMotor.setUpdate(rightMotorUpdate);
         
-        // Set the correct values of the arm and signify update. TODO
+        // Set the correct values of the arm/claw and signify update. TODO -> Replace 60 by a variable? (At least for the arm).
         armature.setDegree(60);
-        armature.setUpdate(true);
-      
+        armature.setUpdate(armUpdate);
+        claw.setDegree(60);
+        claw.setUpdate(clawUpdate);
+        
         // Set the correct values of the LED and signify update.
         LED.setOn("ON".equals(ledStatusButton.getText()));
-        LED.setUpdate(true);
+        LED.setUpdate(LEDUpdate);
        
         // Build the message.
         byte[] message = robot.build().toByteArray();
@@ -471,13 +482,12 @@ public class BasestationGUI extends javax.swing.JDialog {
             rearLeftIRText.setText(Integer.toString((irSensors.getBackLeft())));
             rearRightIRText.setText(Integer.toString((irSensors.getBackRight())));
         }
-       // uxEventLog.append("Decoded message\n");
         
     }
     /**
      * Sets up the network connection between the BaseStation and the Raspberry Pi.
      * @throws URISyntaxException exception thrown with incorrect URI
-     *  TODO
+     *  
      */
     private void setUpNetworking() throws URISyntaxException 
     {       
@@ -539,7 +549,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 
                 else 
                 {
-                    client.close();
+                    uxEventLog.setText("Please check the IP and try again.");
                 }
                
             }
@@ -573,12 +583,16 @@ public class BasestationGUI extends javax.swing.JDialog {
                 if (_lthrottle <= 100)
                 {    
                     leftMotorProgress.setValue(_lthrottle += 5);
+                    leftMotorUpdate = true;
                 }
                 if (_rthrottle <= 100)
                 {
                     rightMotorProgress.setValue(_rthrottle += 5);
+                    rightMotorUpdate = true;
                 }
                 sendUpdates();
+                leftMotorUpdate = false;
+                rightMotorUpdate = false;
             }    
         };
         
@@ -590,12 +604,16 @@ public class BasestationGUI extends javax.swing.JDialog {
                 if (_lthrottle >= 0)
                 {
                     leftMotorProgress.setValue(_lthrottle -= 5);
+                    leftMotorUpdate = true;
                 }              
                 if (_rthrottle >= 0)
                 {
                     rightMotorProgress.setValue(_rthrottle -= 5);
+                    rightMotorUpdate = true;
                 }
                 sendUpdates();
+                leftMotorUpdate = false;
+                rightMotorUpdate = false;
             }
         };
         
@@ -606,7 +624,11 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                  leftMotorProgress.setValue(50);
                  rightMotorProgress.setValue(25);
+                 leftMotorUpdate = true;
+                 rightMotorUpdate = true;
                  sendUpdates();
+                 leftMotorUpdate = false;
+                 rightMotorUpdate = false;
             }
         };
         
@@ -617,7 +639,11 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                  leftMotorProgress.setValue(25);
                  rightMotorProgress.setValue(50);
+                 leftMotorUpdate = true;
+                 rightMotorUpdate = true;
                  sendUpdates();
+                 leftMotorUpdate = false;
+                 rightMotorUpdate = false;
             }
         };
         
@@ -634,7 +660,9 @@ public class BasestationGUI extends javax.swing.JDialog {
                 {
                     ledStatusButton.setText("OFF");
                 }
+                LEDUpdate = true;
                 sendUpdates();
+                LEDUpdate = false;
             }
         };
         
@@ -645,7 +673,9 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 armStatusButton.setText("THREW");
                 armStatusButton.setEnabled(false);
+                armUpdate = true;
                 sendUpdates();
+                armUpdate = false;
                 armStatusButton.setText("LAUNCH");
             }
         };
@@ -656,7 +686,9 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 uxHandDegrees.setText(Integer.toString(++servoDegrees) + " Degrees");
+                armUpdate = true;
                 sendUpdates();
+                armUpdate = false;
             }
         };
         
@@ -666,7 +698,9 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 uxHandDegrees.setText(Integer.toString(--servoDegrees) + " Degrees");
+                armUpdate = true;
                 sendUpdates();
+                armUpdate = false;
             }
         };
         
@@ -676,7 +710,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                // What do I need to do when the hand is opened? Send to Pi?
+                // What do I need to do when the hand is opened?
+                // Send the degree of the servo to the pi?
             }
         };
         
@@ -686,6 +721,9 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 rightMotorProgress.setValue(_rthrottle -= 5);
+                rightMotorUpdate = true;
+                sendUpdates();
+                rightMotorUpdate = false;
             }
         };
         
@@ -695,6 +733,9 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 leftMotorProgress.setValue(_lthrottle -= 5);
+                leftMotorUpdate = true;
+                sendUpdates();
+                leftMotorUpdate = false;
             }
         };
         
