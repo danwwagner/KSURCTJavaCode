@@ -103,7 +103,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         rearRightIRText = new javax.swing.JLabel();
         ledStatusButton = new javax.swing.JToggleButton();
         armStateLabel = new javax.swing.JLabel();
-        armStatusButton = new javax.swing.JToggleButton();
         uxIPBox = new javax.swing.JTextField();
         uxConnectButton = new javax.swing.JButton();
         uxDisconnectButton = new javax.swing.JButton();
@@ -115,6 +114,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         uxHandDegrees = new javax.swing.JTextField();
+        uxArmDegrees = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -142,9 +142,7 @@ public class BasestationGUI extends javax.swing.JDialog {
 
         ledStatusButton.setText("OFF");
 
-        armStateLabel.setText("Arm");
-
-        armStatusButton.setText("LAUNCH!");
+        armStateLabel.setText("Wrist");
 
         uxConnectButton.setText("Connect");
         uxConnectButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -195,6 +193,13 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxHandDegrees.setFocusable(false);
         uxHandDegrees.setRequestFocusEnabled(false);
 
+        uxArmDegrees.setText("0 Degrees");
+        uxArmDegrees.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        uxArmDegrees.setEnabled(false);
+        uxArmDegrees.setFocusable(false);
+        uxArmDegrees.setName(""); // NOI18N
+        uxArmDegrees.setRequestFocusEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -205,9 +210,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(uxHandDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(112, 112, 112)
-                        .addComponent(armStatusButton)
-                        .addGap(54, 54, 54))
+                        .addGap(261, 261, 261))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -218,12 +221,9 @@ public class BasestationGUI extends javax.swing.JDialog {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(79, 79, 79)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(uxCameraUD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(16, 16, 16))))
+                                            .addComponent(uxCameraUD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel2)
@@ -263,7 +263,10 @@ public class BasestationGUI extends javax.swing.JDialog {
                                         .addComponent(rearRightIRLabel))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(62, 62, 62)
-                                        .addComponent(rearRightIRText)))))
+                                        .addComponent(rearRightIRText))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(uxArmDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(22, 22, 22)))
                         .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
@@ -272,7 +275,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(armStateLabel)
-                        .addGap(86, 86, 86))))
+                        .addGap(70, 70, 70))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -319,8 +322,8 @@ public class BasestationGUI extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(armStatusButton)
-                                .addComponent(uxHandDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(uxHandDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(uxArmDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(ledStatusButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -435,7 +438,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     /**
      * Builds & sends a protobuf message to send to the Raspberry Pi.
      * TODO: Modify for hand opening, hand angle adjustments, and webcam movement.
-     * TODO: Adjust to only send updates on updated information?
      */
     private void sendUpdates()
     {
@@ -491,11 +493,11 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void setUpNetworking() throws URISyntaxException 
     {       
-            // Initialize the WebSocket Client, port 8002
+            // Initialize the WebSocket Client, port 8002 - TODO: ipADDRESS IS TO BE FIXED, ALONG WITH PORT.
             client = new WebSocketClient( new URI("ws://" + ipAddress + ":8002"), new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
-                 uxIPBox.setEnabled(false);
+                 uxIPBox.setEditable(false);
                  uxConnectButton.setEnabled(false);
                  uxDisconnectButton.setEnabled(true);
                  uxEventLog.setText("");
@@ -518,7 +520,7 @@ public class BasestationGUI extends javax.swing.JDialog {
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                uxIPBox.setEnabled(true);
+                uxIPBox.setEditable(true);
                 uxConnectButton.setEnabled(true);
                 uxDisconnectButton.setEnabled(false);
                 uxEventLog.append("Disconnected from PEBBL.\n");
@@ -549,7 +551,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 
                 else 
                 {
-                    uxEventLog.setText("Please check the IP and try again.");
+                    uxEventLog.setText("Please check the IP and try again.\n");
                 }
                
             }
@@ -622,8 +624,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 leftMotorProgress.setValue(50);
-                 rightMotorProgress.setValue(25);
+                 leftMotorProgress.setValue(25);
+                 rightMotorProgress.setValue(50);
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
                  sendUpdates();
@@ -637,8 +639,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 leftMotorProgress.setValue(25);
-                 rightMotorProgress.setValue(50);
+                 leftMotorProgress.setValue(50);
+                 rightMotorProgress.setValue(25);
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
                  sendUpdates();
@@ -671,12 +673,13 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                armStatusButton.setText("THREW");
-                armStatusButton.setEnabled(false);
+               // armStatusButton.setText("THREW");
+              //  armStatusButton.setEnabled(false);
+                uxEventLog.append("Arm launched.\n");
                 armUpdate = true;
                 sendUpdates();
                 armUpdate = false;
-                armStatusButton.setText("LAUNCH");
+              //  armStatusButton.setText("LAUNCH");
             }
         };
         
@@ -685,7 +688,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                uxHandDegrees.setText(Integer.toString(++servoDegrees) + " Degrees");
+                if (servoDegrees > 45) servoDegrees = 44;
+                uxArmDegrees.setText(Integer.toString(++servoDegrees) + " Degrees");
                 armUpdate = true;
                 sendUpdates();
                 armUpdate = false;
@@ -697,21 +701,21 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                uxHandDegrees.setText(Integer.toString(--servoDegrees) + " Degrees");
+                if (servoDegrees < -45) servoDegrees = -44;
+                uxArmDegrees.setText(Integer.toString(--servoDegrees) + " Degrees");
                 armUpdate = true;
                 sendUpdates();
                 armUpdate = false;
             }
         };
         
-        // TODO
         Action openHand = new AbstractAction()
         {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                // What do I need to do when the hand is opened?
-                // Send the degree of the servo to the pi?
+                if (!"60 Degrees".equals(uxHandDegrees.getText())) uxHandDegrees.setText("60");
+                else uxHandDegrees.setText("0");
             }
         };
         
@@ -790,7 +794,6 @@ public class BasestationGUI extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel armStateLabel;
-    private javax.swing.JToggleButton armStatusButton;
     private javax.swing.JLabel frontLeftIRLabel;
     private javax.swing.JLabel frontLeftIRText;
     private javax.swing.JLabel frontRightIRLabel;
@@ -809,6 +812,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JLabel rearRightIRText;
     private javax.swing.JLabel rightMotorLabel;
     private javax.swing.JProgressBar rightMotorProgress;
+    private javax.swing.JTextField uxArmDegrees;
     private javax.swing.JSlider uxCameraLR;
     private javax.swing.JSlider uxCameraUD;
     private javax.swing.JButton uxConnectButton;

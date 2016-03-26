@@ -25,6 +25,7 @@ Guaranteed to run in Linux.  Not sure for other OS.
   * Hand servo degree labels
   * Up/Down camera position adjustment sliding scale
   * Left/Right camera position adjustment sliding scale
+* Open terminal and type `avahi-browse -art | grep raspberry -A 3` to locate the IP.
 * Connect to the robot by entering the IP in the text box and pressing Connect button.
   * Once connected, the error log will be cleared.
 * Disconnect from the robot by pressing the Disconnect button.
@@ -50,6 +51,6 @@ Guaranteed to run in Linux.  Not sure for other OS.
 * The C key opens the robot's hand in order to grasp/release objects.
 
 #### Events
-* In the case of a disconnection from the robot, a timeout of ten seconds is initiated in order to prevent hammering the robot with connect requests.
+* In the case of a disconnection from the robot, a timeout of ten seconds is initiated in order to prevent bombarding the robot with connect requests.
 * The GUI will attempt to connect to the robot if it has a valid IP address entered.
   * An invalid IP address will result in no action taken by the GUI.
