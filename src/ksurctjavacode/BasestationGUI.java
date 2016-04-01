@@ -371,7 +371,15 @@ public class BasestationGUI extends javax.swing.JDialog {
      * @param evt 
      */
     private void uxDisconnectButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uxDisconnectButtonMouseClicked
-        client.close();
+        if ("test".equals(ipAddress))
+        {
+           uxIPBox.setEditable(true);
+           uxConnectButton.setEnabled(true);
+           uxDisconnectButton.setEnabled(false);
+           uxEventLog.append("End of test chamber.\n");
+        }
+        
+        else client.close();
         uxDisconnectButton.setEnabled(false);
     }//GEN-LAST:event_uxDisconnectButtonMouseClicked
 
@@ -437,6 +445,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     /**
      * Builds & sends a protobuf message to send to the Raspberry Pi.
+     * Every servo except the armature takes 0-180.
      * TODO: Modify for hand opening, hand angle adjustments, and webcam movement.
      */
     private void sendUpdates()
@@ -448,8 +457,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         leftMotor.setUpdate(leftMotorUpdate);
         rightMotor.setUpdate(rightMotorUpdate);
         
-        // Set the correct values of the arm/claw and signify update. TODO -> Replace 60 by a variable? (At least for the arm).
-        armature.setDegree(60);
+        
+        armature.setDegree(1);
         armature.setUpdate(armUpdate);
         claw.setDegree(60);
         claw.setUpdate(clawUpdate);
@@ -493,6 +502,8 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void setUpNetworking() throws URISyntaxException 
     {       
+            if (!"test".equals(ipAddress))
+            {
             // Initialize the WebSocket Client, port 8002 - TODO: ipADDRESS IS TO BE FIXED, ALONG WITH PORT.
             client = new WebSocketClient( new URI("ws://" + ipAddress + ":8002"), new Draft_17()) {
             @Override
@@ -565,6 +576,15 @@ public class BasestationGUI extends javax.swing.JDialog {
             
             // Establish connection to the Pi.
             client.connect();
+      }
+      else
+      {
+                 uxIPBox.setEditable(false);
+                 uxConnectButton.setEnabled(false);
+                 uxDisconnectButton.setEnabled(true);
+                 uxEventLog.setText("");
+                 uxEventLog.append("Welcome, Chell.\nReady to test?\n");
+      }
     }
     
     
@@ -579,6 +599,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorAction = rightMotorProgress.getActionMap();
         _rightMotorInput =  rightMotorProgress.getInputMap();
         
+        // Moves the robot forward.
         Action moveForward = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -587,17 +608,32 @@ public class BasestationGUI extends javax.swing.JDialog {
                     leftMotorProgress.setValue(_lthrottle += 5);
                     leftMotorUpdate = true;
                 }
+                
+                else if (_lthrottle >= 100) 
+                {
+                    leftMotorProgress.setValue(100);
+                    _lthrottle = 100;
+                }
+                
                 if (_rthrottle <= 100)
                 {
                     rightMotorProgress.setValue(_rthrottle += 5);
                     rightMotorUpdate = true;
                 }
+
+                else if (_rthrottle >= 100)
+                {
+                    rightMotorProgress.setValue(100);
+                    _rthrottle = 100;
+                }
+               
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
             }    
         };
         
+        // Moves the robot in reverse.
         Action moveBackward = new AbstractAction()
         {
             @Override
@@ -619,6 +655,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Turns the motor left.
         Action turnLeft = new AbstractAction()
         {
             @Override
@@ -634,6 +671,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Turns the robot right.
         Action turnRight = new AbstractAction()
         {
             @Override
@@ -649,6 +687,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Turns the LEDs off and on.
         Action toggleLED = new AbstractAction()
         {
             @Override
@@ -668,6 +707,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Launches the arm.
         Action launchArm = new AbstractAction()
         {
             @Override
@@ -683,6 +723,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Increases wrist degrees.
         Action increaseDegrees = new AbstractAction()
         {
             @Override
@@ -696,6 +737,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Decreases wrist degrees.
         Action decreaseDegrees = new AbstractAction()
         {
             @Override
@@ -709,16 +751,18 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Opens/closes the robot's claw.
         Action openHand = new AbstractAction()
         {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                if (!"60 Degrees".equals(uxHandDegrees.getText())) uxHandDegrees.setText("60");
-                else uxHandDegrees.setText("0");
+                if (!"Open".equals(uxHandDegrees.getText())) uxHandDegrees.setText("Open");
+                else uxHandDegrees.setText("Closed");
             }
         };
         
+        // Decreases the right motor's speed.
         Action decreaseRSpeed = new AbstractAction()
         {
             @Override
@@ -731,6 +775,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Decreases the left motor's speed.
         Action decreaseLSpeed = new AbstractAction()
         {
             @Override
