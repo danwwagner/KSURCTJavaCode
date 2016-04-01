@@ -775,6 +775,19 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Increases the right motor's speed.
+        Action increaseRSpeed = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                rightMotorProgress.setValue(_rthrottle += 5);
+                rightMotorUpdate = true;
+                sendUpdates();
+                rightMotorUpdate = false;
+            }
+        };
+        
         // Decreases the left motor's speed.
         Action decreaseLSpeed = new AbstractAction()
         {
@@ -788,6 +801,18 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Increasese the left motor's speed.
+        Action increaseLSpeed = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                leftMotorProgress.setValue(_lthrottle += 5);
+                leftMotorUpdate = true;
+                sendUpdates();
+                leftMotorUpdate = false;
+            }
+        };
         // Set up the bindings for the key commands of the left motor.
         _leftMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
         _leftMotorAction.put("moveForward", moveForward);
@@ -811,6 +836,10 @@ public class BasestationGUI extends javax.swing.JDialog {
         _leftMotorAction.put("decreaseLSpeed", decreaseLSpeed);
         _leftMotorInput.put(KeyStroke.getKeyStroke("E"), "decreaseRSpeed");
         _leftMotorAction.put("decreaseRSpeed", decreaseRSpeed);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("I"), "increaseRSpeed");
+        _leftMotorAction.put("increaseRSpeed", increaseRSpeed);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("P"), "increaseLSpeed");
+        _leftMotorAction.put("increaseLSpeed", increaseLSpeed);
         
         // Set up the bindings for the key commands of the right motor.
         _rightMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
@@ -835,6 +864,10 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorAction.put("decreaseLSpeed", decreaseLSpeed);
          _rightMotorInput.put(KeyStroke.getKeyStroke("E"), "decreaseRSpeed");
         _rightMotorAction.put("decreaseRSpeed", decreaseRSpeed);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("I"), "increaseRSpeed");
+        _rightMotorAction.put("increaseRSpeed", increaseRSpeed);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("P"), "increaseLSpeed");
+        _rightMotorAction.put("increaseLSpeed", increaseLSpeed);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
