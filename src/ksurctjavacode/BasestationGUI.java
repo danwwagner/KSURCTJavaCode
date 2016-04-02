@@ -2,7 +2,7 @@
  * KSURCT Basestation GUI code for the OSU Mercury Robotics Competition 2016.
  * Networking uses Protobuf and WebSockets to send data to and from the Pi.
  * GUI keeps track of Motor status, sensor readings, servo status, and more!
- * Primary author: Dan Wagner
+ * Primary (and only) author: Dan Wagner
  * 
 */
 
@@ -118,9 +118,13 @@ public class BasestationGUI extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        leftMotorProgress.setMinimum(-100);
+
         leftMotorLabel.setText("Left Motor");
 
         rightMotorLabel.setText("Right Motor");
+
+        rightMotorProgress.setMinimum(-100);
 
         frontLeftIRLabel.setText("FL IR");
 
@@ -232,6 +236,14 @@ public class BasestationGUI extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(leftMotorLabel)
+                                            .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(rightMotorLabel))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(frontLeftIRLabel)
                                                 .addGap(45, 45, 45)
@@ -239,15 +251,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(11, 11, 11)
                                                 .addComponent(ledStatusButton)))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(rightMotorLabel)
-                                            .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(leftMotorLabel))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(uxIPBox, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -376,6 +380,10 @@ public class BasestationGUI extends javax.swing.JDialog {
            uxIPBox.setEditable(true);
            uxConnectButton.setEnabled(true);
            uxDisconnectButton.setEnabled(false);
+           frontLeftIRText.setText(".");
+           frontRightIRText.setText(".");
+           rearLeftIRText.setText(".");
+           rearRightIRText.setText(".");
            uxEventLog.append("End of test chamber.\n");
         }
         
@@ -458,7 +466,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         rightMotor.setUpdate(rightMotorUpdate);
         
         
-        armature.setDegree(1);
+        armature.setDegree(1); // Why is this 1? 1 -> launch, 0 no?
         armature.setUpdate(armUpdate);
         claw.setDegree(60);
         claw.setUpdate(clawUpdate);
@@ -583,6 +591,10 @@ public class BasestationGUI extends javax.swing.JDialog {
                  uxConnectButton.setEnabled(false);
                  uxDisconnectButton.setEnabled(true);
                  uxEventLog.setText("");
+                 frontLeftIRText.setText("N");
+                 frontRightIRText.setText("U");
+                 rearLeftIRText.setText("L");
+                 rearRightIRText.setText("L");
                  uxEventLog.append("Welcome, Chell.\nReady to test?\n");
       }
     }
@@ -603,9 +615,12 @@ public class BasestationGUI extends javax.swing.JDialog {
         Action moveForward = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                if (_lthrottle <  _rthrottle) _lthrottle = _rthrottle;
+                else if (_lthrottle > _rthrottle) _rthrottle = _lthrottle;
+                  
                 if (_lthrottle <= 100)
                 {    
-                    leftMotorProgress.setValue(_lthrottle += 5);
+                    leftMotorProgress.setValue(_lthrottle += 10);
                     leftMotorUpdate = true;
                 }
                 
@@ -617,7 +632,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 
                 if (_rthrottle <= 100)
                 {
-                    rightMotorProgress.setValue(_rthrottle += 5);
+                    rightMotorProgress.setValue(_rthrottle += 10);
                     rightMotorUpdate = true;
                 }
 
@@ -626,7 +641,8 @@ public class BasestationGUI extends javax.swing.JDialog {
                     rightMotorProgress.setValue(100);
                     _rthrottle = 100;
                 }
-               
+                
+                if (_lthrottle == 0 && _rthrottle == 0) uxEventLog.append("Stopped.\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -639,16 +655,20 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                if (_lthrottle >= 0)
+                if (_lthrottle <  _rthrottle) _lthrottle = _rthrottle;
+                else if (_lthrottle > _rthrottle) _rthrottle = _lthrottle;
+                if (_lthrottle > -100)
                 {
-                    leftMotorProgress.setValue(_lthrottle -= 5);
+                    leftMotorProgress.setValue(_lthrottle -= 10);
                     leftMotorUpdate = true;
                 }              
-                if (_rthrottle >= 0)
+                if (_rthrottle > -100)
                 {
-                    rightMotorProgress.setValue(_rthrottle -= 5);
+                    rightMotorProgress.setValue(_rthrottle -= 10);
                     rightMotorUpdate = true;
                 }
+                
+                if (_lthrottle == 0 && _rthrottle == 0) uxEventLog.append("Stopped.\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -661,10 +681,12 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 leftMotorProgress.setValue(25);
-                 rightMotorProgress.setValue(50);
+                 leftMotorProgress.setValue(-40);
+                 rightMotorProgress.setValue(40);
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
+                 uxEventLog.append(("L:" + leftMotorProgress.getValue()) + "\n");
+                 uxEventLog.append(("R:" + rightMotorProgress.getValue())+ "\n");
                  sendUpdates();
                  leftMotorUpdate = false;
                  rightMotorUpdate = false;
@@ -677,8 +699,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 leftMotorProgress.setValue(50);
-                 rightMotorProgress.setValue(25);
+                 leftMotorProgress.setValue(40);
+                 rightMotorProgress.setValue(-40);
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
                  sendUpdates();
@@ -770,6 +792,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle -= 5);
                 rightMotorUpdate = true;
+                 uxEventLog.append(("R:" + rightMotorProgress.getValue())+ "\n");
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -783,6 +806,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle += 5);
                 rightMotorUpdate = true;
+                uxEventLog.append(("R:" + rightMotorProgress.getValue())+ "\n");
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -796,6 +820,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle -= 5);
                 leftMotorUpdate = true;
+                uxEventLog.append(("L:" + leftMotorProgress.getValue())+ "\n");   
                 sendUpdates();
                 leftMotorUpdate = false;
             }
@@ -809,6 +834,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle += 5);
                 leftMotorUpdate = true;
+                uxEventLog.append(("L:" + leftMotorProgress.getValue()) + "\n");           
                 sendUpdates();
                 leftMotorUpdate = false;
             }

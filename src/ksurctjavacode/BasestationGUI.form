@@ -57,6 +57,16 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="rightMotorProgress" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="leftMotorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="leftMotorProgress" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="rightMotorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace pref="40" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="frontLeftIRLabel" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
@@ -68,16 +78,6 @@
                                           </Group>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="leftMotorProgress" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="rightMotorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="rightMotorProgress" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="leftMotorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace pref="40" max="32767" attributes="0"/>
-                                      <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -201,6 +201,9 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JProgressBar" name="leftMotorProgress">
+      <Properties>
+        <Property name="minimum" type="int" value="-100"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JProgressBar(JProgressBar.VERTICAL)"/>
       </AuxValues>
@@ -216,6 +219,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JProgressBar" name="rightMotorProgress">
+      <Properties>
+        <Property name="minimum" type="int" value="-100"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JProgressBar(JProgressBar.VERTICAL)"/>
       </AuxValues>
