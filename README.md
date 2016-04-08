@@ -34,7 +34,7 @@ Guaranteed to run in Linux.  Not sure for other OS.
 * When a control is pressed, a protobuf packet is sent to the robot.
 * To perform a turn, use the Q or E key.
 * To perform a zero-point turn, use the A or D key.
-
+* To open the claw, click the "Open Claw" button.
 
 #### Controls
 
@@ -48,8 +48,11 @@ Guaranteed to run in Linux.  Not sure for other OS.
 * The L key toggles the headlights of the robot on and off.
   * Current status signified by the button on the GUI  
 * The Z key causes the robot's arm to launch.
-* The X and V keys increase and decrease the robot hand's angle, respectively.
-* The C key opens the robot's hand in order to grasp/release objects.
+* The X key increases the robot hand's angle by a large amount.
+* The C key increases the robot hand's angle by a small amount.
+* The B key will decrease the robot hand's angle by a large amount.
+* The V key will decrease the robot hand's angle by a small amount.
+* The R key causes the robot to initiate the ramp climb sequence.
 
 #### Events
 * In the case of a disconnection from the robot, a timeout of ten seconds is initiated in order to prevent bombarding the robot with connect requests.

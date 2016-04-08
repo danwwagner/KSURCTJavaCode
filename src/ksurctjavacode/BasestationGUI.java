@@ -20,6 +20,7 @@ import javax.swing.InputMap;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
+import java.util.HashSet;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +59,8 @@ public class BasestationGUI extends javax.swing.JDialog {
     private boolean LEDUpdate = false;
     private boolean armUpdate = false;
     private boolean clawUpdate = false;
-    
+    private boolean setBrakes = false;
+    private int wristMethod = 0;
     
     // Robot's status message
     private Main.BaseStation roboStatus;
@@ -94,13 +96,9 @@ public class BasestationGUI extends javax.swing.JDialog {
         rightMotorProgress = new javax.swing.JProgressBar(JProgressBar.VERTICAL);
         frontLeftIRLabel = new javax.swing.JLabel();
         frontRightIRLabel = new javax.swing.JLabel();
-        rearLeftIRLabel = new javax.swing.JLabel();
-        rearRightIRLabel = new javax.swing.JLabel();
         ledStateLabel = new javax.swing.JLabel();
         frontLeftIRText = new javax.swing.JLabel();
         frontRightIRText = new javax.swing.JLabel();
-        rearLeftIRText = new javax.swing.JLabel();
-        rearRightIRText = new javax.swing.JLabel();
         ledStatusButton = new javax.swing.JToggleButton();
         armStateLabel = new javax.swing.JLabel();
         uxIPBox = new javax.swing.JTextField();
@@ -113,8 +111,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        uxHandDegrees = new javax.swing.JTextField();
         uxArmDegrees = new javax.swing.JTextField();
+        uxOpenClaw = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -130,19 +128,11 @@ public class BasestationGUI extends javax.swing.JDialog {
 
         frontRightIRLabel.setText("FR IR");
 
-        rearLeftIRLabel.setText("RL IR");
-
-        rearRightIRLabel.setText("RR IR");
-
         ledStateLabel.setText("LED");
 
         frontLeftIRText.setText(".");
 
         frontRightIRText.setText(".");
-
-        rearLeftIRText.setText(".");
-
-        rearRightIRText.setText(".");
 
         ledStatusButton.setText("OFF");
 
@@ -191,18 +181,19 @@ public class BasestationGUI extends javax.swing.JDialog {
 
         jLabel3.setText("Hand");
 
-        uxHandDegrees.setText("0 Degrees");
-        uxHandDegrees.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        uxHandDegrees.setEnabled(false);
-        uxHandDegrees.setFocusable(false);
-        uxHandDegrees.setRequestFocusEnabled(false);
-
         uxArmDegrees.setText("0 Degrees");
         uxArmDegrees.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         uxArmDegrees.setEnabled(false);
         uxArmDegrees.setFocusable(false);
         uxArmDegrees.setName(""); // NOI18N
         uxArmDegrees.setRequestFocusEnabled(false);
+
+        uxOpenClaw.setText("Open Claw");
+        uxOpenClaw.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                uxOpenClawMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -211,79 +202,61 @@ public class BasestationGUI extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(uxHandDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(261, 261, 261))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(frontLeftIRText)
-                                .addGap(99, 99, 99)
-                                .addComponent(frontRightIRText, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(79, 79, 79)
+                                    .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(leftMotorLabel)
+                                    .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(rightMotorLabel)
+                                    .addComponent(frontLeftIRText)
+                                    .addComponent(frontLeftIRLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(uxCameraUD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel2)
-                                        .addGap(87, 87, 87))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(leftMotorLabel)
-                                            .addComponent(leftMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(rightMotorLabel))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(frontLeftIRLabel)
-                                                .addGap(45, 45, 45)
-                                                .addComponent(frontRightIRLabel))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(11, 11, 11)
-                                                .addComponent(ledStatusButton)))
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addGap(18, 18, 18)))
+                                            .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addGap(87, 87, 87)))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel1)
+                                            .addGap(66, 66, 66)))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(ledStatusButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(uxOpenClaw)
+                                .addGap(90, 90, 90)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(uxIPBox, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(uxConnectButton)
-                            .addComponent(uxDisconnectButton)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(rearLeftIRText, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(rearLeftIRLabel))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(54, 54, 54)
-                                        .addComponent(rearRightIRLabel))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(62, 62, 62)
-                                        .addComponent(rearRightIRText))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(uxArmDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(22, 22, 22)))
-                        .addGap(28, 28, 28))
+                                .addGap(50, 50, 50))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(uxIPBox, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(uxConnectButton)
+                                        .addComponent(uxDisconnectButton))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(frontRightIRText, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(frontRightIRLabel))
+                                        .addGap(10, 10, 10)))
+                                .addGap(39, 39, 39))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(ledStateLabel)
-                        .addGap(203, 203, 203)
-                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(173, 173, 173)
                         .addComponent(armStateLabel)
                         .addGap(70, 70, 70))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(245, 245, 245))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,15 +282,14 @@ public class BasestationGUI extends javax.swing.JDialog {
                         .addGap(102, 102, 102)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(frontLeftIRLabel)
-                            .addComponent(frontRightIRLabel)
-                            .addComponent(rearLeftIRLabel)
-                            .addComponent(rearRightIRLabel))
-                        .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(frontLeftIRText)
-                            .addComponent(frontRightIRText)
-                            .addComponent(rearLeftIRText)
-                            .addComponent(rearRightIRText))
+                            .addComponent(frontRightIRLabel))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addComponent(frontLeftIRText))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(frontRightIRText)))
                         .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(armStateLabel)
@@ -326,12 +298,12 @@ public class BasestationGUI extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(uxHandDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(uxArmDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(uxArmDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(uxOpenClaw))
                             .addComponent(ledStatusButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
+                        .addGap(18, 18, 18)
                         .addComponent(uxCameraUD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
@@ -375,6 +347,8 @@ public class BasestationGUI extends javax.swing.JDialog {
      * @param evt 
      */
     private void uxDisconnectButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uxDisconnectButtonMouseClicked
+       if (uxDisconnectButton.isEnabled())
+       {
         if ("test".equals(ipAddress))
         {
            uxIPBox.setEditable(true);
@@ -382,13 +356,13 @@ public class BasestationGUI extends javax.swing.JDialog {
            uxDisconnectButton.setEnabled(false);
            frontLeftIRText.setText(".");
            frontRightIRText.setText(".");
-           rearLeftIRText.setText(".");
-           rearRightIRText.setText(".");
            uxEventLog.append("End of test chamber.\n");
+           uxIPBox.requestFocusInWindow();
         }
         
         else client.close();
         uxDisconnectButton.setEnabled(false);
+       }
     }//GEN-LAST:event_uxDisconnectButtonMouseClicked
 
     /**
@@ -406,6 +380,15 @@ public class BasestationGUI extends javax.swing.JDialog {
     private void uxCameraLRStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_uxCameraLRStateChanged
         uxEventLog.append(Integer.toString(uxCameraLR.getValue()) + "\n");
     }//GEN-LAST:event_uxCameraLRStateChanged
+
+    private void uxOpenClawMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uxOpenClawMouseClicked
+        uxEventLog.append("Claw set.\n");
+        clawUpdate = true;
+        leftMotorProgress.requestFocusInWindow();
+        rightMotorProgress.requestFocusInWindow();
+        sendUpdates();
+        clawUpdate = false;
+    }//GEN-LAST:event_uxOpenClawMouseClicked
 
     /**
      * @param args the command line arguments
@@ -459,15 +442,24 @@ public class BasestationGUI extends javax.swing.JDialog {
     private void sendUpdates()
     {
         
-        // Set the correct values of each motor and signify update.
-        leftMotor.setSpeed(leftMotorProgress.getValue());
-        rightMotor.setSpeed(rightMotorProgress.getValue());
+        // Set the correct values of each motor or brakes and signify update.
+        if (!setBrakes)
+        {
+            leftMotor.setSpeed(leftMotorProgress.getValue());
+            rightMotor.setSpeed(rightMotorProgress.getValue());
+        }
+        else
+        {
+            leftMotor.setBreaks(setBrakes);
+            rightMotor.setBreaks(setBrakes);
+        }
+        
         leftMotor.setUpdate(leftMotorUpdate);
         rightMotor.setUpdate(rightMotorUpdate);
         
-        
-        armature.setDegree(1); // Why is this 1? 1 -> launch, 0 no?
+        armature.setDegree(wristMethod); // Why is this 1? 1 -> launch, 0 no?
         armature.setUpdate(armUpdate);
+        
         claw.setDegree(60);
         claw.setUpdate(clawUpdate);
         
@@ -477,8 +469,9 @@ public class BasestationGUI extends javax.swing.JDialog {
        
         // Build the message.
         byte[] message = robot.build().toByteArray();
-        // Send the message - byte array format.   
-        client.send(message);
+        
+        // Send the message - byte array format.
+        if (!"test".equals(ipAddress)) client.send(message);
     }
     
     /**
@@ -498,8 +491,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         {           
             frontLeftIRText.setText(Integer.toString((irSensors.getFrontLeft())));
             frontRightIRText.setText(Integer.toString((irSensors.getFrontRight())));
-            rearLeftIRText.setText(Integer.toString((irSensors.getBackLeft())));
-            rearRightIRText.setText(Integer.toString((irSensors.getBackRight())));
+           
         }
         
     }
@@ -592,9 +584,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                  uxDisconnectButton.setEnabled(true);
                  uxEventLog.setText("");
                  frontLeftIRText.setText("N");
-                 frontRightIRText.setText("U");
-                 rearLeftIRText.setText("L");
-                 rearRightIRText.setText("L");
+                 frontRightIRText.setText("O");
                  uxEventLog.append("Welcome, Chell.\nReady to test?\n");
       }
     }
@@ -642,7 +632,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     _rthrottle = 100;
                 }
                 
-                if (_lthrottle == 0 && _rthrottle == 0) uxEventLog.append("Stopped.\n");
+           //     if (_lthrottle == 0 && _rthrottle == 0) uxEventLog.append("Stopped.\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -668,7 +658,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     rightMotorUpdate = true;
                 }
                 
-                if (_lthrottle == 0 && _rthrottle == 0) uxEventLog.append("Stopped.\n");
+              //  if (_lthrottle == 0 && _rthrottle == 0) uxEventLog.append("Stopped.\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -745,22 +735,23 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
-        // Increases wrist degrees.
-        Action increaseDegrees = new AbstractAction()
+        // Increases wrist degrees by large amount.
+        Action increaseDegreesBig = new AbstractAction()
         {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                if (servoDegrees > 45) servoDegrees = 44;
-                uxArmDegrees.setText(Integer.toString(++servoDegrees) + " Degrees");
+                if (servoDegrees > 45) servoDegrees = 40;
+                uxArmDegrees.setText(Integer.toString((servoDegrees += 5)) + " Degrees");
                 armUpdate = true;
+                wristMethod = 2;
                 sendUpdates();
                 armUpdate = false;
             }
         };
         
-        // Decreases wrist degrees.
-        Action decreaseDegrees = new AbstractAction()
+        // Decreases wrist degrees by small amount.
+        Action decreaseDegreesSmall = new AbstractAction()
         {
             @Override
             public void actionPerformed(ActionEvent ae)
@@ -768,19 +759,38 @@ public class BasestationGUI extends javax.swing.JDialog {
                 if (servoDegrees < -45) servoDegrees = -44;
                 uxArmDegrees.setText(Integer.toString(--servoDegrees) + " Degrees");
                 armUpdate = true;
+                wristMethod = 1;
                 sendUpdates();
                 armUpdate = false;
             }
         };
         
-        // Opens/closes the robot's claw.
-        Action openHand = new AbstractAction()
+        // Decreases wrist degrees by large amount.
+        Action decreaseDegreesBig = new AbstractAction()
         {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                if (!"Open".equals(uxHandDegrees.getText())) uxHandDegrees.setText("Open");
-                else uxHandDegrees.setText("Closed");
+                if (servoDegrees < -45) servoDegrees = -40;
+                uxArmDegrees.setText(Integer.toString((servoDegrees -= 5)) + " Degrees");
+                armUpdate = true;
+                wristMethod = 1;
+                sendUpdates();
+                armUpdate = false;
+            }
+        };
+        // Increases wrist degrees by large amount.
+        Action increaseDegreesSmall = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                if (servoDegrees > 45) servoDegrees = 44;
+                uxArmDegrees.setText(Integer.toString(++servoDegrees) + " Degrees");
+                armUpdate = true;
+                wristMethod = 2;
+                sendUpdates();
+                armUpdate = false;
             }
         };
         
@@ -826,7 +836,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
-        // Increasese the left motor's speed.
+        // Increases the left motor's speed.
         Action increaseLSpeed = new AbstractAction()
         {
             @Override
@@ -839,6 +849,39 @@ public class BasestationGUI extends javax.swing.JDialog {
                 leftMotorUpdate = false;
             }
         };
+        
+        // Causes both motors to brake.
+        Action hitBrakes = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                leftMotorProgress.setValue(_lthrottle = 0);
+                rightMotorProgress.setValue(_rthrottle= 0);
+                setBrakes = true;
+                uxEventLog.append("HIT THE BRAKES!\n");
+                sendUpdates();
+                setBrakes = false;
+            }
+        };
+        
+         // Optimal speed to traverse the ramp safely.
+        Action upRamp = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                leftMotorProgress.setValue(40);
+                rightMotorProgress.setValue(40);
+                leftMotorUpdate = true;
+                rightMotorUpdate = true;
+                uxEventLog.append("Ascending ramp: please wait..\n");
+                sendUpdates();
+                leftMotorUpdate = false;
+                rightMotorUpdate = false;
+            }
+        };
+        
         // Set up the bindings for the key commands of the left motor.
         _leftMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
         _leftMotorAction.put("moveForward", moveForward);
@@ -852,12 +895,14 @@ public class BasestationGUI extends javax.swing.JDialog {
         _leftMotorAction.put("toggleLED", toggleLED);
         _leftMotorInput.put(KeyStroke.getKeyStroke("Z"), "launchArm");
         _leftMotorAction.put("launchArm", launchArm);  
-        _leftMotorInput.put(KeyStroke.getKeyStroke("X"), "increaseDegrees");
-        _leftMotorAction.put("increaseDegrees", increaseDegrees);
-        _leftMotorInput.put(KeyStroke.getKeyStroke("V"), "decreaseDegrees");
-        _leftMotorAction.put("decreaseDegrees", decreaseDegrees);
-        _leftMotorInput.put(KeyStroke.getKeyStroke("C"), "openHand");
-        _leftMotorAction.put("openHand", openHand);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("X"), "increaseDegreesBig");
+        _leftMotorAction.put("increaseDegreesBig", increaseDegreesBig);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("C"), "increaseDegreesSmall");
+        _leftMotorAction.put("increaseDegreesSmall", increaseDegreesSmall);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("V"), "decreaseDegreesSmall");
+        _leftMotorAction.put("decreaseDegreesSmall", decreaseDegreesSmall);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("B"), "decreaseDegreesBig");
+        _leftMotorAction.put("decreaseDegreesBig", decreaseDegreesBig);   
         _leftMotorInput.put(KeyStroke.getKeyStroke("Q"), "decreaseLSpeed");
         _leftMotorAction.put("decreaseLSpeed", decreaseLSpeed);
         _leftMotorInput.put(KeyStroke.getKeyStroke("E"), "decreaseRSpeed");
@@ -866,6 +911,10 @@ public class BasestationGUI extends javax.swing.JDialog {
         _leftMotorAction.put("increaseRSpeed", increaseRSpeed);
         _leftMotorInput.put(KeyStroke.getKeyStroke("P"), "increaseLSpeed");
         _leftMotorAction.put("increaseLSpeed", increaseLSpeed);
+        _leftMotorInput.put(KeyStroke.getKeyStroke(' '), hitBrakes);
+        _leftMotorAction.put("hitBrakes", hitBrakes);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("R"), "upRamp");
+        _leftMotorAction.put("upRamp", upRamp);
         
         // Set up the bindings for the key commands of the right motor.
         _rightMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
@@ -880,20 +929,27 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorAction.put("toggleLED", toggleLED);
         _rightMotorInput.put(KeyStroke.getKeyStroke("Z"), "launchArm");
         _rightMotorAction.put("launchArm", launchArm);   
-        _rightMotorInput.put(KeyStroke.getKeyStroke("X"), "increaseDegrees");
-        _rightMotorAction.put("increaseDegrees", increaseDegrees);  
-        _rightMotorInput.put(KeyStroke.getKeyStroke("V"), "decreaseDegrees");
-        _rightMotorAction.put("decreaseDegrees", decreaseDegrees);
-        _rightMotorInput.put(KeyStroke.getKeyStroke("C"), "openHand");
-        _rightMotorAction.put("openHand", openHand);
-         _rightMotorInput.put(KeyStroke.getKeyStroke("Q"), "decreaseLSpeed");
+        _rightMotorInput.put(KeyStroke.getKeyStroke("X"), "increaseDegreesBig");
+        _rightMotorAction.put("increaseDegreesBig", increaseDegreesBig);  
+        _rightMotorInput.put(KeyStroke.getKeyStroke("C"), "increaseDegreesSmall");
+        _rightMotorAction.put("increaseDegreesSmall", increaseDegreesSmall);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("V"), "decreaseDegreesSmall");
+        _rightMotorAction.put("decreaseDegreesSmall", decreaseDegreesSmall);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("B"), "decreaseDegreesBig");
+        _rightMotorAction.put("decreaseDegreesBig", decreaseDegreesBig);       
+        _rightMotorInput.put(KeyStroke.getKeyStroke("Q"), "decreaseLSpeed");
         _rightMotorAction.put("decreaseLSpeed", decreaseLSpeed);
-         _rightMotorInput.put(KeyStroke.getKeyStroke("E"), "decreaseRSpeed");
+        _rightMotorInput.put(KeyStroke.getKeyStroke("E"), "decreaseRSpeed");
         _rightMotorAction.put("decreaseRSpeed", decreaseRSpeed);
         _rightMotorInput.put(KeyStroke.getKeyStroke("I"), "increaseRSpeed");
         _rightMotorAction.put("increaseRSpeed", increaseRSpeed);
         _rightMotorInput.put(KeyStroke.getKeyStroke("P"), "increaseLSpeed");
         _rightMotorAction.put("increaseLSpeed", increaseLSpeed);
+        _rightMotorInput.put(KeyStroke.getKeyStroke(' '), "hitBrakes");
+        _rightMotorAction.put("hitBrakes", hitBrakes);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("R"), "upRamp");
+        _rightMotorAction.put("upRamp", upRamp);
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -910,10 +966,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JToggleButton ledStatusButton;
     private javax.swing.JLabel leftMotorLabel;
     private javax.swing.JProgressBar leftMotorProgress;
-    private javax.swing.JLabel rearLeftIRLabel;
-    private javax.swing.JLabel rearLeftIRText;
-    private javax.swing.JLabel rearRightIRLabel;
-    private javax.swing.JLabel rearRightIRText;
     private javax.swing.JLabel rightMotorLabel;
     private javax.swing.JProgressBar rightMotorProgress;
     private javax.swing.JTextField uxArmDegrees;
@@ -922,8 +974,8 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JButton uxConnectButton;
     private javax.swing.JButton uxDisconnectButton;
     private javax.swing.JTextArea uxEventLog;
-    private javax.swing.JTextField uxHandDegrees;
     private javax.swing.JTextField uxIPBox;
+    private javax.swing.JButton uxOpenClaw;
     // End of variables declaration//GEN-END:variables
 
    // Throttle variable for incrementing/decrementing motor controls.
