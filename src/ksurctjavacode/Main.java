@@ -51,6 +51,31 @@ public final class Main {
     ksurctjavacode.Main.Robot.MotorOrBuilder getMotorLeftOrBuilder();
 
     /**
+     * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+     *
+     * <pre>
+     * rpm rather then percent
+     * </pre>
+     */
+    boolean hasMotorLeftRpm();
+    /**
+     * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+     *
+     * <pre>
+     * rpm rather then percent
+     * </pre>
+     */
+    ksurctjavacode.Main.Robot.Motor getMotorLeftRpm();
+    /**
+     * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+     *
+     * <pre>
+     * rpm rather then percent
+     * </pre>
+     */
+    ksurctjavacode.Main.Robot.MotorOrBuilder getMotorLeftRpmOrBuilder();
+
+    /**
      * <code>optional .Robot.Motor motor_right = 3;</code>
      */
     boolean hasMotorRight();
@@ -62,6 +87,19 @@ public final class Main {
      * <code>optional .Robot.Motor motor_right = 3;</code>
      */
     ksurctjavacode.Main.Robot.MotorOrBuilder getMotorRightOrBuilder();
+
+    /**
+     * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+     */
+    boolean hasMotorRightRpm();
+    /**
+     * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+     */
+    ksurctjavacode.Main.Robot.Motor getMotorRightRpm();
+    /**
+     * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+     */
+    ksurctjavacode.Main.Robot.MotorOrBuilder getMotorRightRpmOrBuilder();
 
     /**
      * <code>repeated .Robot.Procedure procedures = 4;</code>
@@ -101,15 +139,15 @@ public final class Main {
     ksurctjavacode.Main.Robot.ServoOrBuilder getArmOrBuilder();
 
     /**
-     * <code>optional .Robot.Servo claw = 6;</code>
+     * <code>optional .Robot.Servo claw = 8;</code>
      */
     boolean hasClaw();
     /**
-     * <code>optional .Robot.Servo claw = 6;</code>
+     * <code>optional .Robot.Servo claw = 8;</code>
      */
     ksurctjavacode.Main.Robot.Servo getClaw();
     /**
-     * <code>optional .Robot.Servo claw = 6;</code>
+     * <code>optional .Robot.Servo claw = 8;</code>
      */
     ksurctjavacode.Main.Robot.ServoOrBuilder getClawOrBuilder();
   }
@@ -183,7 +221,7 @@ public final class Main {
             }
             case 26: {
               ksurctjavacode.Main.Robot.Motor.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
                 subBuilder = motorRight_.toBuilder();
               }
               motorRight_ = input.readMessage(ksurctjavacode.Main.Robot.Motor.parser(), extensionRegistry);
@@ -191,20 +229,20 @@ public final class Main {
                 subBuilder.mergeFrom(motorRight_);
                 motorRight_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
                 procedures_ = new java.util.ArrayList<ksurctjavacode.Main.Robot.Procedure>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000020;
               }
               procedures_.add(input.readMessage(ksurctjavacode.Main.Robot.Procedure.parser(), extensionRegistry));
               break;
             }
             case 42: {
               ksurctjavacode.Main.Robot.Servo.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
                 subBuilder = arm_.toBuilder();
               }
               arm_ = input.readMessage(ksurctjavacode.Main.Robot.Servo.parser(), extensionRegistry);
@@ -212,12 +250,38 @@ public final class Main {
                 subBuilder.mergeFrom(arm_);
                 arm_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000020;
               break;
             }
             case 50: {
-              ksurctjavacode.Main.Robot.Servo.Builder subBuilder = null;
+              ksurctjavacode.Main.Robot.Motor.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = motorLeftRpm_.toBuilder();
+              }
+              motorLeftRpm_ = input.readMessage(ksurctjavacode.Main.Robot.Motor.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(motorLeftRpm_);
+                motorLeftRpm_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
+              break;
+            }
+            case 58: {
+              ksurctjavacode.Main.Robot.Motor.Builder subBuilder = null;
               if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = motorRightRpm_.toBuilder();
+              }
+              motorRightRpm_ = input.readMessage(ksurctjavacode.Main.Robot.Motor.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(motorRightRpm_);
+                motorRightRpm_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
+              break;
+            }
+            case 66: {
+              ksurctjavacode.Main.Robot.Servo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
                 subBuilder = claw_.toBuilder();
               }
               claw_ = input.readMessage(ksurctjavacode.Main.Robot.Servo.parser(), extensionRegistry);
@@ -225,7 +289,7 @@ public final class Main {
                 subBuilder.mergeFrom(claw_);
                 claw_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000040;
               break;
             }
           }
@@ -236,7 +300,7 @@ public final class Main {
         throw new RuntimeException(new com.google.protobuf.InvalidProtocolBufferException(e)
             .setUnfinishedMessage(this));
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           procedures_ = java.util.Collections.unmodifiableList(procedures_);
         }
         this.unknownFields = unknownFields.build();
@@ -1783,6 +1847,32 @@ public final class Main {
        */
       ksurctjavacode.Main.Robot.Procedure.GoInCircleOrBuilder getCircleOrBuilder();
 
+      /**
+       * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+       */
+      boolean hasThrow();
+      /**
+       * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+       */
+      ksurctjavacode.Main.Robot.Procedure.Throw getThrow();
+      /**
+       * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+       */
+      ksurctjavacode.Main.Robot.Procedure.ThrowOrBuilder getThrowOrBuilder();
+
+      /**
+       * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+       */
+      boolean hasForceUserControl();
+      /**
+       * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+       */
+      ksurctjavacode.Main.Robot.Procedure.ForceUserControl getForceUserControl();
+      /**
+       * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+       */
+      ksurctjavacode.Main.Robot.Procedure.ForceUserControlOrBuilder getForceUserControlOrBuilder();
+
       public ksurctjavacode.Main.Robot.Procedure.ProcedureCase getProcedureCase();
     }
     /**
@@ -1840,6 +1930,34 @@ public final class Main {
                 procedureCase_ = 1;
                 break;
               }
+              case 18: {
+                ksurctjavacode.Main.Robot.Procedure.Throw.Builder subBuilder = null;
+                if (procedureCase_ == 2) {
+                  subBuilder = ((ksurctjavacode.Main.Robot.Procedure.Throw) procedure_).toBuilder();
+                }
+                procedure_ =
+                    input.readMessage(ksurctjavacode.Main.Robot.Procedure.Throw.parser(), extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom((ksurctjavacode.Main.Robot.Procedure.Throw) procedure_);
+                  procedure_ = subBuilder.buildPartial();
+                }
+                procedureCase_ = 2;
+                break;
+              }
+              case 26: {
+                ksurctjavacode.Main.Robot.Procedure.ForceUserControl.Builder subBuilder = null;
+                if (procedureCase_ == 3) {
+                  subBuilder = ((ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_).toBuilder();
+                }
+                procedure_ =
+                    input.readMessage(ksurctjavacode.Main.Robot.Procedure.ForceUserControl.parser(), extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom((ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_);
+                  procedure_ = subBuilder.buildPartial();
+                }
+                procedureCase_ = 3;
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1870,10 +1988,18 @@ public final class Main {
 
         /**
          * <code>required int32 radius = 1;</code>
+         *
+         * <pre>
+         * HACK Not implemented. An example of things to come.
+         * </pre>
          */
         boolean hasRadius();
         /**
          * <code>required int32 radius = 1;</code>
+         *
+         * <pre>
+         * HACK Not implemented. An example of things to come.
+         * </pre>
          */
         int getRadius();
       }
@@ -1953,12 +2079,20 @@ public final class Main {
         private int radius_;
         /**
          * <code>required int32 radius = 1;</code>
+         *
+         * <pre>
+         * HACK Not implemented. An example of things to come.
+         * </pre>
          */
         public boolean hasRadius() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
          * <code>required int32 radius = 1;</code>
+         *
+         * <pre>
+         * HACK Not implemented. An example of things to come.
+         * </pre>
          */
         public int getRadius() {
           return radius_;
@@ -2184,18 +2318,30 @@ public final class Main {
           private int radius_ ;
           /**
            * <code>required int32 radius = 1;</code>
+           *
+           * <pre>
+           * HACK Not implemented. An example of things to come.
+           * </pre>
            */
           public boolean hasRadius() {
             return ((bitField0_ & 0x00000001) == 0x00000001);
           }
           /**
            * <code>required int32 radius = 1;</code>
+           *
+           * <pre>
+           * HACK Not implemented. An example of things to come.
+           * </pre>
            */
           public int getRadius() {
             return radius_;
           }
           /**
            * <code>required int32 radius = 1;</code>
+           *
+           * <pre>
+           * HACK Not implemented. An example of things to come.
+           * </pre>
            */
           public Builder setRadius(int value) {
             bitField0_ |= 0x00000001;
@@ -2205,6 +2351,10 @@ public final class Main {
           }
           /**
            * <code>required int32 radius = 1;</code>
+           *
+           * <pre>
+           * HACK Not implemented. An example of things to come.
+           * </pre>
            */
           public Builder clearRadius() {
             bitField0_ = (bitField0_ & ~0x00000001);
@@ -2260,12 +2410,640 @@ public final class Main {
 
       }
 
+      public interface ThrowOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:Robot.Procedure.Throw)
+          com.google.protobuf.MessageOrBuilder {
+      }
+      /**
+       * Protobuf type {@code Robot.Procedure.Throw}
+       *
+       * <pre>
+       * Begin the throw procedure.
+       * </pre>
+       */
+      public  static final class Throw extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:Robot.Procedure.Throw)
+          ThrowOrBuilder {
+        // Use Throw.newBuilder() to construct.
+        private Throw(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+        }
+        private Throw() {
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+          return this.unknownFields;
+        }
+        private Throw(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+          this();
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+              com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                default: {
+                  if (!parseUnknownField(input, unknownFields,
+                                         extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
+              }
+            }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw new RuntimeException(e.setUnfinishedMessage(this));
+          } catch (java.io.IOException e) {
+            throw new RuntimeException(new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(this));
+          } finally {
+            this.unknownFields = unknownFields.build();
+            makeExtensionsImmutable();
+          }
+        }
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return ksurctjavacode.Main.internal_static_Robot_Procedure_Throw_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return ksurctjavacode.Main.internal_static_Robot_Procedure_Throw_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  ksurctjavacode.Main.Robot.Procedure.Throw.class, ksurctjavacode.Main.Robot.Procedure.Throw.Builder.class);
+        }
+
+        private byte memoizedIsInitialized = -1;
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          unknownFields.writeTo(output);
+        }
+
+        public int getSerializedSize() {
+          int size = memoizedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          size += unknownFields.getSerializedSize();
+          memoizedSize = size;
+          return size;
+        }
+
+        private static final long serialVersionUID = 0L;
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseWithIOException(PARSER, input);}
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseWithIOException(PARSER, input, extensionRegistry);}
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseDelimitedWithIOException(PARSER, input);}
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseDelimitedWithIOException(PARSER, input, extensionRegistry);}
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseWithIOException(PARSER, input);}
+        public static ksurctjavacode.Main.Robot.Procedure.Throw parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseWithIOException(PARSER, input, extensionRegistry);}
+
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder() {
+          return DEFAULT_INSTANCE.toBuilder();
+        }
+        public static Builder newBuilder(ksurctjavacode.Main.Robot.Procedure.Throw prototype) {
+          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+        public Builder toBuilder() {
+          return this == DEFAULT_INSTANCE
+              ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code Robot.Procedure.Throw}
+         *
+         * <pre>
+         * Begin the throw procedure.
+         * </pre>
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:Robot.Procedure.Throw)
+            ksurctjavacode.Main.Robot.Procedure.ThrowOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return ksurctjavacode.Main.internal_static_Robot_Procedure_Throw_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return ksurctjavacode.Main.internal_static_Robot_Procedure_Throw_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    ksurctjavacode.Main.Robot.Procedure.Throw.class, ksurctjavacode.Main.Robot.Procedure.Throw.Builder.class);
+          }
+
+          // Construct using ksurctjavacode.Main.Robot.Procedure.Throw.newBuilder()
+          private Builder() {
+            maybeForceBuilderInitialization();
+          }
+
+          private Builder(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            super(parent);
+            maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+            if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            }
+          }
+          public Builder clear() {
+            super.clear();
+            return this;
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return ksurctjavacode.Main.internal_static_Robot_Procedure_Throw_descriptor;
+          }
+
+          public ksurctjavacode.Main.Robot.Procedure.Throw getDefaultInstanceForType() {
+            return ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance();
+          }
+
+          public ksurctjavacode.Main.Robot.Procedure.Throw build() {
+            ksurctjavacode.Main.Robot.Procedure.Throw result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          public ksurctjavacode.Main.Robot.Procedure.Throw buildPartial() {
+            ksurctjavacode.Main.Robot.Procedure.Throw result = new ksurctjavacode.Main.Robot.Procedure.Throw(this);
+            onBuilt();
+            return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof ksurctjavacode.Main.Robot.Procedure.Throw) {
+              return mergeFrom((ksurctjavacode.Main.Robot.Procedure.Throw)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(ksurctjavacode.Main.Robot.Procedure.Throw other) {
+            if (other == ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance()) return this;
+            this.mergeUnknownFields(other.unknownFields);
+            onChanged();
+            return this;
+          }
+
+          public final boolean isInitialized() {
+            return true;
+          }
+
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            ksurctjavacode.Main.Robot.Procedure.Throw parsedMessage = null;
+            try {
+              parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              parsedMessage = (ksurctjavacode.Main.Robot.Procedure.Throw) e.getUnfinishedMessage();
+              throw e.unwrapIOException();
+            } finally {
+              if (parsedMessage != null) {
+                mergeFrom(parsedMessage);
+              }
+            }
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:Robot.Procedure.Throw)
+        }
+
+        // @@protoc_insertion_point(class_scope:Robot.Procedure.Throw)
+        private static final ksurctjavacode.Main.Robot.Procedure.Throw DEFAULT_INSTANCE;
+        static {
+          DEFAULT_INSTANCE = new ksurctjavacode.Main.Robot.Procedure.Throw();
+        }
+
+        public static ksurctjavacode.Main.Robot.Procedure.Throw getDefaultInstance() {
+          return DEFAULT_INSTANCE;
+        }
+
+        @java.lang.Deprecated public static final com.google.protobuf.Parser<Throw>
+            PARSER = new com.google.protobuf.AbstractParser<Throw>() {
+          public Throw parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            try {
+              return new Throw(input, extensionRegistry);
+            } catch (RuntimeException e) {
+              if (e.getCause() instanceof
+                  com.google.protobuf.InvalidProtocolBufferException) {
+                throw (com.google.protobuf.InvalidProtocolBufferException)
+                    e.getCause();
+              }
+              throw e;
+            }
+          }
+        };
+
+        public static com.google.protobuf.Parser<Throw> parser() {
+          return PARSER;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<Throw> getParserForType() {
+          return PARSER;
+        }
+
+        public ksurctjavacode.Main.Robot.Procedure.Throw getDefaultInstanceForType() {
+          return DEFAULT_INSTANCE;
+        }
+
+      }
+
+      public interface ForceUserControlOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:Robot.Procedure.ForceUserControl)
+          com.google.protobuf.MessageOrBuilder {
+      }
+      /**
+       * Protobuf type {@code Robot.Procedure.ForceUserControl}
+       *
+       * <pre>
+       * Abort any procedure and resume user control.
+       * </pre>
+       */
+      public  static final class ForceUserControl extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:Robot.Procedure.ForceUserControl)
+          ForceUserControlOrBuilder {
+        // Use ForceUserControl.newBuilder() to construct.
+        private ForceUserControl(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+        }
+        private ForceUserControl() {
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+          return this.unknownFields;
+        }
+        private ForceUserControl(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+          this();
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+              com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                default: {
+                  if (!parseUnknownField(input, unknownFields,
+                                         extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
+              }
+            }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw new RuntimeException(e.setUnfinishedMessage(this));
+          } catch (java.io.IOException e) {
+            throw new RuntimeException(new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(this));
+          } finally {
+            this.unknownFields = unknownFields.build();
+            makeExtensionsImmutable();
+          }
+        }
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return ksurctjavacode.Main.internal_static_Robot_Procedure_ForceUserControl_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return ksurctjavacode.Main.internal_static_Robot_Procedure_ForceUserControl_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  ksurctjavacode.Main.Robot.Procedure.ForceUserControl.class, ksurctjavacode.Main.Robot.Procedure.ForceUserControl.Builder.class);
+        }
+
+        private byte memoizedIsInitialized = -1;
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          unknownFields.writeTo(output);
+        }
+
+        public int getSerializedSize() {
+          int size = memoizedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          size += unknownFields.getSerializedSize();
+          memoizedSize = size;
+          return size;
+        }
+
+        private static final long serialVersionUID = 0L;
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseWithIOException(PARSER, input);}
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseWithIOException(PARSER, input, extensionRegistry);}
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseDelimitedWithIOException(PARSER, input);}
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseDelimitedWithIOException(PARSER, input, extensionRegistry);}
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseWithIOException(PARSER, input);}
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage.parseWithIOException(PARSER, input, extensionRegistry);}
+
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder() {
+          return DEFAULT_INSTANCE.toBuilder();
+        }
+        public static Builder newBuilder(ksurctjavacode.Main.Robot.Procedure.ForceUserControl prototype) {
+          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+        public Builder toBuilder() {
+          return this == DEFAULT_INSTANCE
+              ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code Robot.Procedure.ForceUserControl}
+         *
+         * <pre>
+         * Abort any procedure and resume user control.
+         * </pre>
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:Robot.Procedure.ForceUserControl)
+            ksurctjavacode.Main.Robot.Procedure.ForceUserControlOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return ksurctjavacode.Main.internal_static_Robot_Procedure_ForceUserControl_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return ksurctjavacode.Main.internal_static_Robot_Procedure_ForceUserControl_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    ksurctjavacode.Main.Robot.Procedure.ForceUserControl.class, ksurctjavacode.Main.Robot.Procedure.ForceUserControl.Builder.class);
+          }
+
+          // Construct using ksurctjavacode.Main.Robot.Procedure.ForceUserControl.newBuilder()
+          private Builder() {
+            maybeForceBuilderInitialization();
+          }
+
+          private Builder(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            super(parent);
+            maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+            if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            }
+          }
+          public Builder clear() {
+            super.clear();
+            return this;
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return ksurctjavacode.Main.internal_static_Robot_Procedure_ForceUserControl_descriptor;
+          }
+
+          public ksurctjavacode.Main.Robot.Procedure.ForceUserControl getDefaultInstanceForType() {
+            return ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance();
+          }
+
+          public ksurctjavacode.Main.Robot.Procedure.ForceUserControl build() {
+            ksurctjavacode.Main.Robot.Procedure.ForceUserControl result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          public ksurctjavacode.Main.Robot.Procedure.ForceUserControl buildPartial() {
+            ksurctjavacode.Main.Robot.Procedure.ForceUserControl result = new ksurctjavacode.Main.Robot.Procedure.ForceUserControl(this);
+            onBuilt();
+            return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof ksurctjavacode.Main.Robot.Procedure.ForceUserControl) {
+              return mergeFrom((ksurctjavacode.Main.Robot.Procedure.ForceUserControl)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(ksurctjavacode.Main.Robot.Procedure.ForceUserControl other) {
+            if (other == ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance()) return this;
+            this.mergeUnknownFields(other.unknownFields);
+            onChanged();
+            return this;
+          }
+
+          public final boolean isInitialized() {
+            return true;
+          }
+
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            ksurctjavacode.Main.Robot.Procedure.ForceUserControl parsedMessage = null;
+            try {
+              parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              parsedMessage = (ksurctjavacode.Main.Robot.Procedure.ForceUserControl) e.getUnfinishedMessage();
+              throw e.unwrapIOException();
+            } finally {
+              if (parsedMessage != null) {
+                mergeFrom(parsedMessage);
+              }
+            }
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:Robot.Procedure.ForceUserControl)
+        }
+
+        // @@protoc_insertion_point(class_scope:Robot.Procedure.ForceUserControl)
+        private static final ksurctjavacode.Main.Robot.Procedure.ForceUserControl DEFAULT_INSTANCE;
+        static {
+          DEFAULT_INSTANCE = new ksurctjavacode.Main.Robot.Procedure.ForceUserControl();
+        }
+
+        public static ksurctjavacode.Main.Robot.Procedure.ForceUserControl getDefaultInstance() {
+          return DEFAULT_INSTANCE;
+        }
+
+        @java.lang.Deprecated public static final com.google.protobuf.Parser<ForceUserControl>
+            PARSER = new com.google.protobuf.AbstractParser<ForceUserControl>() {
+          public ForceUserControl parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            try {
+              return new ForceUserControl(input, extensionRegistry);
+            } catch (RuntimeException e) {
+              if (e.getCause() instanceof
+                  com.google.protobuf.InvalidProtocolBufferException) {
+                throw (com.google.protobuf.InvalidProtocolBufferException)
+                    e.getCause();
+              }
+              throw e;
+            }
+          }
+        };
+
+        public static com.google.protobuf.Parser<ForceUserControl> parser() {
+          return PARSER;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<ForceUserControl> getParserForType() {
+          return PARSER;
+        }
+
+        public ksurctjavacode.Main.Robot.Procedure.ForceUserControl getDefaultInstanceForType() {
+          return DEFAULT_INSTANCE;
+        }
+
+      }
+
       private int bitField0_;
       private int procedureCase_ = 0;
       private java.lang.Object procedure_;
       public enum ProcedureCase
           implements com.google.protobuf.Internal.EnumLite {
         CIRCLE(1),
+        THROW(2),
+        FORCEUSERCONTROL(3),
         PROCEDURE_NOT_SET(0);
         private int value = 0;
         private ProcedureCase(int value) {
@@ -2274,6 +3052,8 @@ public final class Main {
         public static ProcedureCase valueOf(int value) {
           switch (value) {
             case 1: return CIRCLE;
+            case 2: return THROW;
+            case 3: return FORCEUSERCONTROL;
             case 0: return PROCEDURE_NOT_SET;
             default: throw new java.lang.IllegalArgumentException(
               "Value is undefined for this oneof enum.");
@@ -2316,6 +3096,58 @@ public final class Main {
         return ksurctjavacode.Main.Robot.Procedure.GoInCircle.getDefaultInstance();
       }
 
+      public static final int THROW_FIELD_NUMBER = 2;
+      /**
+       * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+       */
+      public boolean hasThrow() {
+        return procedureCase_ == 2;
+      }
+      /**
+       * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+       */
+      public ksurctjavacode.Main.Robot.Procedure.Throw getThrow() {
+        if (procedureCase_ == 2) {
+           return (ksurctjavacode.Main.Robot.Procedure.Throw) procedure_;
+        }
+        return ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance();
+      }
+      /**
+       * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+       */
+      public ksurctjavacode.Main.Robot.Procedure.ThrowOrBuilder getThrowOrBuilder() {
+        if (procedureCase_ == 2) {
+           return (ksurctjavacode.Main.Robot.Procedure.Throw) procedure_;
+        }
+        return ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance();
+      }
+
+      public static final int FORCEUSERCONTROL_FIELD_NUMBER = 3;
+      /**
+       * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+       */
+      public boolean hasForceUserControl() {
+        return procedureCase_ == 3;
+      }
+      /**
+       * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+       */
+      public ksurctjavacode.Main.Robot.Procedure.ForceUserControl getForceUserControl() {
+        if (procedureCase_ == 3) {
+           return (ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_;
+        }
+        return ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance();
+      }
+      /**
+       * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+       */
+      public ksurctjavacode.Main.Robot.Procedure.ForceUserControlOrBuilder getForceUserControlOrBuilder() {
+        if (procedureCase_ == 3) {
+           return (ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_;
+        }
+        return ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance();
+      }
+
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
@@ -2337,6 +3169,12 @@ public final class Main {
         if (procedureCase_ == 1) {
           output.writeMessage(1, (ksurctjavacode.Main.Robot.Procedure.GoInCircle) procedure_);
         }
+        if (procedureCase_ == 2) {
+          output.writeMessage(2, (ksurctjavacode.Main.Robot.Procedure.Throw) procedure_);
+        }
+        if (procedureCase_ == 3) {
+          output.writeMessage(3, (ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_);
+        }
         unknownFields.writeTo(output);
       }
 
@@ -2348,6 +3186,14 @@ public final class Main {
         if (procedureCase_ == 1) {
           size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(1, (ksurctjavacode.Main.Robot.Procedure.GoInCircle) procedure_);
+        }
+        if (procedureCase_ == 2) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(2, (ksurctjavacode.Main.Robot.Procedure.Throw) procedure_);
+        }
+        if (procedureCase_ == 3) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(3, (ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -2488,6 +3334,20 @@ public final class Main {
               result.procedure_ = circleBuilder_.build();
             }
           }
+          if (procedureCase_ == 2) {
+            if (throwBuilder_ == null) {
+              result.procedure_ = procedure_;
+            } else {
+              result.procedure_ = throwBuilder_.build();
+            }
+          }
+          if (procedureCase_ == 3) {
+            if (forceUserControlBuilder_ == null) {
+              result.procedure_ = procedure_;
+            } else {
+              result.procedure_ = forceUserControlBuilder_.build();
+            }
+          }
           result.bitField0_ = to_bitField0_;
           result.procedureCase_ = procedureCase_;
           onBuilt();
@@ -2508,6 +3368,14 @@ public final class Main {
           switch (other.getProcedureCase()) {
             case CIRCLE: {
               mergeCircle(other.getCircle());
+              break;
+            }
+            case THROW: {
+              mergeThrow(other.getThrow());
+              break;
+            }
+            case FORCEUSERCONTROL: {
+              mergeForceUserControl(other.getForceUserControl());
               break;
             }
             case PROCEDURE_NOT_SET: {
@@ -2698,6 +3566,278 @@ public final class Main {
           return circleBuilder_;
         }
 
+        private com.google.protobuf.SingleFieldBuilder<
+            ksurctjavacode.Main.Robot.Procedure.Throw, ksurctjavacode.Main.Robot.Procedure.Throw.Builder, ksurctjavacode.Main.Robot.Procedure.ThrowOrBuilder> throwBuilder_;
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        public boolean hasThrow() {
+          return procedureCase_ == 2;
+        }
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        public ksurctjavacode.Main.Robot.Procedure.Throw getThrow() {
+          if (throwBuilder_ == null) {
+            if (procedureCase_ == 2) {
+              return (ksurctjavacode.Main.Robot.Procedure.Throw) procedure_;
+            }
+            return ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance();
+          } else {
+            if (procedureCase_ == 2) {
+              return throwBuilder_.getMessage();
+            }
+            return ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance();
+          }
+        }
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        public Builder setThrow(ksurctjavacode.Main.Robot.Procedure.Throw value) {
+          if (throwBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            procedure_ = value;
+            onChanged();
+          } else {
+            throwBuilder_.setMessage(value);
+          }
+          procedureCase_ = 2;
+          return this;
+        }
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        public Builder setThrow(
+            ksurctjavacode.Main.Robot.Procedure.Throw.Builder builderForValue) {
+          if (throwBuilder_ == null) {
+            procedure_ = builderForValue.build();
+            onChanged();
+          } else {
+            throwBuilder_.setMessage(builderForValue.build());
+          }
+          procedureCase_ = 2;
+          return this;
+        }
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        public Builder mergeThrow(ksurctjavacode.Main.Robot.Procedure.Throw value) {
+          if (throwBuilder_ == null) {
+            if (procedureCase_ == 2 &&
+                procedure_ != ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance()) {
+              procedure_ = ksurctjavacode.Main.Robot.Procedure.Throw.newBuilder((ksurctjavacode.Main.Robot.Procedure.Throw) procedure_)
+                  .mergeFrom(value).buildPartial();
+            } else {
+              procedure_ = value;
+            }
+            onChanged();
+          } else {
+            if (procedureCase_ == 2) {
+              throwBuilder_.mergeFrom(value);
+            }
+            throwBuilder_.setMessage(value);
+          }
+          procedureCase_ = 2;
+          return this;
+        }
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        public Builder clearThrow() {
+          if (throwBuilder_ == null) {
+            if (procedureCase_ == 2) {
+              procedureCase_ = 0;
+              procedure_ = null;
+              onChanged();
+            }
+          } else {
+            if (procedureCase_ == 2) {
+              procedureCase_ = 0;
+              procedure_ = null;
+            }
+            throwBuilder_.clear();
+          }
+          return this;
+        }
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        public ksurctjavacode.Main.Robot.Procedure.Throw.Builder getThrowBuilder() {
+          return getThrowFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        public ksurctjavacode.Main.Robot.Procedure.ThrowOrBuilder getThrowOrBuilder() {
+          if ((procedureCase_ == 2) && (throwBuilder_ != null)) {
+            return throwBuilder_.getMessageOrBuilder();
+          } else {
+            if (procedureCase_ == 2) {
+              return (ksurctjavacode.Main.Robot.Procedure.Throw) procedure_;
+            }
+            return ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance();
+          }
+        }
+        /**
+         * <code>optional .Robot.Procedure.Throw throw = 2;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            ksurctjavacode.Main.Robot.Procedure.Throw, ksurctjavacode.Main.Robot.Procedure.Throw.Builder, ksurctjavacode.Main.Robot.Procedure.ThrowOrBuilder> 
+            getThrowFieldBuilder() {
+          if (throwBuilder_ == null) {
+            if (!(procedureCase_ == 2)) {
+              procedure_ = ksurctjavacode.Main.Robot.Procedure.Throw.getDefaultInstance();
+            }
+            throwBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                ksurctjavacode.Main.Robot.Procedure.Throw, ksurctjavacode.Main.Robot.Procedure.Throw.Builder, ksurctjavacode.Main.Robot.Procedure.ThrowOrBuilder>(
+                    (ksurctjavacode.Main.Robot.Procedure.Throw) procedure_,
+                    getParentForChildren(),
+                    isClean());
+            procedure_ = null;
+          }
+          procedureCase_ = 2;
+          onChanged();;
+          return throwBuilder_;
+        }
+
+        private com.google.protobuf.SingleFieldBuilder<
+            ksurctjavacode.Main.Robot.Procedure.ForceUserControl, ksurctjavacode.Main.Robot.Procedure.ForceUserControl.Builder, ksurctjavacode.Main.Robot.Procedure.ForceUserControlOrBuilder> forceUserControlBuilder_;
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        public boolean hasForceUserControl() {
+          return procedureCase_ == 3;
+        }
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        public ksurctjavacode.Main.Robot.Procedure.ForceUserControl getForceUserControl() {
+          if (forceUserControlBuilder_ == null) {
+            if (procedureCase_ == 3) {
+              return (ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_;
+            }
+            return ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance();
+          } else {
+            if (procedureCase_ == 3) {
+              return forceUserControlBuilder_.getMessage();
+            }
+            return ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance();
+          }
+        }
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        public Builder setForceUserControl(ksurctjavacode.Main.Robot.Procedure.ForceUserControl value) {
+          if (forceUserControlBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            procedure_ = value;
+            onChanged();
+          } else {
+            forceUserControlBuilder_.setMessage(value);
+          }
+          procedureCase_ = 3;
+          return this;
+        }
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        public Builder setForceUserControl(
+            ksurctjavacode.Main.Robot.Procedure.ForceUserControl.Builder builderForValue) {
+          if (forceUserControlBuilder_ == null) {
+            procedure_ = builderForValue.build();
+            onChanged();
+          } else {
+            forceUserControlBuilder_.setMessage(builderForValue.build());
+          }
+          procedureCase_ = 3;
+          return this;
+        }
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        public Builder mergeForceUserControl(ksurctjavacode.Main.Robot.Procedure.ForceUserControl value) {
+          if (forceUserControlBuilder_ == null) {
+            if (procedureCase_ == 3 &&
+                procedure_ != ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance()) {
+              procedure_ = ksurctjavacode.Main.Robot.Procedure.ForceUserControl.newBuilder((ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_)
+                  .mergeFrom(value).buildPartial();
+            } else {
+              procedure_ = value;
+            }
+            onChanged();
+          } else {
+            if (procedureCase_ == 3) {
+              forceUserControlBuilder_.mergeFrom(value);
+            }
+            forceUserControlBuilder_.setMessage(value);
+          }
+          procedureCase_ = 3;
+          return this;
+        }
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        public Builder clearForceUserControl() {
+          if (forceUserControlBuilder_ == null) {
+            if (procedureCase_ == 3) {
+              procedureCase_ = 0;
+              procedure_ = null;
+              onChanged();
+            }
+          } else {
+            if (procedureCase_ == 3) {
+              procedureCase_ = 0;
+              procedure_ = null;
+            }
+            forceUserControlBuilder_.clear();
+          }
+          return this;
+        }
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        public ksurctjavacode.Main.Robot.Procedure.ForceUserControl.Builder getForceUserControlBuilder() {
+          return getForceUserControlFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        public ksurctjavacode.Main.Robot.Procedure.ForceUserControlOrBuilder getForceUserControlOrBuilder() {
+          if ((procedureCase_ == 3) && (forceUserControlBuilder_ != null)) {
+            return forceUserControlBuilder_.getMessageOrBuilder();
+          } else {
+            if (procedureCase_ == 3) {
+              return (ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_;
+            }
+            return ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance();
+          }
+        }
+        /**
+         * <code>optional .Robot.Procedure.ForceUserControl forceUserControl = 3;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            ksurctjavacode.Main.Robot.Procedure.ForceUserControl, ksurctjavacode.Main.Robot.Procedure.ForceUserControl.Builder, ksurctjavacode.Main.Robot.Procedure.ForceUserControlOrBuilder> 
+            getForceUserControlFieldBuilder() {
+          if (forceUserControlBuilder_ == null) {
+            if (!(procedureCase_ == 3)) {
+              procedure_ = ksurctjavacode.Main.Robot.Procedure.ForceUserControl.getDefaultInstance();
+            }
+            forceUserControlBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                ksurctjavacode.Main.Robot.Procedure.ForceUserControl, ksurctjavacode.Main.Robot.Procedure.ForceUserControl.Builder, ksurctjavacode.Main.Robot.Procedure.ForceUserControlOrBuilder>(
+                    (ksurctjavacode.Main.Robot.Procedure.ForceUserControl) procedure_,
+                    getParentForChildren(),
+                    isClean());
+            procedure_ = null;
+          }
+          procedureCase_ = 3;
+          onChanged();;
+          return forceUserControlBuilder_;
+        }
+
         // @@protoc_insertion_point(builder_scope:Robot.Procedure)
       }
 
@@ -2800,13 +3940,46 @@ public final class Main {
       return motorLeft_ == null ? ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorLeft_;
     }
 
+    public static final int MOTOR_LEFT_RPM_FIELD_NUMBER = 6;
+    private ksurctjavacode.Main.Robot.Motor motorLeftRpm_;
+    /**
+     * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+     *
+     * <pre>
+     * rpm rather then percent
+     * </pre>
+     */
+    public boolean hasMotorLeftRpm() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+     *
+     * <pre>
+     * rpm rather then percent
+     * </pre>
+     */
+    public ksurctjavacode.Main.Robot.Motor getMotorLeftRpm() {
+      return motorLeftRpm_ == null ? ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorLeftRpm_;
+    }
+    /**
+     * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+     *
+     * <pre>
+     * rpm rather then percent
+     * </pre>
+     */
+    public ksurctjavacode.Main.Robot.MotorOrBuilder getMotorLeftRpmOrBuilder() {
+      return motorLeftRpm_ == null ? ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorLeftRpm_;
+    }
+
     public static final int MOTOR_RIGHT_FIELD_NUMBER = 3;
     private ksurctjavacode.Main.Robot.Motor motorRight_;
     /**
      * <code>optional .Robot.Motor motor_right = 3;</code>
      */
     public boolean hasMotorRight() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional .Robot.Motor motor_right = 3;</code>
@@ -2819,6 +3992,27 @@ public final class Main {
      */
     public ksurctjavacode.Main.Robot.MotorOrBuilder getMotorRightOrBuilder() {
       return motorRight_ == null ? ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorRight_;
+    }
+
+    public static final int MOTOR_RIGHT_RPM_FIELD_NUMBER = 7;
+    private ksurctjavacode.Main.Robot.Motor motorRightRpm_;
+    /**
+     * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+     */
+    public boolean hasMotorRightRpm() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+     */
+    public ksurctjavacode.Main.Robot.Motor getMotorRightRpm() {
+      return motorRightRpm_ == null ? ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorRightRpm_;
+    }
+    /**
+     * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+     */
+    public ksurctjavacode.Main.Robot.MotorOrBuilder getMotorRightRpmOrBuilder() {
+      return motorRightRpm_ == null ? ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorRightRpm_;
     }
 
     public static final int PROCEDURES_FIELD_NUMBER = 4;
@@ -2862,7 +4056,7 @@ public final class Main {
      * <code>optional .Robot.Servo arm = 5;</code>
      */
     public boolean hasArm() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>optional .Robot.Servo arm = 5;</code>
@@ -2877,22 +4071,22 @@ public final class Main {
       return arm_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : arm_;
     }
 
-    public static final int CLAW_FIELD_NUMBER = 6;
+    public static final int CLAW_FIELD_NUMBER = 8;
     private ksurctjavacode.Main.Robot.Servo claw_;
     /**
-     * <code>optional .Robot.Servo claw = 6;</code>
+     * <code>optional .Robot.Servo claw = 8;</code>
      */
     public boolean hasClaw() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional .Robot.Servo claw = 6;</code>
+     * <code>optional .Robot.Servo claw = 8;</code>
      */
     public ksurctjavacode.Main.Robot.Servo getClaw() {
       return claw_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : claw_;
     }
     /**
-     * <code>optional .Robot.Servo claw = 6;</code>
+     * <code>optional .Robot.Servo claw = 8;</code>
      */
     public ksurctjavacode.Main.Robot.ServoOrBuilder getClawOrBuilder() {
       return claw_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : claw_;
@@ -2922,17 +4116,23 @@ public final class Main {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(2, getMotorLeft());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(3, getMotorRight());
       }
       for (int i = 0; i < procedures_.size(); i++) {
         output.writeMessage(4, procedures_.get(i));
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeMessage(5, getArm());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(6, getMotorLeftRpm());
+      }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(6, getClaw());
+        output.writeMessage(7, getMotorRightRpm());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(8, getClaw());
       }
       unknownFields.writeTo(output);
     }
@@ -2950,7 +4150,7 @@ public final class Main {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getMotorLeft());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getMotorRight());
       }
@@ -2958,13 +4158,21 @@ public final class Main {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, procedures_.get(i));
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getArm());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getMotorLeftRpm());
+      }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, getClaw());
+          .computeMessageSize(7, getMotorRightRpm());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, getClaw());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3070,7 +4278,9 @@ public final class Main {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getHeadlightsFieldBuilder();
           getMotorLeftFieldBuilder();
+          getMotorLeftRpmFieldBuilder();
           getMotorRightFieldBuilder();
+          getMotorRightRpmFieldBuilder();
           getProceduresFieldBuilder();
           getArmFieldBuilder();
           getClawFieldBuilder();
@@ -3090,15 +4300,27 @@ public final class Main {
           motorLeftBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (motorLeftRpmBuilder_ == null) {
+          motorLeftRpm_ = null;
+        } else {
+          motorLeftRpmBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (motorRightBuilder_ == null) {
           motorRight_ = null;
         } else {
           motorRightBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
+        if (motorRightRpmBuilder_ == null) {
+          motorRightRpm_ = null;
+        } else {
+          motorRightRpmBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (proceduresBuilder_ == null) {
           procedures_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           proceduresBuilder_.clear();
         }
@@ -3107,13 +4329,13 @@ public final class Main {
         } else {
           armBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000040);
         if (clawBuilder_ == null) {
           claw_ = null;
         } else {
           clawBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -3157,30 +4379,46 @@ public final class Main {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
+        if (motorLeftRpmBuilder_ == null) {
+          result.motorLeftRpm_ = motorLeftRpm_;
+        } else {
+          result.motorLeftRpm_ = motorLeftRpmBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
         if (motorRightBuilder_ == null) {
           result.motorRight_ = motorRight_;
         } else {
           result.motorRight_ = motorRightBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (motorRightRpmBuilder_ == null) {
+          result.motorRightRpm_ = motorRightRpm_;
+        } else {
+          result.motorRightRpm_ = motorRightRpmBuilder_.build();
+        }
         if (proceduresBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
             procedures_ = java.util.Collections.unmodifiableList(procedures_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000020);
           }
           result.procedures_ = procedures_;
         } else {
           result.procedures_ = proceduresBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000008;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000020;
         }
         if (armBuilder_ == null) {
           result.arm_ = arm_;
         } else {
           result.arm_ = armBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000010;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
         }
         if (clawBuilder_ == null) {
           result.claw_ = claw_;
@@ -3209,14 +4447,20 @@ public final class Main {
         if (other.hasMotorLeft()) {
           mergeMotorLeft(other.getMotorLeft());
         }
+        if (other.hasMotorLeftRpm()) {
+          mergeMotorLeftRpm(other.getMotorLeftRpm());
+        }
         if (other.hasMotorRight()) {
           mergeMotorRight(other.getMotorRight());
+        }
+        if (other.hasMotorRightRpm()) {
+          mergeMotorRightRpm(other.getMotorRightRpm());
         }
         if (proceduresBuilder_ == null) {
           if (!other.procedures_.isEmpty()) {
             if (procedures_.isEmpty()) {
               procedures_ = other.procedures_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000020);
             } else {
               ensureProceduresIsMutable();
               procedures_.addAll(other.procedures_);
@@ -3229,7 +4473,7 @@ public final class Main {
               proceduresBuilder_.dispose();
               proceduresBuilder_ = null;
               procedures_ = other.procedures_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000020);
               proceduresBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getProceduresFieldBuilder() : null;
@@ -3549,6 +4793,160 @@ public final class Main {
         return motorLeftBuilder_;
       }
 
+      private ksurctjavacode.Main.Robot.Motor motorLeftRpm_ = null;
+      private com.google.protobuf.SingleFieldBuilder<
+          ksurctjavacode.Main.Robot.Motor, ksurctjavacode.Main.Robot.Motor.Builder, ksurctjavacode.Main.Robot.MotorOrBuilder> motorLeftRpmBuilder_;
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      public boolean hasMotorLeftRpm() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      public ksurctjavacode.Main.Robot.Motor getMotorLeftRpm() {
+        if (motorLeftRpmBuilder_ == null) {
+          return motorLeftRpm_ == null ? ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorLeftRpm_;
+        } else {
+          return motorLeftRpmBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      public Builder setMotorLeftRpm(ksurctjavacode.Main.Robot.Motor value) {
+        if (motorLeftRpmBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          motorLeftRpm_ = value;
+          onChanged();
+        } else {
+          motorLeftRpmBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      public Builder setMotorLeftRpm(
+          ksurctjavacode.Main.Robot.Motor.Builder builderForValue) {
+        if (motorLeftRpmBuilder_ == null) {
+          motorLeftRpm_ = builderForValue.build();
+          onChanged();
+        } else {
+          motorLeftRpmBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      public Builder mergeMotorLeftRpm(ksurctjavacode.Main.Robot.Motor value) {
+        if (motorLeftRpmBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              motorLeftRpm_ != null &&
+              motorLeftRpm_ != ksurctjavacode.Main.Robot.Motor.getDefaultInstance()) {
+            motorLeftRpm_ =
+              ksurctjavacode.Main.Robot.Motor.newBuilder(motorLeftRpm_).mergeFrom(value).buildPartial();
+          } else {
+            motorLeftRpm_ = value;
+          }
+          onChanged();
+        } else {
+          motorLeftRpmBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      public Builder clearMotorLeftRpm() {
+        if (motorLeftRpmBuilder_ == null) {
+          motorLeftRpm_ = null;
+          onChanged();
+        } else {
+          motorLeftRpmBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      public ksurctjavacode.Main.Robot.Motor.Builder getMotorLeftRpmBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getMotorLeftRpmFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      public ksurctjavacode.Main.Robot.MotorOrBuilder getMotorLeftRpmOrBuilder() {
+        if (motorLeftRpmBuilder_ != null) {
+          return motorLeftRpmBuilder_.getMessageOrBuilder();
+        } else {
+          return motorLeftRpm_ == null ?
+              ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorLeftRpm_;
+        }
+      }
+      /**
+       * <code>optional .Robot.Motor motor_left_rpm = 6;</code>
+       *
+       * <pre>
+       * rpm rather then percent
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ksurctjavacode.Main.Robot.Motor, ksurctjavacode.Main.Robot.Motor.Builder, ksurctjavacode.Main.Robot.MotorOrBuilder> 
+          getMotorLeftRpmFieldBuilder() {
+        if (motorLeftRpmBuilder_ == null) {
+          motorLeftRpmBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ksurctjavacode.Main.Robot.Motor, ksurctjavacode.Main.Robot.Motor.Builder, ksurctjavacode.Main.Robot.MotorOrBuilder>(
+                  getMotorLeftRpm(),
+                  getParentForChildren(),
+                  isClean());
+          motorLeftRpm_ = null;
+        }
+        return motorLeftRpmBuilder_;
+      }
+
       private ksurctjavacode.Main.Robot.Motor motorRight_ = null;
       private com.google.protobuf.SingleFieldBuilder<
           ksurctjavacode.Main.Robot.Motor, ksurctjavacode.Main.Robot.Motor.Builder, ksurctjavacode.Main.Robot.MotorOrBuilder> motorRightBuilder_;
@@ -3556,7 +4954,7 @@ public final class Main {
        * <code>optional .Robot.Motor motor_right = 3;</code>
        */
       public boolean hasMotorRight() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional .Robot.Motor motor_right = 3;</code>
@@ -3581,7 +4979,7 @@ public final class Main {
         } else {
           motorRightBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
@@ -3595,7 +4993,7 @@ public final class Main {
         } else {
           motorRightBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
@@ -3603,7 +5001,7 @@ public final class Main {
        */
       public Builder mergeMotorRight(ksurctjavacode.Main.Robot.Motor value) {
         if (motorRightBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
               motorRight_ != null &&
               motorRight_ != ksurctjavacode.Main.Robot.Motor.getDefaultInstance()) {
             motorRight_ =
@@ -3615,7 +5013,7 @@ public final class Main {
         } else {
           motorRightBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
@@ -3628,14 +5026,14 @@ public final class Main {
         } else {
           motorRightBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       /**
        * <code>optional .Robot.Motor motor_right = 3;</code>
        */
       public ksurctjavacode.Main.Robot.Motor.Builder getMotorRightBuilder() {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
         return getMotorRightFieldBuilder().getBuilder();
       }
@@ -3667,12 +5065,130 @@ public final class Main {
         return motorRightBuilder_;
       }
 
+      private ksurctjavacode.Main.Robot.Motor motorRightRpm_ = null;
+      private com.google.protobuf.SingleFieldBuilder<
+          ksurctjavacode.Main.Robot.Motor, ksurctjavacode.Main.Robot.Motor.Builder, ksurctjavacode.Main.Robot.MotorOrBuilder> motorRightRpmBuilder_;
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      public boolean hasMotorRightRpm() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      public ksurctjavacode.Main.Robot.Motor getMotorRightRpm() {
+        if (motorRightRpmBuilder_ == null) {
+          return motorRightRpm_ == null ? ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorRightRpm_;
+        } else {
+          return motorRightRpmBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      public Builder setMotorRightRpm(ksurctjavacode.Main.Robot.Motor value) {
+        if (motorRightRpmBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          motorRightRpm_ = value;
+          onChanged();
+        } else {
+          motorRightRpmBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      public Builder setMotorRightRpm(
+          ksurctjavacode.Main.Robot.Motor.Builder builderForValue) {
+        if (motorRightRpmBuilder_ == null) {
+          motorRightRpm_ = builderForValue.build();
+          onChanged();
+        } else {
+          motorRightRpmBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      public Builder mergeMotorRightRpm(ksurctjavacode.Main.Robot.Motor value) {
+        if (motorRightRpmBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              motorRightRpm_ != null &&
+              motorRightRpm_ != ksurctjavacode.Main.Robot.Motor.getDefaultInstance()) {
+            motorRightRpm_ =
+              ksurctjavacode.Main.Robot.Motor.newBuilder(motorRightRpm_).mergeFrom(value).buildPartial();
+          } else {
+            motorRightRpm_ = value;
+          }
+          onChanged();
+        } else {
+          motorRightRpmBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      public Builder clearMotorRightRpm() {
+        if (motorRightRpmBuilder_ == null) {
+          motorRightRpm_ = null;
+          onChanged();
+        } else {
+          motorRightRpmBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      public ksurctjavacode.Main.Robot.Motor.Builder getMotorRightRpmBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getMotorRightRpmFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      public ksurctjavacode.Main.Robot.MotorOrBuilder getMotorRightRpmOrBuilder() {
+        if (motorRightRpmBuilder_ != null) {
+          return motorRightRpmBuilder_.getMessageOrBuilder();
+        } else {
+          return motorRightRpm_ == null ?
+              ksurctjavacode.Main.Robot.Motor.getDefaultInstance() : motorRightRpm_;
+        }
+      }
+      /**
+       * <code>optional .Robot.Motor motor_right_rpm = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ksurctjavacode.Main.Robot.Motor, ksurctjavacode.Main.Robot.Motor.Builder, ksurctjavacode.Main.Robot.MotorOrBuilder> 
+          getMotorRightRpmFieldBuilder() {
+        if (motorRightRpmBuilder_ == null) {
+          motorRightRpmBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ksurctjavacode.Main.Robot.Motor, ksurctjavacode.Main.Robot.Motor.Builder, ksurctjavacode.Main.Robot.MotorOrBuilder>(
+                  getMotorRightRpm(),
+                  getParentForChildren(),
+                  isClean());
+          motorRightRpm_ = null;
+        }
+        return motorRightRpmBuilder_;
+      }
+
       private java.util.List<ksurctjavacode.Main.Robot.Procedure> procedures_ =
         java.util.Collections.emptyList();
       private void ensureProceduresIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
           procedures_ = new java.util.ArrayList<ksurctjavacode.Main.Robot.Procedure>(procedures_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000020;
          }
       }
 
@@ -3822,7 +5338,7 @@ public final class Main {
       public Builder clearProcedures() {
         if (proceduresBuilder_ == null) {
           procedures_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000020);
           onChanged();
         } else {
           proceduresBuilder_.clear();
@@ -3899,7 +5415,7 @@ public final class Main {
           proceduresBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               ksurctjavacode.Main.Robot.Procedure, ksurctjavacode.Main.Robot.Procedure.Builder, ksurctjavacode.Main.Robot.ProcedureOrBuilder>(
                   procedures_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000020) == 0x00000020),
                   getParentForChildren(),
                   isClean());
           procedures_ = null;
@@ -3914,7 +5430,7 @@ public final class Main {
        * <code>optional .Robot.Servo arm = 5;</code>
        */
       public boolean hasArm() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional .Robot.Servo arm = 5;</code>
@@ -3939,7 +5455,7 @@ public final class Main {
         } else {
           armBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
@@ -3953,7 +5469,7 @@ public final class Main {
         } else {
           armBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
@@ -3961,7 +5477,7 @@ public final class Main {
        */
       public Builder mergeArm(ksurctjavacode.Main.Robot.Servo value) {
         if (armBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+          if (((bitField0_ & 0x00000040) == 0x00000040) &&
               arm_ != null &&
               arm_ != ksurctjavacode.Main.Robot.Servo.getDefaultInstance()) {
             arm_ =
@@ -3973,7 +5489,7 @@ public final class Main {
         } else {
           armBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
@@ -3986,14 +5502,14 @@ public final class Main {
         } else {
           armBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
       /**
        * <code>optional .Robot.Servo arm = 5;</code>
        */
       public ksurctjavacode.Main.Robot.Servo.Builder getArmBuilder() {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000040;
         onChanged();
         return getArmFieldBuilder().getBuilder();
       }
@@ -4029,13 +5545,13 @@ public final class Main {
       private com.google.protobuf.SingleFieldBuilder<
           ksurctjavacode.Main.Robot.Servo, ksurctjavacode.Main.Robot.Servo.Builder, ksurctjavacode.Main.Robot.ServoOrBuilder> clawBuilder_;
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       public boolean hasClaw() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       public ksurctjavacode.Main.Robot.Servo getClaw() {
         if (clawBuilder_ == null) {
@@ -4045,7 +5561,7 @@ public final class Main {
         }
       }
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       public Builder setClaw(ksurctjavacode.Main.Robot.Servo value) {
         if (clawBuilder_ == null) {
@@ -4057,11 +5573,11 @@ public final class Main {
         } else {
           clawBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       public Builder setClaw(
           ksurctjavacode.Main.Robot.Servo.Builder builderForValue) {
@@ -4071,15 +5587,15 @@ public final class Main {
         } else {
           clawBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       public Builder mergeClaw(ksurctjavacode.Main.Robot.Servo value) {
         if (clawBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+          if (((bitField0_ & 0x00000080) == 0x00000080) &&
               claw_ != null &&
               claw_ != ksurctjavacode.Main.Robot.Servo.getDefaultInstance()) {
             claw_ =
@@ -4091,11 +5607,11 @@ public final class Main {
         } else {
           clawBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       public Builder clearClaw() {
         if (clawBuilder_ == null) {
@@ -4104,19 +5620,19 @@ public final class Main {
         } else {
           clawBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       public ksurctjavacode.Main.Robot.Servo.Builder getClawBuilder() {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         onChanged();
         return getClawFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       public ksurctjavacode.Main.Robot.ServoOrBuilder getClawOrBuilder() {
         if (clawBuilder_ != null) {
@@ -4127,7 +5643,7 @@ public final class Main {
         }
       }
       /**
-       * <code>optional .Robot.Servo claw = 6;</code>
+       * <code>optional .Robot.Servo claw = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           ksurctjavacode.Main.Robot.Servo, ksurctjavacode.Main.Robot.Servo.Builder, ksurctjavacode.Main.Robot.ServoOrBuilder> 
@@ -6062,6 +7578,16 @@ public final class Main {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Robot_Procedure_GoInCircle_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Robot_Procedure_Throw_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Robot_Procedure_Throw_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Robot_Procedure_ForceUserControl_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Robot_Procedure_ForceUserControl_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_BaseStation_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6085,25 +7611,30 @@ public final class Main {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\"ksurobot/protocol/proto/main.proto\"\264\003\n" +
+      "\n\"ksurobot/protocol/proto/main.proto\"\207\005\n" +
       "\005Robot\022\036\n\nheadlights\030\001 \001(\0132\n.Robot.LED\022 " +
-      "\n\nmotor_left\030\002 \001(\0132\014.Robot.Motor\022!\n\013moto" +
-      "r_right\030\003 \001(\0132\014.Robot.Motor\022$\n\nprocedure" +
-      "s\030\004 \003(\0132\020.Robot.Procedure\022\031\n\003arm\030\005 \001(\0132\014" +
-      ".Robot.Servo\022\032\n\004claw\030\006 \001(\0132\014.Robot.Servo" +
-      "\0326\n\005Motor\022\016\n\006update\030\001 \001(\010\022\r\n\005speed\030\002 \001(\005" +
-      "\022\016\n\006breaks\030\003 \001(\010\032\'\n\005Servo\022\016\n\006update\030\001 \001(" +
-      "\010\022\016\n\006degree\030\002 \001(\005\032!\n\003LED\022\016\n\006update\030\001 \001(\010" +
-      "\022\n\n\002on\030\002 \001(\010\032e\n\tProcedure\022-\n\006circle\030\001 \001(",
-      "\0132\033.Robot.Procedure.GoInCircleH\000\032\034\n\nGoIn" +
-      "Circle\022\016\n\006radius\030\001 \002(\005B\013\n\tprocedure\"\347\001\n\013" +
-      "BaseStation\022%\n\007battery\030\001 \001(\0132\024.BaseStati" +
-      "on.Battery\022*\n\013sensor_data\030\002 \001(\0132\025.BaseSt" +
-      "ation.Distance\032\031\n\007Battery\022\016\n\006charge\030\001 \001(" +
-      "\005\032j\n\010Distance\022\023\n\013front_right\030\001 \001(\005\022\022\n\nfr" +
-      "ont_left\030\002 \001(\005\022\022\n\nback_right\030\003 \001(\005\022\021\n\tba" +
-      "ck_left\030\004 \001(\005\022\016\n\006update\030\005 \001(\010B\020\n\016ksurctj" +
-      "avacode"
+      "\n\nmotor_left\030\002 \001(\0132\014.Robot.Motor\022$\n\016moto" +
+      "r_left_rpm\030\006 \001(\0132\014.Robot.Motor\022!\n\013motor_" +
+      "right\030\003 \001(\0132\014.Robot.Motor\022%\n\017motor_right" +
+      "_rpm\030\007 \001(\0132\014.Robot.Motor\022$\n\nprocedures\030\004" +
+      " \003(\0132\020.Robot.Procedure\022\031\n\003arm\030\005 \001(\0132\014.Ro" +
+      "bot.Servo\022\032\n\004claw\030\010 \001(\0132\014.Robot.Servo\0326\n" +
+      "\005Motor\022\016\n\006update\030\001 \001(\010\022\r\n\005speed\030\002 \001(\005\022\016\n" +
+      "\006breaks\030\003 \001(\010\032\'\n\005Servo\022\016\n\006update\030\001 \001(\010\022\016",
+      "\n\006degree\030\002 \001(\005\032!\n\003LED\022\016\n\006update\030\001 \001(\010\022\n\n" +
+      "\002on\030\002 \001(\010\032\352\001\n\tProcedure\022-\n\006circle\030\001 \001(\0132" +
+      "\033.Robot.Procedure.GoInCircleH\000\022\'\n\005throw\030" +
+      "\002 \001(\0132\026.Robot.Procedure.ThrowH\000\022=\n\020force" +
+      "UserControl\030\003 \001(\0132!.Robot.Procedure.Forc" +
+      "eUserControlH\000\032\034\n\nGoInCircle\022\016\n\006radius\030\001" +
+      " \002(\005\032\007\n\005Throw\032\022\n\020ForceUserControlB\013\n\tpro" +
+      "cedure\"\347\001\n\013BaseStation\022%\n\007battery\030\001 \001(\0132" +
+      "\024.BaseStation.Battery\022*\n\013sensor_data\030\002 \001" +
+      "(\0132\025.BaseStation.Distance\032\031\n\007Battery\022\016\n\006",
+      "charge\030\001 \001(\005\032j\n\010Distance\022\023\n\013front_right\030" +
+      "\001 \001(\005\022\022\n\nfront_left\030\002 \001(\005\022\022\n\nback_right\030" +
+      "\003 \001(\005\022\021\n\tback_left\030\004 \001(\005\022\016\n\006update\030\005 \001(\010" +
+      "B\020\n\016ksurctjavacode"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6122,7 +7653,7 @@ public final class Main {
     internal_static_Robot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Robot_descriptor,
-        new java.lang.String[] { "Headlights", "MotorLeft", "MotorRight", "Procedures", "Arm", "Claw", });
+        new java.lang.String[] { "Headlights", "MotorLeft", "MotorLeftRpm", "MotorRight", "MotorRightRpm", "Procedures", "Arm", "Claw", });
     internal_static_Robot_Motor_descriptor =
       internal_static_Robot_descriptor.getNestedTypes().get(0);
     internal_static_Robot_Motor_fieldAccessorTable = new
@@ -6146,13 +7677,25 @@ public final class Main {
     internal_static_Robot_Procedure_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Robot_Procedure_descriptor,
-        new java.lang.String[] { "Circle", "Procedure", });
+        new java.lang.String[] { "Circle", "Throw", "ForceUserControl", "Procedure", });
     internal_static_Robot_Procedure_GoInCircle_descriptor =
       internal_static_Robot_Procedure_descriptor.getNestedTypes().get(0);
     internal_static_Robot_Procedure_GoInCircle_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Robot_Procedure_GoInCircle_descriptor,
         new java.lang.String[] { "Radius", });
+    internal_static_Robot_Procedure_Throw_descriptor =
+      internal_static_Robot_Procedure_descriptor.getNestedTypes().get(1);
+    internal_static_Robot_Procedure_Throw_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_Robot_Procedure_Throw_descriptor,
+        new java.lang.String[] { });
+    internal_static_Robot_Procedure_ForceUserControl_descriptor =
+      internal_static_Robot_Procedure_descriptor.getNestedTypes().get(2);
+    internal_static_Robot_Procedure_ForceUserControl_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_Robot_Procedure_ForceUserControl_descriptor,
+        new java.lang.String[] { });
     internal_static_BaseStation_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_BaseStation_fieldAccessorTable = new

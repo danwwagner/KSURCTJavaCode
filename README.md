@@ -27,6 +27,7 @@ Guaranteed to run in Linux.  Not sure for other OS.
   * Up/Down camera position adjustment sliding scale
   * Left/Right camera position adjustment sliding scale
 * Open terminal and type `avahi-browse -art | grep raspberry -A 3` to locate the IP.
+* Start video streaming with `nc.traditional -l -p 5000 | mplayer -fps 60 -cache 768 -` code.
 * Connect to the robot by entering the IP in the text box and pressing Connect button.
   * Once connected, the error log will be cleared.
 * Disconnect from the robot by pressing the Disconnect button.

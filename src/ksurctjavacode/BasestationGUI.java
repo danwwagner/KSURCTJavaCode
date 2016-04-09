@@ -20,7 +20,6 @@ import javax.swing.InputMap;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
-import java.util.HashSet;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,36 +37,7 @@ import org.java_websocket.exceptions.WebsocketNotConnectedException;
 **/
 public class BasestationGUI extends javax.swing.JDialog {
 
-    
-    // WebSocket Client for the Robot.
-    private static WebSocketClient client;
-    
-    // IP Address to connect to the Pi.
-    private String ipAddress;
-    
-    // Robot message portions
-    private Main.Robot.Builder robot = Main.Robot.newBuilder();
-    private Main.Robot.Motor.Builder leftMotor = robot.getMotorLeftBuilder();
-    private Main.Robot.Motor.Builder rightMotor = robot.getMotorRightBuilder();
-    private Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
-    private Main.Robot.Servo.Builder armature = robot.getArmBuilder();
-    private Main.Robot.Servo.Builder claw = robot.getClawBuilder();
-    
-    // Booleans to determine update status of certain portions of the protobuf.
-    private boolean leftMotorUpdate = false;
-    private boolean rightMotorUpdate = false;
-    private boolean LEDUpdate = false;
-    private boolean armUpdate = false;
-    private boolean clawUpdate = false;
-    private boolean setBrakes = false;
-    private int wristMethod = 0;
-    
-    // Robot's status message
-    private Main.BaseStation roboStatus;
-    
-    // Degrees of hand servo motor
-    private int servoDegrees = 0;
-    
+  
     /**
      * Creates new form BasestationGUI
      * @param parent
@@ -106,10 +76,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxDisconnectButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         uxEventLog = new javax.swing.JTextArea();
-        uxCameraUD = new javax.swing.JSlider();
         uxCameraLR = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         uxArmDegrees = new javax.swing.JTextField();
         uxOpenClaw = new javax.swing.JButton();
@@ -159,14 +127,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxEventLog.setEnabled(false);
         jScrollPane1.setViewportView(uxEventLog);
 
-        uxCameraUD.setFocusable(false);
-        uxCameraUD.setRequestFocusEnabled(false);
-        uxCameraUD.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                uxCameraUDStateChanged(evt);
-            }
-        });
-
         uxCameraLR.setFocusable(false);
         uxCameraLR.setRequestFocusEnabled(false);
         uxCameraLR.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -176,8 +136,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         });
 
         jLabel1.setText("Left/Right");
-
-        jLabel2.setText("Up/Down");
 
         jLabel3.setText("Hand");
 
@@ -215,12 +173,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(uxCameraUD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(87, 87, 87)))
+                                        .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel1)
@@ -278,8 +231,11 @@ public class BasestationGUI extends javax.swing.JDialog {
                                 .addGap(23, 23, 23)
                                 .addComponent(rightMotorLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(102, 102, 102)
+                                .addComponent(rightMotorProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(frontLeftIRLabel)
                             .addComponent(frontRightIRLabel))
@@ -302,12 +258,6 @@ public class BasestationGUI extends javax.swing.JDialog {
                                 .addComponent(uxOpenClaw))
                             .addComponent(ledStatusButton)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(uxCameraUD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)))
@@ -366,21 +316,21 @@ public class BasestationGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_uxDisconnectButtonMouseClicked
 
     /**
-     * Handles UP/DOWN movement of the camera module.
-     * @param evt 
-     */
-    private void uxCameraUDStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_uxCameraUDStateChanged
-        uxEventLog.append(Integer.toString(uxCameraUD.getValue()) + "\n");
-    }//GEN-LAST:event_uxCameraUDStateChanged
-
-    /**
      * Handles LEFT/RIGHT movement of the camera module.
      * @param evt 
      */
     private void uxCameraLRStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_uxCameraLRStateChanged
         uxEventLog.append(Integer.toString(uxCameraLR.getValue()) + "\n");
+        cameraUpdate = true;
+        cameraDegrees = uxCameraLR.getValue();
+        sendUpdates();
+        cameraUpdate = false;
     }//GEN-LAST:event_uxCameraLRStateChanged
 
+    /**
+     * Handles opening the claw via button click.
+     * @param evt 
+     */
     private void uxOpenClawMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uxOpenClawMouseClicked
         uxEventLog.append("Claw set.\n");
         clawUpdate = true;
@@ -457,8 +407,14 @@ public class BasestationGUI extends javax.swing.JDialog {
         leftMotor.setUpdate(leftMotorUpdate);
         rightMotor.setUpdate(rightMotorUpdate);
         
-        armature.setDegree(wristMethod); // Why is this 1? 1 -> launch, 0 no?
-        armature.setUpdate(armUpdate);
+       // arm.setDegree(wristMethod); // Why is this 1? 1 -> launch, 0 no?
+       // arm.setUpdate(armUpdate);
+       
+        // TODO -- Figure out what this exactly does
+        if (armUpdate) procedure = robot.getProceduresBuilder(2); // List length 2?
+       
+        camera.setUpdate(cameraUpdate);
+        camera.setDegree(cameraDegrees);
         
         claw.setDegree(60);
         claw.setUpdate(clawUpdate);
@@ -570,6 +526,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 // This is here because Java is not a nice person.
                 @Override
                 public void onMessage(String message) {
+                    throw new UnsupportedOperationException();
                     
                 }
         };
@@ -632,7 +589,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     _rthrottle = 100;
                 }
                 
-           //     if (_lthrottle == 0 && _rthrottle == 0) uxEventLog.append("Stopped.\n");
+          
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -658,7 +615,6 @@ public class BasestationGUI extends javax.swing.JDialog {
                     rightMotorUpdate = true;
                 }
                 
-              //  if (_lthrottle == 0 && _rthrottle == 0) uxEventLog.append("Stopped.\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -725,13 +681,11 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-               // armStatusButton.setText("THREW");
-              //  armStatusButton.setEnabled(false);
                 uxEventLog.append("Arm launched.\n");
+                procedureNumber = 2;
                 armUpdate = true;
                 sendUpdates();
                 armUpdate = false;
-              //  armStatusButton.setText("LAUNCH");
             }
         };
         
@@ -959,7 +913,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JLabel frontRightIRLabel;
     private javax.swing.JLabel frontRightIRText;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel ledStateLabel;
@@ -970,7 +923,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JProgressBar rightMotorProgress;
     private javax.swing.JTextField uxArmDegrees;
     private javax.swing.JSlider uxCameraLR;
-    private javax.swing.JSlider uxCameraUD;
     private javax.swing.JButton uxConnectButton;
     private javax.swing.JButton uxDisconnectButton;
     private javax.swing.JTextArea uxEventLog;
@@ -985,4 +937,47 @@ public class BasestationGUI extends javax.swing.JDialog {
     private InputMap _leftMotorInput;
     private ActionMap _rightMotorAction;
     private InputMap _rightMotorInput;
+      
+    // WebSocket Client for the Robot.
+    private static WebSocketClient client;
+    
+    // IP Address to connect to the Pi.
+    private String ipAddress;
+    
+    // Robot message portions
+    private Main.Robot.Builder robot = Main.Robot.newBuilder();
+    private Main.Robot.Motor.Builder leftMotor = robot.getMotorLeftRpmBuilder();
+    private Main.Robot.Motor.Builder rightMotor = robot.getMotorRightRpmBuilder();
+    private Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
+   // private Main.Robot.Servo.Builder arm = robot.getArmBuilder();
+    private Main.Robot.Servo.Builder claw = robot.getClawBuilder();
+    private Main.Robot.Servo.Builder camera = robot.getArmBuilder();
+    
+    // Procedure list: 2 for Throw, 3 for ForceUserControl.
+    private Main.Robot.Procedure.Builder procedure;
+    
+    // Booleans to determine update status of certain portions of the protobuf.
+    private boolean leftMotorUpdate = false;
+    private boolean rightMotorUpdate = false;
+    private boolean LEDUpdate = false;
+    private boolean armUpdate = false;
+    private boolean clawUpdate = false;
+    private boolean setBrakes = false;
+    private boolean cameraUpdate = false;
+    
+    // Integer determining what strength of turn to turn the camera.
+    private int wristMethod = 0;
+    
+    // Robot's status message
+    private Main.BaseStation roboStatus;
+    
+    // Degrees of hand servo motor
+    private int servoDegrees = 0;
+    
+    // Degrees of camera servo
+    private int cameraDegrees = 0;
+    
+    // Procedure number -- TODO: Needed?
+    private int procedureNumber = 0;
+    
 }
