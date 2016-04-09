@@ -500,7 +500,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
 
             @Override
-            @SuppressWarnings("SleepWhileInLoop")
+          //  @SuppressWarnings("SleepWhileInLoop")
             public void onError(Exception ex) {
                /* if (ex instanceof  WebsocketNotConnectedException)
                 {
@@ -570,7 +570,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 if (_lthrottle <  _rthrottle) _lthrottle = _rthrottle;
                 else if (_lthrottle > _rthrottle) _rthrottle = _lthrottle;
                   
-                if (_lthrottle <= 120)
+                if (_lthrottle < 120)
                 {    
                     leftMotorProgress.setValue(_lthrottle += 10);
                     leftMotorUpdate = true;
@@ -582,7 +582,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     _lthrottle = 120;
                 }
                 
-                if (_rthrottle <= 120)
+                if (_rthrottle < 120)
                 {
                     rightMotorProgress.setValue(_rthrottle += 10);
                     rightMotorUpdate = true;
@@ -637,6 +637,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                  leftMotorProgress.setValue(-60);
                  rightMotorProgress.setValue(60);
+                 uxEventLog.append("Zero Point Left\n");
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
                  sendUpdates();
@@ -653,6 +654,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                  leftMotorProgress.setValue(60);
                  rightMotorProgress.setValue(-60);
+                 uxEventLog.append("Zero Point Right\n");
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
                  sendUpdates();
