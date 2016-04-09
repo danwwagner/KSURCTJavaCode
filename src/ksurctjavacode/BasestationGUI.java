@@ -84,13 +84,15 @@ public class BasestationGUI extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        leftMotorProgress.setMinimum(-100);
+        leftMotorProgress.setMaximum(120);
+        leftMotorProgress.setMinimum(-120);
 
         leftMotorLabel.setText("Left Motor");
 
         rightMotorLabel.setText("Right Motor");
 
-        rightMotorProgress.setMinimum(-100);
+        rightMotorProgress.setMaximum(120);
+        rightMotorProgress.setMinimum(-120);
 
         frontLeftIRLabel.setText("FL IR");
 
@@ -398,11 +400,9 @@ public class BasestationGUI extends javax.swing.JDialog {
             leftMotor.setSpeed(leftMotorProgress.getValue());
             rightMotor.setSpeed(rightMotorProgress.getValue());
         }
-        else
-        {
-            leftMotor.setBreaks(setBrakes);
-            rightMotor.setBreaks(setBrakes);
-        }
+        
+        leftMotor.setBreaks(setBrakes);
+        rightMotor.setBreaks(setBrakes);
         
         leftMotor.setUpdate(leftMotorUpdate);
         rightMotor.setUpdate(rightMotorUpdate);
@@ -497,7 +497,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             @SuppressWarnings("SleepWhileInLoop")
             public void onError(Exception ex) {
-                if (ex instanceof  WebsocketNotConnectedException)
+               /* if (ex instanceof  WebsocketNotConnectedException)
                 {
                      uxEventLog.append("Error: Retrying connection...\n");
                      for(int i = 1; i <= 10; i++)
@@ -512,14 +512,14 @@ public class BasestationGUI extends javax.swing.JDialog {
                             Logger.getLogger(BasestationGUI.class.getName()).log(Level.SEVERE, null, ex1);
                         }
                      }
-                     
+                     */
                      uxConnectButton.setText("Retry Comms");
-               }
+               //}
                 
-                else 
-                {
+               // else 
+               // {
                     uxEventLog.setText("Please check the IP and try again.\n");
-                }
+                //}
                
             }
 
@@ -565,31 +565,31 @@ public class BasestationGUI extends javax.swing.JDialog {
                 if (_lthrottle <  _rthrottle) _lthrottle = _rthrottle;
                 else if (_lthrottle > _rthrottle) _rthrottle = _lthrottle;
                   
-                if (_lthrottle <= 100)
+                if (_lthrottle <= 120)
                 {    
                     leftMotorProgress.setValue(_lthrottle += 10);
                     leftMotorUpdate = true;
                 }
                 
-                else if (_lthrottle >= 100) 
+                else if (_lthrottle >= 120) 
                 {
-                    leftMotorProgress.setValue(100);
-                    _lthrottle = 100;
+                    leftMotorProgress.setValue(120);
+                    _lthrottle = 120;
                 }
                 
-                if (_rthrottle <= 100)
+                if (_rthrottle <= 120)
                 {
                     rightMotorProgress.setValue(_rthrottle += 10);
                     rightMotorUpdate = true;
                 }
 
-                else if (_rthrottle >= 100)
+                else if (_rthrottle >= 120)
                 {
-                    rightMotorProgress.setValue(100);
-                    _rthrottle = 100;
+                    rightMotorProgress.setValue(120);
+                    _rthrottle = 120;
                 }
-                
-          
+                 
+                uxEventLog.setText("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -604,17 +604,20 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 if (_lthrottle <  _rthrottle) _lthrottle = _rthrottle;
                 else if (_lthrottle > _rthrottle) _rthrottle = _lthrottle;
-                if (_lthrottle > -100)
+                if (_lthrottle > -120)
                 {
                     leftMotorProgress.setValue(_lthrottle -= 10);
+                  //  uxEventLog.setText("L:" + _lthrottle + "\n");
                     leftMotorUpdate = true;
                 }              
-                if (_rthrottle > -100)
+                if (_rthrottle > -120)
                 {
                     rightMotorProgress.setValue(_rthrottle -= 10);
+                   // uxEventLog.setText("R:" + _rthrottle + "\n");
                     rightMotorUpdate = true;
                 }
                 
+                uxEventLog.setText("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -627,12 +630,10 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 leftMotorProgress.setValue(-40);
-                 rightMotorProgress.setValue(40);
+                 leftMotorProgress.setValue(-60);
+                 rightMotorProgress.setValue(60);
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
-                 uxEventLog.append(("L:" + leftMotorProgress.getValue()) + "\n");
-                 uxEventLog.append(("R:" + rightMotorProgress.getValue())+ "\n");
                  sendUpdates();
                  leftMotorUpdate = false;
                  rightMotorUpdate = false;
@@ -645,8 +646,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 leftMotorProgress.setValue(40);
-                 rightMotorProgress.setValue(-40);
+                 leftMotorProgress.setValue(60);
+                 rightMotorProgress.setValue(-60);
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
                  sendUpdates();
@@ -681,7 +682,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                uxEventLog.append("Arm launched.\n");
+                uxEventLog.setText("Arm launched.\n");
                 procedureNumber = 2;
                 armUpdate = true;
                 sendUpdates();
@@ -756,7 +757,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle -= 5);
                 rightMotorUpdate = true;
-                 uxEventLog.append(("R:" + rightMotorProgress.getValue())+ "\n");
+                 uxEventLog.setText(("R:" + rightMotorProgress.getValue())+ "\n");
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -770,7 +771,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle += 5);
                 rightMotorUpdate = true;
-                uxEventLog.append(("R:" + rightMotorProgress.getValue())+ "\n");
+                uxEventLog.setText(("R:" + rightMotorProgress.getValue())+ "\n");
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -784,7 +785,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle -= 5);
                 leftMotorUpdate = true;
-                uxEventLog.append(("L:" + leftMotorProgress.getValue())+ "\n");   
+                uxEventLog.setText(("L:" + leftMotorProgress.getValue())+ "\n");   
                 sendUpdates();
                 leftMotorUpdate = false;
             }
@@ -798,7 +799,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle += 5);
                 leftMotorUpdate = true;
-                uxEventLog.append(("L:" + leftMotorProgress.getValue()) + "\n");           
+                uxEventLog.setText(("L:" + leftMotorProgress.getValue()) + "\n");           
                 sendUpdates();
                 leftMotorUpdate = false;
             }
@@ -810,12 +811,18 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                leftMotorProgress.setValue(_lthrottle = 0);
-                rightMotorProgress.setValue(_rthrottle= 0);
+                _lthrottle = 0;
+                _rthrottle = 0;
+                leftMotorProgress.setValue(_lthrottle);
+                rightMotorProgress.setValue(_rthrottle);
+                leftMotorUpdate = true;
+                rightMotorUpdate = true;
                 setBrakes = true;
-                uxEventLog.append("HIT THE BRAKES!\n");
+                uxEventLog.setText("HIT THE BRAKES!\n");
                 sendUpdates();
                 setBrakes = false;
+                leftMotorUpdate = false;
+                rightMotorUpdate = false;
             }
         };
         

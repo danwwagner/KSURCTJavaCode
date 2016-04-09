@@ -54,8 +54,9 @@ http://ksurct.herokuapp.com
 * The B key will decrease the robot hand's angle by a large amount.
 * The V key will decrease the robot hand's angle by a small amount.
 * The R key causes the robot to initiate the ramp climb sequence.
+* The I key will increase the throttle on the left motor.
+* The P key will increase the throttle on the right motor.
 
 #### Events
-* In the case of a disconnection from the robot, a timeout of ten seconds is initiated in order to prevent bombarding the robot with connect requests.
-* The GUI will attempt to connect to the robot if it has a valid IP address entered.
+* In the case of a disconnection from the robot, the GUI will display an error message and allow a retry.
   * An invalid IP address will result in no action taken by the GUI.
