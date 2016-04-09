@@ -762,7 +762,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle -= 5);
                 rightMotorUpdate = true;
-                 uxEventLog.append("Turn left [RMotor]\n");
+                 uxEventLog.append("Turn left [R: " + _rthrottle + "]\n");
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -776,7 +776,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle += 5);
                 rightMotorUpdate = true;
-                uxEventLog.append("Turn right [RMotor]\n");
+                uxEventLog.append("Turn right [R: " + _rthrottle + "]\n");
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -790,7 +790,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle -= 5);
                 leftMotorUpdate = true;
-                uxEventLog.append("Turn left [LMotor]\n");   
+                uxEventLog.append("Turn left [L" + _lthrottle + "]\n");   
                 sendUpdates();
                 leftMotorUpdate = false;
             }
@@ -804,7 +804,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle += 5);
                 leftMotorUpdate = true;
-                uxEventLog.append("Turn right [LMotor]\n");           
+                uxEventLog.append("Turn right [L:" + _lthrottle + "]\n");           
                 sendUpdates();
                 leftMotorUpdate = false;
             }
