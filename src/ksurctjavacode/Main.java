@@ -150,6 +150,32 @@ public final class Main {
      * <code>optional .Robot.Servo claw = 8;</code>
      */
     ksurctjavacode.Main.Robot.ServoOrBuilder getClawOrBuilder();
+
+    /**
+     * <code>optional .Robot.Servo camera = 9;</code>
+     */
+    boolean hasCamera();
+    /**
+     * <code>optional .Robot.Servo camera = 9;</code>
+     */
+    ksurctjavacode.Main.Robot.Servo getCamera();
+    /**
+     * <code>optional .Robot.Servo camera = 9;</code>
+     */
+    ksurctjavacode.Main.Robot.ServoOrBuilder getCameraOrBuilder();
+
+    /**
+     * <code>optional .Robot.Servo wrist = 10;</code>
+     */
+    boolean hasWrist();
+    /**
+     * <code>optional .Robot.Servo wrist = 10;</code>
+     */
+    ksurctjavacode.Main.Robot.Servo getWrist();
+    /**
+     * <code>optional .Robot.Servo wrist = 10;</code>
+     */
+    ksurctjavacode.Main.Robot.ServoOrBuilder getWristOrBuilder();
   }
   /**
    * Protobuf type {@code Robot}
@@ -290,6 +316,32 @@ public final class Main {
                 claw_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000040;
+              break;
+            }
+            case 74: {
+              ksurctjavacode.Main.Robot.Servo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000080) == 0x00000080)) {
+                subBuilder = camera_.toBuilder();
+              }
+              camera_ = input.readMessage(ksurctjavacode.Main.Robot.Servo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(camera_);
+                camera_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000080;
+              break;
+            }
+            case 82: {
+              ksurctjavacode.Main.Robot.Servo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000100) == 0x00000100)) {
+                subBuilder = wrist_.toBuilder();
+              }
+              wrist_ = input.readMessage(ksurctjavacode.Main.Robot.Servo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(wrist_);
+                wrist_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000100;
               break;
             }
           }
@@ -4092,6 +4144,48 @@ public final class Main {
       return claw_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : claw_;
     }
 
+    public static final int CAMERA_FIELD_NUMBER = 9;
+    private ksurctjavacode.Main.Robot.Servo camera_;
+    /**
+     * <code>optional .Robot.Servo camera = 9;</code>
+     */
+    public boolean hasCamera() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional .Robot.Servo camera = 9;</code>
+     */
+    public ksurctjavacode.Main.Robot.Servo getCamera() {
+      return camera_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : camera_;
+    }
+    /**
+     * <code>optional .Robot.Servo camera = 9;</code>
+     */
+    public ksurctjavacode.Main.Robot.ServoOrBuilder getCameraOrBuilder() {
+      return camera_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : camera_;
+    }
+
+    public static final int WRIST_FIELD_NUMBER = 10;
+    private ksurctjavacode.Main.Robot.Servo wrist_;
+    /**
+     * <code>optional .Robot.Servo wrist = 10;</code>
+     */
+    public boolean hasWrist() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional .Robot.Servo wrist = 10;</code>
+     */
+    public ksurctjavacode.Main.Robot.Servo getWrist() {
+      return wrist_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : wrist_;
+    }
+    /**
+     * <code>optional .Robot.Servo wrist = 10;</code>
+     */
+    public ksurctjavacode.Main.Robot.ServoOrBuilder getWristOrBuilder() {
+      return wrist_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : wrist_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4134,6 +4228,12 @@ public final class Main {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeMessage(8, getClaw());
       }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeMessage(9, getCamera());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeMessage(10, getWrist());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4173,6 +4273,14 @@ public final class Main {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, getClaw());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, getCamera());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, getWrist());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4284,6 +4392,8 @@ public final class Main {
           getProceduresFieldBuilder();
           getArmFieldBuilder();
           getClawFieldBuilder();
+          getCameraFieldBuilder();
+          getWristFieldBuilder();
         }
       }
       public Builder clear() {
@@ -4336,6 +4446,18 @@ public final class Main {
           clawBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000080);
+        if (cameraBuilder_ == null) {
+          camera_ = null;
+        } else {
+          cameraBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000100);
+        if (wristBuilder_ == null) {
+          wrist_ = null;
+        } else {
+          wristBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -4425,6 +4547,22 @@ public final class Main {
         } else {
           result.claw_ = clawBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        if (cameraBuilder_ == null) {
+          result.camera_ = camera_;
+        } else {
+          result.camera_ = cameraBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        if (wristBuilder_ == null) {
+          result.wrist_ = wrist_;
+        } else {
+          result.wrist_ = wristBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4487,6 +4625,12 @@ public final class Main {
         }
         if (other.hasClaw()) {
           mergeClaw(other.getClaw());
+        }
+        if (other.hasCamera()) {
+          mergeCamera(other.getCamera());
+        }
+        if (other.hasWrist()) {
+          mergeWrist(other.getWrist());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5657,6 +5801,242 @@ public final class Main {
           claw_ = null;
         }
         return clawBuilder_;
+      }
+
+      private ksurctjavacode.Main.Robot.Servo camera_ = null;
+      private com.google.protobuf.SingleFieldBuilder<
+          ksurctjavacode.Main.Robot.Servo, ksurctjavacode.Main.Robot.Servo.Builder, ksurctjavacode.Main.Robot.ServoOrBuilder> cameraBuilder_;
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      public boolean hasCamera() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      public ksurctjavacode.Main.Robot.Servo getCamera() {
+        if (cameraBuilder_ == null) {
+          return camera_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : camera_;
+        } else {
+          return cameraBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      public Builder setCamera(ksurctjavacode.Main.Robot.Servo value) {
+        if (cameraBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          camera_ = value;
+          onChanged();
+        } else {
+          cameraBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000100;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      public Builder setCamera(
+          ksurctjavacode.Main.Robot.Servo.Builder builderForValue) {
+        if (cameraBuilder_ == null) {
+          camera_ = builderForValue.build();
+          onChanged();
+        } else {
+          cameraBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000100;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      public Builder mergeCamera(ksurctjavacode.Main.Robot.Servo value) {
+        if (cameraBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) == 0x00000100) &&
+              camera_ != null &&
+              camera_ != ksurctjavacode.Main.Robot.Servo.getDefaultInstance()) {
+            camera_ =
+              ksurctjavacode.Main.Robot.Servo.newBuilder(camera_).mergeFrom(value).buildPartial();
+          } else {
+            camera_ = value;
+          }
+          onChanged();
+        } else {
+          cameraBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000100;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      public Builder clearCamera() {
+        if (cameraBuilder_ == null) {
+          camera_ = null;
+          onChanged();
+        } else {
+          cameraBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000100);
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      public ksurctjavacode.Main.Robot.Servo.Builder getCameraBuilder() {
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return getCameraFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      public ksurctjavacode.Main.Robot.ServoOrBuilder getCameraOrBuilder() {
+        if (cameraBuilder_ != null) {
+          return cameraBuilder_.getMessageOrBuilder();
+        } else {
+          return camera_ == null ?
+              ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : camera_;
+        }
+      }
+      /**
+       * <code>optional .Robot.Servo camera = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ksurctjavacode.Main.Robot.Servo, ksurctjavacode.Main.Robot.Servo.Builder, ksurctjavacode.Main.Robot.ServoOrBuilder> 
+          getCameraFieldBuilder() {
+        if (cameraBuilder_ == null) {
+          cameraBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ksurctjavacode.Main.Robot.Servo, ksurctjavacode.Main.Robot.Servo.Builder, ksurctjavacode.Main.Robot.ServoOrBuilder>(
+                  getCamera(),
+                  getParentForChildren(),
+                  isClean());
+          camera_ = null;
+        }
+        return cameraBuilder_;
+      }
+
+      private ksurctjavacode.Main.Robot.Servo wrist_ = null;
+      private com.google.protobuf.SingleFieldBuilder<
+          ksurctjavacode.Main.Robot.Servo, ksurctjavacode.Main.Robot.Servo.Builder, ksurctjavacode.Main.Robot.ServoOrBuilder> wristBuilder_;
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      public boolean hasWrist() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      public ksurctjavacode.Main.Robot.Servo getWrist() {
+        if (wristBuilder_ == null) {
+          return wrist_ == null ? ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : wrist_;
+        } else {
+          return wristBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      public Builder setWrist(ksurctjavacode.Main.Robot.Servo value) {
+        if (wristBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          wrist_ = value;
+          onChanged();
+        } else {
+          wristBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      public Builder setWrist(
+          ksurctjavacode.Main.Robot.Servo.Builder builderForValue) {
+        if (wristBuilder_ == null) {
+          wrist_ = builderForValue.build();
+          onChanged();
+        } else {
+          wristBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      public Builder mergeWrist(ksurctjavacode.Main.Robot.Servo value) {
+        if (wristBuilder_ == null) {
+          if (((bitField0_ & 0x00000200) == 0x00000200) &&
+              wrist_ != null &&
+              wrist_ != ksurctjavacode.Main.Robot.Servo.getDefaultInstance()) {
+            wrist_ =
+              ksurctjavacode.Main.Robot.Servo.newBuilder(wrist_).mergeFrom(value).buildPartial();
+          } else {
+            wrist_ = value;
+          }
+          onChanged();
+        } else {
+          wristBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      public Builder clearWrist() {
+        if (wristBuilder_ == null) {
+          wrist_ = null;
+          onChanged();
+        } else {
+          wristBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000200);
+        return this;
+      }
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      public ksurctjavacode.Main.Robot.Servo.Builder getWristBuilder() {
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return getWristFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      public ksurctjavacode.Main.Robot.ServoOrBuilder getWristOrBuilder() {
+        if (wristBuilder_ != null) {
+          return wristBuilder_.getMessageOrBuilder();
+        } else {
+          return wrist_ == null ?
+              ksurctjavacode.Main.Robot.Servo.getDefaultInstance() : wrist_;
+        }
+      }
+      /**
+       * <code>optional .Robot.Servo wrist = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ksurctjavacode.Main.Robot.Servo, ksurctjavacode.Main.Robot.Servo.Builder, ksurctjavacode.Main.Robot.ServoOrBuilder> 
+          getWristFieldBuilder() {
+        if (wristBuilder_ == null) {
+          wristBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ksurctjavacode.Main.Robot.Servo, ksurctjavacode.Main.Robot.Servo.Builder, ksurctjavacode.Main.Robot.ServoOrBuilder>(
+                  getWrist(),
+                  getParentForChildren(),
+                  isClean());
+          wrist_ = null;
+        }
+        return wristBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Robot)
@@ -7611,30 +7991,31 @@ public final class Main {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\"ksurobot/protocol/proto/main.proto\"\207\005\n" +
+      "\n\"ksurobot/protocol/proto/main.proto\"\302\005\n" +
       "\005Robot\022\036\n\nheadlights\030\001 \001(\0132\n.Robot.LED\022 " +
       "\n\nmotor_left\030\002 \001(\0132\014.Robot.Motor\022$\n\016moto" +
       "r_left_rpm\030\006 \001(\0132\014.Robot.Motor\022!\n\013motor_" +
       "right\030\003 \001(\0132\014.Robot.Motor\022%\n\017motor_right" +
       "_rpm\030\007 \001(\0132\014.Robot.Motor\022$\n\nprocedures\030\004" +
       " \003(\0132\020.Robot.Procedure\022\031\n\003arm\030\005 \001(\0132\014.Ro" +
-      "bot.Servo\022\032\n\004claw\030\010 \001(\0132\014.Robot.Servo\0326\n" +
-      "\005Motor\022\016\n\006update\030\001 \001(\010\022\r\n\005speed\030\002 \001(\005\022\016\n" +
-      "\006breaks\030\003 \001(\010\032\'\n\005Servo\022\016\n\006update\030\001 \001(\010\022\016",
-      "\n\006degree\030\002 \001(\005\032!\n\003LED\022\016\n\006update\030\001 \001(\010\022\n\n" +
-      "\002on\030\002 \001(\010\032\352\001\n\tProcedure\022-\n\006circle\030\001 \001(\0132" +
-      "\033.Robot.Procedure.GoInCircleH\000\022\'\n\005throw\030" +
-      "\002 \001(\0132\026.Robot.Procedure.ThrowH\000\022=\n\020force" +
-      "UserControl\030\003 \001(\0132!.Robot.Procedure.Forc" +
-      "eUserControlH\000\032\034\n\nGoInCircle\022\016\n\006radius\030\001" +
-      " \002(\005\032\007\n\005Throw\032\022\n\020ForceUserControlB\013\n\tpro" +
-      "cedure\"\347\001\n\013BaseStation\022%\n\007battery\030\001 \001(\0132" +
-      "\024.BaseStation.Battery\022*\n\013sensor_data\030\002 \001" +
-      "(\0132\025.BaseStation.Distance\032\031\n\007Battery\022\016\n\006",
-      "charge\030\001 \001(\005\032j\n\010Distance\022\023\n\013front_right\030" +
-      "\001 \001(\005\022\022\n\nfront_left\030\002 \001(\005\022\022\n\nback_right\030" +
-      "\003 \001(\005\022\021\n\tback_left\030\004 \001(\005\022\016\n\006update\030\005 \001(\010" +
-      "B\020\n\016ksurctjavacode"
+      "bot.Servo\022\032\n\004claw\030\010 \001(\0132\014.Robot.Servo\022\034\n" +
+      "\006camera\030\t \001(\0132\014.Robot.Servo\022\033\n\005wrist\030\n \001" +
+      "(\0132\014.Robot.Servo\0326\n\005Motor\022\016\n\006update\030\001 \001(",
+      "\010\022\r\n\005speed\030\002 \001(\005\022\016\n\006breaks\030\003 \001(\010\032\'\n\005Serv" +
+      "o\022\016\n\006update\030\001 \001(\010\022\016\n\006degree\030\002 \001(\005\032!\n\003LED" +
+      "\022\016\n\006update\030\001 \001(\010\022\n\n\002on\030\002 \001(\010\032\352\001\n\tProcedu" +
+      "re\022-\n\006circle\030\001 \001(\0132\033.Robot.Procedure.GoI" +
+      "nCircleH\000\022\'\n\005throw\030\002 \001(\0132\026.Robot.Procedu" +
+      "re.ThrowH\000\022=\n\020forceUserControl\030\003 \001(\0132!.R" +
+      "obot.Procedure.ForceUserControlH\000\032\034\n\nGoI" +
+      "nCircle\022\016\n\006radius\030\001 \002(\005\032\007\n\005Throw\032\022\n\020Forc" +
+      "eUserControlB\013\n\tprocedure\"\347\001\n\013BaseStatio" +
+      "n\022%\n\007battery\030\001 \001(\0132\024.BaseStation.Battery",
+      "\022*\n\013sensor_data\030\002 \001(\0132\025.BaseStation.Dist" +
+      "ance\032\031\n\007Battery\022\016\n\006charge\030\001 \001(\005\032j\n\010Dista" +
+      "nce\022\023\n\013front_right\030\001 \001(\005\022\022\n\nfront_left\030\002" +
+      " \001(\005\022\022\n\nback_right\030\003 \001(\005\022\021\n\tback_left\030\004 " +
+      "\001(\005\022\016\n\006update\030\005 \001(\010B\020\n\016ksurctjavacode"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -7653,7 +8034,7 @@ public final class Main {
     internal_static_Robot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Robot_descriptor,
-        new java.lang.String[] { "Headlights", "MotorLeft", "MotorLeftRpm", "MotorRight", "MotorRightRpm", "Procedures", "Arm", "Claw", });
+        new java.lang.String[] { "Headlights", "MotorLeft", "MotorLeftRpm", "MotorRight", "MotorRightRpm", "Procedures", "Arm", "Claw", "Camera", "Wrist", });
     internal_static_Robot_Motor_descriptor =
       internal_static_Robot_descriptor.getNestedTypes().get(0);
     internal_static_Robot_Motor_fieldAccessorTable = new

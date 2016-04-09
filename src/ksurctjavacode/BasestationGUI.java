@@ -23,6 +23,7 @@ import java.nio.ByteBuffer;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.text.DefaultCaret;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
@@ -79,7 +80,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxCameraLR = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        uxArmDegrees = new javax.swing.JTextField();
+        uxWristDegrees = new javax.swing.JTextField();
         uxOpenClaw = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -141,12 +142,12 @@ public class BasestationGUI extends javax.swing.JDialog {
 
         jLabel3.setText("Hand");
 
-        uxArmDegrees.setText("0 Degrees");
-        uxArmDegrees.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        uxArmDegrees.setEnabled(false);
-        uxArmDegrees.setFocusable(false);
-        uxArmDegrees.setName(""); // NOI18N
-        uxArmDegrees.setRequestFocusEnabled(false);
+        uxWristDegrees.setText("0 Degrees");
+        uxWristDegrees.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        uxWristDegrees.setEnabled(false);
+        uxWristDegrees.setFocusable(false);
+        uxWristDegrees.setName(""); // NOI18N
+        uxWristDegrees.setRequestFocusEnabled(false);
 
         uxOpenClaw.setText("Open Claw");
         uxOpenClaw.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -190,7 +191,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                                 .addGap(90, 90, 90)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(uxArmDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(uxWristDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(50, 50, 50))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -256,7 +257,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(uxArmDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(uxWristDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(uxOpenClaw))
                             .addComponent(ledStatusButton)))
                     .addGroup(layout.createSequentialGroup()
@@ -374,6 +375,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 BasestationGUI dialog = new BasestationGUI(new javax.swing.JFrame(), true);
+                uxEventLog.setCaretPosition(DefaultCaret.ALWAYS_UPDATE);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -418,6 +420,9 @@ public class BasestationGUI extends javax.swing.JDialog {
         
         claw.setDegree(60);
         claw.setUpdate(clawUpdate);
+        
+        wrist.setDegree(servoDegrees);
+        wrist.setUpdate(wristUpdate);
         
         // Set the correct values of the LED and signify update.
         LED.setOn("ON".equals(ledStatusButton.getText()));
@@ -518,7 +523,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 
                // else 
                // {
-                    uxEventLog.setText("Please check the IP and try again.\n");
+                    uxEventLog.append("Please check the IP and try again.\n");
                 //}
                
             }
@@ -589,7 +594,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     _rthrottle = 120;
                 }
                  
-                uxEventLog.setText("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
+                uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -617,7 +622,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     rightMotorUpdate = true;
                 }
                 
-                uxEventLog.setText("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
+                uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -682,7 +687,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                uxEventLog.setText("Arm launched.\n");
+                uxEventLog.append("Arm launched.\n");
                 procedureNumber = 2;
                 armUpdate = true;
                 sendUpdates();
@@ -697,11 +702,11 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 if (servoDegrees > 45) servoDegrees = 40;
-                uxArmDegrees.setText(Integer.toString((servoDegrees += 5)) + " Degrees");
-                armUpdate = true;
-                wristMethod = 2;
+                uxWristDegrees.setText(Integer.toString((servoDegrees += 5)) + " Degrees");
+                wristUpdate = true;
+                wristMethod = 4;
                 sendUpdates();
-                armUpdate = false;
+                wristUpdate = false;
             }
         };
         
@@ -712,11 +717,11 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 if (servoDegrees < -45) servoDegrees = -44;
-                uxArmDegrees.setText(Integer.toString(--servoDegrees) + " Degrees");
-                armUpdate = true;
-                wristMethod = 1;
+                uxWristDegrees.setText(Integer.toString(--servoDegrees) + " Degrees");
+                wristUpdate = true;
+                wristMethod = 2;
                 sendUpdates();
-                armUpdate = false;
+                wristUpdate = false;
             }
         };
         
@@ -727,11 +732,11 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 if (servoDegrees < -45) servoDegrees = -40;
-                uxArmDegrees.setText(Integer.toString((servoDegrees -= 5)) + " Degrees");
-                armUpdate = true;
+                uxWristDegrees.setText(Integer.toString((servoDegrees -= 5)) + " Degrees");
+                wristUpdate = true;
                 wristMethod = 1;
                 sendUpdates();
-                armUpdate = false;
+                wristUpdate = false;
             }
         };
         // Increases wrist degrees by large amount.
@@ -741,11 +746,11 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 if (servoDegrees > 45) servoDegrees = 44;
-                uxArmDegrees.setText(Integer.toString(++servoDegrees) + " Degrees");
-                armUpdate = true;
-                wristMethod = 2;
+                uxWristDegrees.setText(Integer.toString(++servoDegrees) + " Degrees");
+                wristUpdate = true;
+                wristMethod = 3;
                 sendUpdates();
-                armUpdate = false;
+                wristUpdate = false;
             }
         };
         
@@ -757,7 +762,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle -= 5);
                 rightMotorUpdate = true;
-                 uxEventLog.setText(("R:" + rightMotorProgress.getValue())+ "\n");
+                 uxEventLog.append("Turn left [RMotor]\n");
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -771,7 +776,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle += 5);
                 rightMotorUpdate = true;
-                uxEventLog.setText(("R:" + rightMotorProgress.getValue())+ "\n");
+                uxEventLog.append("Turn right [RMotor]\n");
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -785,7 +790,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle -= 5);
                 leftMotorUpdate = true;
-                uxEventLog.setText(("L:" + leftMotorProgress.getValue())+ "\n");   
+                uxEventLog.append("Turn left [LMotor]\n");   
                 sendUpdates();
                 leftMotorUpdate = false;
             }
@@ -799,7 +804,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle += 5);
                 leftMotorUpdate = true;
-                uxEventLog.setText(("L:" + leftMotorProgress.getValue()) + "\n");           
+                uxEventLog.append("Turn right [LMotor]\n");           
                 sendUpdates();
                 leftMotorUpdate = false;
             }
@@ -818,7 +823,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 leftMotorUpdate = true;
                 rightMotorUpdate = true;
                 setBrakes = true;
-                uxEventLog.setText("HIT THE BRAKES!\n");
+                uxEventLog.append("HIT THE BRAKES!\n");
                 sendUpdates();
                 setBrakes = false;
                 leftMotorUpdate = false;
@@ -866,11 +871,11 @@ public class BasestationGUI extends javax.swing.JDialog {
         _leftMotorAction.put("decreaseDegreesBig", decreaseDegreesBig);   
         _leftMotorInput.put(KeyStroke.getKeyStroke("Q"), "decreaseLSpeed");
         _leftMotorAction.put("decreaseLSpeed", decreaseLSpeed);
-        _leftMotorInput.put(KeyStroke.getKeyStroke("E"), "decreaseRSpeed");
+        _leftMotorInput.put(KeyStroke.getKeyStroke("P"), "decreaseRSpeed");
         _leftMotorAction.put("decreaseRSpeed", decreaseRSpeed);
         _leftMotorInput.put(KeyStroke.getKeyStroke("I"), "increaseRSpeed");
         _leftMotorAction.put("increaseRSpeed", increaseRSpeed);
-        _leftMotorInput.put(KeyStroke.getKeyStroke("P"), "increaseLSpeed");
+        _leftMotorInput.put(KeyStroke.getKeyStroke("E"), "increaseLSpeed");
         _leftMotorAction.put("increaseLSpeed", increaseLSpeed);
         _leftMotorInput.put(KeyStroke.getKeyStroke(' '), hitBrakes);
         _leftMotorAction.put("hitBrakes", hitBrakes);
@@ -900,11 +905,11 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorAction.put("decreaseDegreesBig", decreaseDegreesBig);       
         _rightMotorInput.put(KeyStroke.getKeyStroke("Q"), "decreaseLSpeed");
         _rightMotorAction.put("decreaseLSpeed", decreaseLSpeed);
-        _rightMotorInput.put(KeyStroke.getKeyStroke("E"), "decreaseRSpeed");
+        _rightMotorInput.put(KeyStroke.getKeyStroke("P"), "decreaseRSpeed");
         _rightMotorAction.put("decreaseRSpeed", decreaseRSpeed);
         _rightMotorInput.put(KeyStroke.getKeyStroke("I"), "increaseRSpeed");
         _rightMotorAction.put("increaseRSpeed", increaseRSpeed);
-        _rightMotorInput.put(KeyStroke.getKeyStroke("P"), "increaseLSpeed");
+        _rightMotorInput.put(KeyStroke.getKeyStroke("E"), "increaseLSpeed");
         _rightMotorAction.put("increaseLSpeed", increaseLSpeed);
         _rightMotorInput.put(KeyStroke.getKeyStroke(' '), "hitBrakes");
         _rightMotorAction.put("hitBrakes", hitBrakes);
@@ -928,13 +933,13 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JProgressBar leftMotorProgress;
     private javax.swing.JLabel rightMotorLabel;
     private javax.swing.JProgressBar rightMotorProgress;
-    private javax.swing.JTextField uxArmDegrees;
     private javax.swing.JSlider uxCameraLR;
     private javax.swing.JButton uxConnectButton;
     private javax.swing.JButton uxDisconnectButton;
     private javax.swing.JTextArea uxEventLog;
     private javax.swing.JTextField uxIPBox;
     private javax.swing.JButton uxOpenClaw;
+    private javax.swing.JTextField uxWristDegrees;
     // End of variables declaration//GEN-END:variables
 
    // Throttle variable for incrementing/decrementing motor controls.
@@ -956,9 +961,11 @@ public class BasestationGUI extends javax.swing.JDialog {
     private Main.Robot.Motor.Builder leftMotor = robot.getMotorLeftRpmBuilder();
     private Main.Robot.Motor.Builder rightMotor = robot.getMotorRightRpmBuilder();
     private Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
-   // private Main.Robot.Servo.Builder arm = robot.getArmBuilder();
     private Main.Robot.Servo.Builder claw = robot.getClawBuilder();
-    private Main.Robot.Servo.Builder camera = robot.getArmBuilder();
+    private Main.Robot.Servo.Builder camera = robot.getCameraBuilder();
+   // private Main.Robot.Servo.Builder arm = robot.getArmBuilder();
+    private Main.Robot.Servo.Builder wrist = robot.getWristBuilder();
+    
     
     // Procedure list: 2 for Throw, 3 for ForceUserControl.
     private Main.Robot.Procedure.Builder procedure;
@@ -969,8 +976,9 @@ public class BasestationGUI extends javax.swing.JDialog {
     private boolean LEDUpdate = false;
     private boolean armUpdate = false;
     private boolean clawUpdate = false;
-    private boolean setBrakes = false;
     private boolean cameraUpdate = false;
+    private boolean wristUpdate = false;
+    private boolean setBrakes = false;
     
     // Integer determining what strength of turn to turn the camera.
     private int wristMethod = 0;

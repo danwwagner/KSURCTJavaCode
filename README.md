@@ -54,8 +54,10 @@ http://ksurct.herokuapp.com
 * The B key will decrease the robot hand's angle by a large amount.
 * The V key will decrease the robot hand's angle by a small amount.
 * The R key causes the robot to initiate the ramp climb sequence.
-* The I key will increase the throttle on the left motor.
 * The P key will increase the throttle on the right motor.
+* The I key will increase the throttle on the left motor.
+* The Q key will decrease the throttle on the left motor.
+* The E key will decrease the throttle on the right motor.
 
 #### Events
 * In the case of a disconnection from the robot, the GUI will display an error message and allow a retry.

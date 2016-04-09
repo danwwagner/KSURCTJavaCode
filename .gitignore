@@ -1,3 +1,5 @@
 /dist/
 *.class
+*.swp
+*.swo
 /build/
