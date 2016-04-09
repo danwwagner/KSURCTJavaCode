@@ -130,6 +130,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxEventLog.setEnabled(false);
         jScrollPane1.setViewportView(uxEventLog);
 
+        uxCameraLR.setMaximum(180);
+        uxCameraLR.setValue(0);
         uxCameraLR.setFocusable(false);
         uxCameraLR.setRequestFocusEnabled(false);
         uxCameraLR.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -138,7 +140,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("Left/Right");
+        jLabel1.setText("Front/Back");
 
         jLabel3.setText("Hand");
 
