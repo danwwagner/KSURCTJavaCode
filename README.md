@@ -8,7 +8,7 @@ http://ksurct.herokuapp.com
 
 ## Getting Started
 
-Guaranteed to run in Linux.  Not sure for other OS.
+* Guaranteed to run in Linux.  Not sure for other OS.
 * Download the [NetBeans IDE](https://netbeans.org/downloads/index.html).
 * Download the ksurobot directory from the [Embedded Repository](https://github.com/ksurct/MercuryRoboticsEmbedded2016/tree/master/ksurobot).
 * Make the protobuf files. Run `make`.
