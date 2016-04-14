@@ -11,6 +11,7 @@ package ksurctjavacode;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.JProgressBar;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
@@ -77,7 +78,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxDisconnectButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         uxEventLog = new javax.swing.JTextArea();
-        uxCameraLR = new javax.swing.JSlider();
+        uxCamera = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         uxWristDegrees = new javax.swing.JTextField();
@@ -130,15 +131,10 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxEventLog.setEnabled(false);
         jScrollPane1.setViewportView(uxEventLog);
 
-        uxCameraLR.setMaximum(180);
-        uxCameraLR.setValue(0);
-        uxCameraLR.setFocusable(false);
-        uxCameraLR.setRequestFocusEnabled(false);
-        uxCameraLR.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                uxCameraLRStateChanged(evt);
-            }
-        });
+        uxCamera.setMaximum(180);
+        uxCamera.setValue(180);
+        uxCamera.setFocusable(false);
+        uxCamera.setRequestFocusEnabled(false);
 
         jLabel1.setText("Front/Back");
 
@@ -178,7 +174,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(uxCamera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel1)
@@ -263,7 +259,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                                 .addComponent(uxOpenClaw))
                             .addComponent(ledStatusButton)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(uxCameraLR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(uxCamera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -319,18 +315,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxDisconnectButton.setEnabled(false);
        }
     }//GEN-LAST:event_uxDisconnectButtonMouseClicked
-
-    /**
-     * Handles LEFT/RIGHT movement of the camera module.
-     * @param evt 
-     */
-    private void uxCameraLRStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_uxCameraLRStateChanged
-        uxEventLog.append(Integer.toString(uxCameraLR.getValue()) + "\n");
-        cameraUpdate = true;
-        cameraDegrees = uxCameraLR.getValue();
-        sendUpdates();
-        cameraUpdate = false;
-    }//GEN-LAST:event_uxCameraLRStateChanged
 
     /**
      * Handles opening the claw via button click.
@@ -415,8 +399,9 @@ public class BasestationGUI extends javax.swing.JDialog {
        // arm.setUpdate(armUpdate);
        
         // TODO -- Figure out what this exactly does
-        if (armUpdate) procedure = robot.getProceduresBuilder(2); // List length 2?
-       
+        if (armUpdate) arm.setDegree(armDegrees);//procedure = robot.getProceduresBuilder(2); // List length 2?
+        
+        arm.setUpdate(armUpdate);
         camera.setUpdate(cameraUpdate);
         camera.setDegree(cameraDegrees);
         
@@ -691,9 +676,18 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                uxEventLog.append("Arm launched.\n");
                 procedureNumber = 2;
                 armUpdate = true;
+                if (armDegrees == 5304)
+                {
+                    armDegrees = 3120;
+                    uxEventLog.append("Arm reset.\n");
+                }
+                else
+                {
+                    armDegrees = 5304;
+                    uxEventLog.append("Arm launched.\n");
+                }
                 sendUpdates();
                 armUpdate = false;
             }
@@ -852,6 +846,66 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Move camera to the right.
+        Action moveCameraRight = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                
+                if (cameraDegrees == 180) cameraDegrees = 175;
+                cameraDegrees += 5;
+                uxCamera.setValue(cameraDegrees);
+                cameraUpdate = true;
+                sendUpdates();
+                cameraUpdate = false; 
+            }
+        };
+        
+        // Move camera to the left.
+        Action moveCameraLeft = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                
+                if (cameraDegrees == 0) cameraDegrees = 5;
+                cameraDegrees -= 5;
+                uxCamera.setValue(cameraDegrees);
+                cameraUpdate = true;
+                sendUpdates();
+                cameraUpdate = false; 
+            }
+        };
+        
+        // Move camera to face backwards.
+        Action faceCameraBackwards = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                cameraDegrees = 0;
+                uxCamera.setValue(cameraDegrees);
+                cameraUpdate = true;
+                sendUpdates();
+                cameraUpdate = false; 
+            }
+        };
+        
+        // Move camera to face forwards.
+        Action faceCameraForwards = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                cameraDegrees = 180;
+                uxCamera.setValue(cameraDegrees);
+                cameraUpdate = true;
+                sendUpdates();
+                cameraUpdate = false; 
+            }
+        };
+        
         // Set up the bindings for the key commands of the left motor.
         _leftMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
         _leftMotorAction.put("moveForward", moveForward);
@@ -885,6 +939,15 @@ public class BasestationGUI extends javax.swing.JDialog {
         _leftMotorAction.put("hitBrakes", hitBrakes);
         _leftMotorInput.put(KeyStroke.getKeyStroke("R"), "upRamp");
         _leftMotorAction.put("upRamp", upRamp);
+        _leftMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveCameraRight");
+        _leftMotorAction.put("moveCameraRight", moveCameraRight);
+        _leftMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveCameraLeft");
+        _leftMotorAction.put("moveCameraLeft", moveCameraLeft);
+        _leftMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "faceCameraBackwards");
+        _leftMotorAction.put("faceCameraBackwards", faceCameraBackwards);
+        _leftMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "faceCameraForwards");
+        _leftMotorAction.put("faceCameraForwards", faceCameraForwards);
+        
         
         // Set up the bindings for the key commands of the right motor.
         _rightMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
@@ -919,7 +982,14 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorAction.put("hitBrakes", hitBrakes);
         _rightMotorInput.put(KeyStroke.getKeyStroke("R"), "upRamp");
         _rightMotorAction.put("upRamp", upRamp);
-        
+        _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveCameraRight");
+        _rightMotorAction.put("moveCameraRight", moveCameraRight);
+        _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveCameraLeft");
+        _rightMotorAction.put("moveCameraLeft", moveCameraLeft);           
+        _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "faceCameraBackwards");
+        _rightMotorAction.put("faceCameraBackwards", faceCameraBackwards);
+        _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "faceCameraForwards");
+        _rightMotorAction.put("faceCameraForwards", faceCameraForwards);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -937,7 +1007,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     private javax.swing.JProgressBar leftMotorProgress;
     private javax.swing.JLabel rightMotorLabel;
     private javax.swing.JProgressBar rightMotorProgress;
-    private javax.swing.JSlider uxCameraLR;
+    private javax.swing.JSlider uxCamera;
     private javax.swing.JButton uxConnectButton;
     private javax.swing.JButton uxDisconnectButton;
     private javax.swing.JTextArea uxEventLog;
@@ -967,7 +1037,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     private Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
     private Main.Robot.Servo.Builder claw = robot.getClawBuilder();
     private Main.Robot.Servo.Builder camera = robot.getCameraBuilder();
-   // private Main.Robot.Servo.Builder arm = robot.getArmBuilder();
+    private Main.Robot.Servo.Builder arm = robot.getArmBuilder();  // Servo control for testing non-automated launch
     private Main.Robot.Servo.Builder wrist = robot.getWristBuilder();
     
     
@@ -992,6 +1062,9 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     // Degrees of hand servo motor
     private int servoDegrees = 0;
+    
+    // Testing arm control without non-automated launch.
+    private int armDegrees = 0;
     
     // Degrees of camera servo
     private int cameraDegrees = 0;

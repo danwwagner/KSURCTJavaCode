@@ -40,7 +40,7 @@
                               <EmptySpace pref="40" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="uxCameraLR" min="-2" max="-2" attributes="0"/>
+                                      <Component id="uxCamera" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace pref="24" max="-2" attributes="0"/>
                                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -157,7 +157,7 @@
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="uxCameraLR" min="-2" max="-2" attributes="0"/>
+                      <Component id="uxCamera" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -269,16 +269,13 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JSlider" name="uxCameraLR">
+    <Component class="javax.swing.JSlider" name="uxCamera">
       <Properties>
         <Property name="maximum" type="int" value="180"/>
-        <Property name="value" type="int" value="0"/>
+        <Property name="value" type="int" value="180"/>
         <Property name="focusable" type="boolean" value="false"/>
         <Property name="requestFocusEnabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="uxCameraLRStateChanged"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
