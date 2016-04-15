@@ -21,7 +21,6 @@ import javax.swing.InputMap;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.DefaultCaret;
@@ -321,9 +320,16 @@ public class BasestationGUI extends javax.swing.JDialog {
      * @param evt 
      */
     private void uxOpenClawMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uxOpenClawMouseClicked
-        uxEventLog.append("Claw set.\n");
-        if (clawDegrees == 60) clawDegrees = 0;
-        else clawDegrees = 60;
+        if (clawDegrees == 60) 
+        {
+            clawDegrees = 2;
+            uxEventLog.append("Claw closed.");
+        }
+        else
+        {
+            clawDegrees = 60;
+            uxEventLog.append("Claw opened.");
+        }
         clawUpdate = true;
         leftMotorProgress.requestFocusInWindow();
         rightMotorProgress.requestFocusInWindow();
@@ -472,6 +478,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void onMessage(ByteBuffer message) {
              try { 
+                DefaultCaret caret = (DefaultCaret) uxEventLog.getCaret();
+                caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
                 decodeMessage(message);
                 sendUpdates();
              }
@@ -487,7 +495,6 @@ public class BasestationGUI extends javax.swing.JDialog {
                 uxConnectButton.setEnabled(true);
                 uxDisconnectButton.setEnabled(false);
                 uxEventLog.append("Disconnected from PEBBL.\n");
-
             }
 
             @Override
