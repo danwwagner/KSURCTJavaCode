@@ -232,6 +232,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="uxIPBox">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="uxIPBoxKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="uxConnectButton">
       <Properties>
@@ -301,7 +304,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="uxOpenClaw">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Open Claw"/>
+        <Property name="text" type="java.lang.String" value="Use Claw"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="uxOpenClawMouseClicked"/>

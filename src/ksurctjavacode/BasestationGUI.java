@@ -107,6 +107,12 @@ public class BasestationGUI extends javax.swing.JDialog {
 
         armStateLabel.setText("Wrist");
 
+        uxIPBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                uxIPBoxKeyPressed(evt);
+            }
+        });
+
         uxConnectButton.setText("Connect");
         uxConnectButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -144,7 +150,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxWristDegrees.setName(""); // NOI18N
         uxWristDegrees.setRequestFocusEnabled(false);
 
-        uxOpenClaw.setText("Open Claw");
+        uxOpenClaw.setText("Use Claw");
         uxOpenClaw.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 uxOpenClawMouseClicked(evt);
@@ -321,12 +327,12 @@ public class BasestationGUI extends javax.swing.JDialog {
         if (clawDegrees == 60) 
         {
             clawDegrees = 2;
-            uxEventLog.append("Claw closed.");
+            uxEventLog.append("Claw closed.\n");
         }
         else
         {
             clawDegrees = 60;
-            uxEventLog.append("Claw opened.");
+            uxEventLog.append("Claw opened.\n");
         }
         clawUpdate = true;
         leftMotorProgress.requestFocusInWindow();
@@ -334,6 +340,14 @@ public class BasestationGUI extends javax.swing.JDialog {
         sendUpdates();
         clawUpdate = false;
     }//GEN-LAST:event_uxOpenClawMouseClicked
+
+    private void uxIPBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_uxIPBoxKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            uxConnectButtonMouseClicked(new java.awt.event.MouseEvent(null, 0,0,0,0,0,0,true,0));
+        }
+    }//GEN-LAST:event_uxIPBoxKeyPressed
 
     /**
      * @param args the command line arguments
@@ -389,7 +403,8 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void sendUpdates()
     {
-       
+        DefaultCaret caret = (DefaultCaret) uxEventLog.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         // Set the correct values of each motor or brakes and signify update.
         if (!setBrakes)
         {
@@ -861,6 +876,44 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Cause the robot to sprint.
+        Action sprint = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                _lthrottle = _rthrottle = 200;
+                uxEventLog.append("Sprinting.\n");
+                leftMotorUpdate = true;
+                rightMotorUpdate = true;
+                sendUpdates();
+                leftMotorUpdate = false;
+                rightMotorUpdate = false;
+            }
+        };
+        
+        Action openClaw = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                 if (clawDegrees == 60) 
+                 {
+                    clawDegrees = 2;
+                    uxEventLog.append("Claw closed.\n");
+                 }
+                else
+                {
+                    clawDegrees = 60;
+                    uxEventLog.append("Claw opened.\n");
+                }
+                clawUpdate = true;
+                leftMotorProgress.requestFocusInWindow();
+                rightMotorProgress.requestFocusInWindow();
+                sendUpdates();
+                clawUpdate = false;
+            }
+        };
         // Set up the bindings for the key commands of the left motor.
         _leftMotorInput.put(KeyStroke.getKeyStroke("W"), "moveForward");
         _leftMotorAction.put("moveForward", moveForward);
@@ -889,7 +942,9 @@ public class BasestationGUI extends javax.swing.JDialog {
         _leftMotorInput.put(KeyStroke.getKeyStroke(' '), hitBrakes);
         _leftMotorAction.put("hitBrakes", hitBrakes);
         _leftMotorInput.put(KeyStroke.getKeyStroke("R"), "upRamp");
-        _leftMotorAction.put("upRamp", upRamp);
+        _leftMotorAction.put("upRamp", upRamp);      
+        _leftMotorInput.put(KeyStroke.getKeyStroke("X"), "openClaw");
+        _leftMotorAction.put("openClaw", openClaw);
         _leftMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveCameraRight");
         _leftMotorAction.put("moveCameraRight", moveCameraRight);
         _leftMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveCameraLeft");
@@ -898,6 +953,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         _leftMotorAction.put("faceCameraBackwards", faceCameraBackwards);
         _leftMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "faceCameraForwards");
         _leftMotorAction.put("faceCameraForwards", faceCameraForwards);
+        _leftMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD0, 0), "sprint");
+        _leftMotorAction.put("sprint", sprint);
         
         
         // Set up the bindings for the key commands of the right motor.
@@ -928,7 +985,9 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorInput.put(KeyStroke.getKeyStroke(' '), "hitBrakes");
         _rightMotorAction.put("hitBrakes", hitBrakes);
         _rightMotorInput.put(KeyStroke.getKeyStroke("R"), "upRamp");
-        _rightMotorAction.put("upRamp", upRamp);
+        _rightMotorAction.put("upRamp", upRamp);       
+        _rightMotorInput.put(KeyStroke.getKeyStroke("X"), "openClaw");
+        _rightMotorAction.put("openClaw", openClaw);
         _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveCameraRight");
         _rightMotorAction.put("moveCameraRight", moveCameraRight);
         _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveCameraLeft");
@@ -937,6 +996,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorAction.put("faceCameraBackwards", faceCameraBackwards);
         _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "faceCameraForwards");
         _rightMotorAction.put("faceCameraForwards", faceCameraForwards);
+        _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD0, 0), "sprint");
+        _rightMotorAction.put("sprint", sprint);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
