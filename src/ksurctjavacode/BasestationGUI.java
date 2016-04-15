@@ -28,8 +28,6 @@ import javax.swing.text.DefaultCaret;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
-import org.java_websocket.exceptions.WebsocketNotConnectedException;
-
 
 
 /**
@@ -498,32 +496,9 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
 
             @Override
-          //  @SuppressWarnings("SleepWhileInLoop")
             public void onError(Exception ex) {
-               /* if (ex instanceof  WebsocketNotConnectedException)
-                {
-                     uxEventLog.append("Error: Retrying connection...\n");
-                     for(int i = 1; i <= 10; i++)
-                     {
-                        try 
-                        {
-                            uxConnectButton.setText(i + "...");
-                            Thread.sleep(1000);
-                        } 
-                        catch (InterruptedException ex1)
-                        {
-                            Logger.getLogger(BasestationGUI.class.getName()).log(Level.SEVERE, null, ex1);
-                        }
-                     }
-                     */
-                     uxConnectButton.setText("Retry Comms");
-               //}
-                
-               // else 
-               // {
-                    uxEventLog.append("Please check the IP and try again.\n");
-                //}
-               
+                uxConnectButton.setText("Retry Comms");
+                uxEventLog.append("Please check the IP and try again.\n");
             }
 
                 // This is here because Java is not a nice person.
@@ -567,20 +542,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae) {
                 if (_lthrottle <  _rthrottle) _lthrottle = _rthrottle;
                 else if (_lthrottle > _rthrottle) _rthrottle = _lthrottle;
-              /*  if (_lthrottle == 0 && _rthrottle == 0)
-                {
-                    _lthrottle = 30;
-                    _rthrottle = 30;
-                    leftMotorProgress.setValue(_lthrottle);
-                    rightMotorProgress.setValue(_rthrottle);
-                    leftMotorUpdate = rightMotorUpdate = true;
-                    uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
-                    sendUpdates();
-                    leftMotorUpdate = false;
-                    rightMotorUpdate = false;
-                }*/
-               // else
-              //  {
+              
                     if (_lthrottle < 120)
                     {    
                         leftMotorProgress.setValue(_lthrottle += 10);
@@ -608,9 +570,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
                     sendUpdates();
                     leftMotorUpdate = false;
-                    rightMotorUpdate = false;  
-              //  }
-              
+                    rightMotorUpdate = false;               
             }    
         };
         
@@ -625,13 +585,11 @@ public class BasestationGUI extends javax.swing.JDialog {
                 if (_lthrottle > -120)
                 {
                     leftMotorProgress.setValue(_lthrottle -= 10);
-                  //  uxEventLog.setText("L:" + _lthrottle + "\n");
                     leftMotorUpdate = true;
                 }              
                 if (_rthrottle > -120)
                 {
                     rightMotorProgress.setValue(_rthrottle -= 10);
-                   // uxEventLog.setText("R:" + _rthrottle + "\n");
                     rightMotorUpdate = true;
                 }
                 
@@ -719,21 +677,6 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
-      /*  // Increases wrist degrees by large amount.
-        Action increaseDegreesBig = new AbstractAction()
-        {
-            @Override
-            public void actionPerformed(ActionEvent ae)
-            {
-                if (servoDegrees > 45) servoDegrees = 40;
-                uxWristDegrees.setText(Integer.toString((servoDegrees += 5)) + " Degrees");
-                wristUpdate = true;
-                wristMethod = 4;
-                sendUpdates();
-                wristUpdate = false;
-            }
-        };*/
-        
         // Decreases wrist degrees.
         Action decreaseWristAngle = new AbstractAction()
         {
@@ -748,22 +691,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 wristUpdate = false;
             }
         };
-        
-       /* // Decreases wrist degrees by large amount.
-        Action decreaseDegreesBig = new AbstractAction()
-        {
-            @Override
-            public void actionPerformed(ActionEvent ae)
-            {
-                if (servoDegrees < -45) servoDegrees = -40;
-                uxWristDegrees.setText(Integer.toString((servoDegrees -= 5)) + " Degrees");
-                wristUpdate = true;
-                wristMethod = 1;
-                sendUpdates();
-                wristUpdate = false;
-            }
-        };*/
-       
+      
         // Increases wrist degrees.
         Action increaseWristAngle = new AbstractAction()
         {
