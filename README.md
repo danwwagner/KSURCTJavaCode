@@ -49,10 +49,8 @@ http://ksurct.herokuapp.com
 * The L key toggles the headlights of the robot on and off.
   * Current status signified by the button on the GUI  
 * The Z key causes the robot's arm to launch.
-* The X key increases the robot hand's angle by a large amount.
-* The C key increases the robot hand's angle by a small amount.
-* The B key will decrease the robot hand's angle by a large amount.
-* The V key will decrease the robot hand's angle by a small amount.
+* The V key will increase the wrist angle.
+* The C key will decrease the wrist angle.
 * The R key causes the robot to initiate the ramp climb sequence.
 * The P key will increase the throttle on the right motor.
 * The I key will increase the throttle on the left motor.

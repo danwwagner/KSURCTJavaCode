@@ -322,6 +322,8 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void uxOpenClawMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uxOpenClawMouseClicked
         uxEventLog.append("Claw set.\n");
+        if (clawDegrees == 60) clawDegrees = 0;
+        else clawDegrees = 60;
         clawUpdate = true;
         leftMotorProgress.requestFocusInWindow();
         rightMotorProgress.requestFocusInWindow();
@@ -361,7 +363,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 BasestationGUI dialog = new BasestationGUI(new javax.swing.JFrame(), true);
-                uxEventLog.setCaretPosition(DefaultCaret.ALWAYS_UPDATE);
+                DefaultCaret caret = (DefaultCaret) uxEventLog.getCaret();
+                caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
                 uxEventLog.setFocusable(false);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -382,7 +385,7 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void sendUpdates()
     {
-        uxEventLog.setCaretPosition(DefaultCaret.ALWAYS_UPDATE);
+       
         // Set the correct values of each motor or brakes and signify update.
         if (!setBrakes)
         {
@@ -406,7 +409,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         camera.setUpdate(cameraUpdate);
         camera.setDegree(cameraDegrees);
         
-        claw.setDegree(60);
+        claw.setDegree(clawDegrees);
         claw.setUpdate(clawUpdate);
         
         wrist.setDegree(wristMethod);
@@ -709,7 +712,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
-        // Increases wrist degrees by large amount.
+      /*  // Increases wrist degrees by large amount.
         Action increaseDegreesBig = new AbstractAction()
         {
             @Override
@@ -722,24 +725,24 @@ public class BasestationGUI extends javax.swing.JDialog {
                 sendUpdates();
                 wristUpdate = false;
             }
-        };
+        };*/
         
-        // Decreases wrist degrees by small amount.
-        Action decreaseDegreesSmall = new AbstractAction()
+        // Decreases wrist degrees.
+        Action decreaseWristAngle = new AbstractAction()
         {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                if (servoDegrees < -45) servoDegrees = -44;
-                uxWristDegrees.setText(Integer.toString(--servoDegrees) + " Degrees");
+                wristMethod -= 18;
+                if (wristMethod < 0) wristMethod = 0;
+                uxWristDegrees.setText(Integer.toString(wristMethod) + " Deg.");
                 wristUpdate = true;
-                wristMethod = 2;
                 sendUpdates();
                 wristUpdate = false;
             }
         };
         
-        // Decreases wrist degrees by large amount.
+       /* // Decreases wrist degrees by large amount.
         Action decreaseDegreesBig = new AbstractAction()
         {
             @Override
@@ -752,17 +755,18 @@ public class BasestationGUI extends javax.swing.JDialog {
                 sendUpdates();
                 wristUpdate = false;
             }
-        };
-        // Increases wrist degrees by large amount.
-        Action increaseDegreesSmall = new AbstractAction()
+        };*/
+       
+        // Increases wrist degrees.
+        Action increaseWristAngle = new AbstractAction()
         {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                if (servoDegrees > 45) servoDegrees = 44;
-                uxWristDegrees.setText(Integer.toString(++servoDegrees) + " Degrees");
+                wristMethod += 18;
+                if (wristMethod > 180) wristMethod = 180;
+                uxWristDegrees.setText(Integer.toString(wristMethod) + " Deg.");
                 wristUpdate = true;
-                wristMethod = 3;
                 sendUpdates();
                 wristUpdate = false;
             }
@@ -934,15 +938,11 @@ public class BasestationGUI extends javax.swing.JDialog {
         _leftMotorInput.put(KeyStroke.getKeyStroke("L"), "toggleLED");
         _leftMotorAction.put("toggleLED", toggleLED);
         _leftMotorInput.put(KeyStroke.getKeyStroke("Z"), "launchArm");
-        _leftMotorAction.put("launchArm", launchArm);  
-        _leftMotorInput.put(KeyStroke.getKeyStroke("X"), "increaseDegreesBig");
-        _leftMotorAction.put("increaseDegreesBig", increaseDegreesBig);
-        _leftMotorInput.put(KeyStroke.getKeyStroke("C"), "increaseDegreesSmall");
-        _leftMotorAction.put("increaseDegreesSmall", increaseDegreesSmall);
-        _leftMotorInput.put(KeyStroke.getKeyStroke("V"), "decreaseDegreesSmall");
-        _leftMotorAction.put("decreaseDegreesSmall", decreaseDegreesSmall);
-        _leftMotorInput.put(KeyStroke.getKeyStroke("B"), "decreaseDegreesBig");
-        _leftMotorAction.put("decreaseDegreesBig", decreaseDegreesBig);   
+        _leftMotorAction.put("launchArm", launchArm);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("V"), "increaseWristAngle");
+        _leftMotorAction.put("increaseWristAngle", increaseWristAngle);
+        _leftMotorInput.put(KeyStroke.getKeyStroke("C"), "decreaseWristAngle");
+        _leftMotorAction.put("decreaseWristAngle", decreaseWristAngle);  
         _leftMotorInput.put(KeyStroke.getKeyStroke("Q"), "decreaseLSpeed");
         _leftMotorAction.put("decreaseLSpeed", decreaseLSpeed);
         _leftMotorInput.put(KeyStroke.getKeyStroke("P"), "decreaseRSpeed");
@@ -977,15 +977,11 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorInput.put(KeyStroke.getKeyStroke("L"), "toggleLED");
         _rightMotorAction.put("toggleLED", toggleLED);
         _rightMotorInput.put(KeyStroke.getKeyStroke("Z"), "launchArm");
-        _rightMotorAction.put("launchArm", launchArm);   
-        _rightMotorInput.put(KeyStroke.getKeyStroke("X"), "increaseDegreesBig");
-        _rightMotorAction.put("increaseDegreesBig", increaseDegreesBig);  
-        _rightMotorInput.put(KeyStroke.getKeyStroke("C"), "increaseDegreesSmall");
-        _rightMotorAction.put("increaseDegreesSmall", increaseDegreesSmall);
-        _rightMotorInput.put(KeyStroke.getKeyStroke("V"), "decreaseDegreesSmall");
-        _rightMotorAction.put("decreaseDegreesSmall", decreaseDegreesSmall);
-        _rightMotorInput.put(KeyStroke.getKeyStroke("B"), "decreaseDegreesBig");
-        _rightMotorAction.put("decreaseDegreesBig", decreaseDegreesBig);       
+        _rightMotorAction.put("launchArm", launchArm);    
+        _rightMotorInput.put(KeyStroke.getKeyStroke("V"), "increaseWristAngle");
+        _rightMotorAction.put("increaseWristAngle", increaseWristAngle);
+        _rightMotorInput.put(KeyStroke.getKeyStroke("C"), "decreaseWristAngle");
+        _rightMotorAction.put("decreaseWristAngle", decreaseWristAngle);
         _rightMotorInput.put(KeyStroke.getKeyStroke("Q"), "decreaseLSpeed");
         _rightMotorAction.put("decreaseLSpeed", decreaseLSpeed);
         _rightMotorInput.put(KeyStroke.getKeyStroke("P"), "decreaseRSpeed");
@@ -1076,14 +1072,14 @@ public class BasestationGUI extends javax.swing.JDialog {
     // Robot's status message
     private Main.BaseStation roboStatus;
     
-    // Degrees of hand servo motor
-    private int servoDegrees = 0;
-    
     // Testing arm control without non-automated launch.
     private int armDegrees = 0;
     
     // Degrees of camera servo
     private int cameraDegrees = 0;
+    
+    // Degrees of claw servo
+    private int clawDegrees = 0;
     
     // Procedure number -- TODO: Needed?
     private int procedureNumber = 0;
