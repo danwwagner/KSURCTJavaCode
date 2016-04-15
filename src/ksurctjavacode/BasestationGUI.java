@@ -408,8 +408,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         // Set the correct values of each motor or brakes and signify update.
         if (!setBrakes)
         {
-            leftMotor.setSpeed(leftMotorProgress.getValue());
-            rightMotor.setSpeed(rightMotorProgress.getValue());
+            leftMotor.setSpeed(_lthrottle);
+            rightMotor.setSpeed(_rthrottle);
         }
         
         leftMotor.setBreaks(setBrakes);
@@ -621,8 +621,10 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 leftMotorProgress.setValue(-60);
-                 rightMotorProgress.setValue(60);
+                 _rthrottle = 60;
+                 _lthrottle = -60;
+                 leftMotorProgress.setValue(_lthrottle);
+                 rightMotorProgress.setValue(_rthrottle);
                  uxEventLog.append("Zero Point Left\n");
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
@@ -638,8 +640,10 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 leftMotorProgress.setValue(60);
-                 rightMotorProgress.setValue(-60);
+                 _lthrottle = 60;
+                 _rthrottle = -60;
+                 leftMotorProgress.setValue(_lthrottle);
+                 rightMotorProgress.setValue(_rthrottle);
                  uxEventLog.append("Zero Point Right\n");
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
@@ -882,7 +886,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                _lthrottle = _rthrottle = 200;
+                _lthrottle = 500;
+                _rthrottle = 500;
                 uxEventLog.append("Sprinting.\n");
                 leftMotorUpdate = true;
                 rightMotorUpdate = true;
@@ -892,6 +897,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             }
         };
         
+        // Opens the claw.
         Action openClaw = new AbstractAction()
         {
             @Override
