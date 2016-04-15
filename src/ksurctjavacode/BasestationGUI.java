@@ -362,6 +362,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void run() {
                 BasestationGUI dialog = new BasestationGUI(new javax.swing.JFrame(), true);
                 uxEventLog.setCaretPosition(DefaultCaret.ALWAYS_UPDATE);
+                uxEventLog.setFocusable(false);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -381,7 +382,7 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void sendUpdates()
     {
-        
+        uxEventLog.setCaretPosition(DefaultCaret.ALWAYS_UPDATE);
         // Set the correct values of each motor or brakes and signify update.
         if (!setBrakes)
         {
@@ -408,7 +409,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         claw.setDegree(60);
         claw.setUpdate(clawUpdate);
         
-        wrist.setDegree(servoDegrees);
+        wrist.setDegree(wristMethod);
         wrist.setUpdate(wristUpdate);
         
         // Set the correct values of the LED and signify update.
@@ -453,7 +454,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             if (!"test".equals(ipAddress))
             {
             // Initialize the WebSocket Client, port 8002 - TODO: ipADDRESS IS TO BE FIXED, ALONG WITH PORT.
-            client = new WebSocketClient( new URI("ws://" + ipAddress + ":8002"), new Draft_17()) {
+            client = new WebSocketClient( new URI("ws://" + ipAddress + ":9002"), new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                  uxIPBox.setEditable(false);
@@ -556,35 +557,50 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae) {
                 if (_lthrottle <  _rthrottle) _lthrottle = _rthrottle;
                 else if (_lthrottle > _rthrottle) _rthrottle = _lthrottle;
-                  
-                if (_lthrottle < 120)
-                {    
-                    leftMotorProgress.setValue(_lthrottle += 10);
-                    leftMotorUpdate = true;
-                }
-                
-                else if (_lthrottle >= 120) 
+              /*  if (_lthrottle == 0 && _rthrottle == 0)
                 {
-                    leftMotorProgress.setValue(120);
-                    _lthrottle = 120;
-                }
+                    _lthrottle = 30;
+                    _rthrottle = 30;
+                    leftMotorProgress.setValue(_lthrottle);
+                    rightMotorProgress.setValue(_rthrottle);
+                    leftMotorUpdate = rightMotorUpdate = true;
+                    uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
+                    sendUpdates();
+                    leftMotorUpdate = false;
+                    rightMotorUpdate = false;
+                }*/
+               // else
+              //  {
+                    if (_lthrottle < 120)
+                    {    
+                        leftMotorProgress.setValue(_lthrottle += 10);
+                        leftMotorUpdate = true;
+                    }
                 
-                if (_rthrottle < 120)
-                {
-                    rightMotorProgress.setValue(_rthrottle += 10);
-                    rightMotorUpdate = true;
-                }
+                    else if (_lthrottle >= 120) 
+                    {
+                        leftMotorProgress.setValue(120);
+                        _lthrottle = 120;
+                    }
+                
+                     if (_rthrottle < 120)
+                    {
+                        rightMotorProgress.setValue(_rthrottle += 10);
+                        rightMotorUpdate = true;
+                    }
 
-                else if (_rthrottle >= 120)
-                {
-                    rightMotorProgress.setValue(120);
-                    _rthrottle = 120;
-                }
+                    else if (_rthrottle >= 120)
+                    {
+                        rightMotorProgress.setValue(120);
+                        _rthrottle = 120;
+                    }
                  
-                uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
-                sendUpdates();
-                leftMotorUpdate = false;
-                rightMotorUpdate = false;
+                    uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
+                    sendUpdates();
+                    leftMotorUpdate = false;
+                    rightMotorUpdate = false;  
+              //  }
+              
             }    
         };
         
