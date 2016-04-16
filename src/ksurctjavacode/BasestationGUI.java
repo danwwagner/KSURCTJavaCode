@@ -624,7 +624,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                 _rthrottle = 60;
+                 _rthrottle = 0;
                  _lthrottle = -60;
                  leftMotorProgress.setValue(_lthrottle);
                  rightMotorProgress.setValue(_rthrottle);
@@ -644,7 +644,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                  _lthrottle = 60;
-                 _rthrottle = -60;
+                 _rthrottle = 0;
                  leftMotorProgress.setValue(_lthrottle);
                  rightMotorProgress.setValue(_rthrottle);
                  uxEventLog.append("Zero Point Right\n");
