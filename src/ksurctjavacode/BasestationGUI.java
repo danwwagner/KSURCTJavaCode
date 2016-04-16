@@ -315,7 +315,10 @@ public class BasestationGUI extends javax.swing.JDialog {
         }
         
         else client.close();
+        uxIPBox.setEditable(true);
+        uxConnectButton.setEnabled(true);
         uxDisconnectButton.setEnabled(false);
+        uxEventLog.append("Disconnected from PEBBL.\n");
        }
     }//GEN-LAST:event_uxDisconnectButtonMouseClicked
 
@@ -718,7 +721,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent ae)
             {
                 wristMethod += 18;
-                if (wristMethod > 180) wristMethod = 180;
+                if (wristMethod > 171) wristMethod = 171;
                 uxWristDegrees.setText(Integer.toString(wristMethod) + " Deg.");
                 wristUpdate = true;
                 sendUpdates();
