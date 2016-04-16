@@ -27,7 +27,7 @@ http://ksurct.herokuapp.com
   * Up/Down camera position adjustment sliding scale
   * Left/Right camera position adjustment sliding scale
 * Open terminal and type `avahi-browse -art | grep raspberry -A 3` to locate the IP.
-* Start video streaming with `nc.traditional 192.168.1.138 4201 | mplayer -fps 60 -cache 768 -` code.
+* Start video streaming with `nc.traditional 139.78.87.89 4201 | mplayer -fps 60 -cache 768 -` code.
 * Connect to the robot by entering the IP in the text box and pressing Connect button.
   * Once connected, the error log will be cleared.
 * Disconnect from the robot by pressing the Disconnect button.
