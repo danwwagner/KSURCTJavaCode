@@ -479,7 +479,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             if (!"test".equals(ipAddress))
             {
             // Initialize the WebSocket Client, port 8002 - TODO: ipADDRESS IS TO BE FIXED, ALONG WITH PORT.
-            client = new WebSocketClient( new URI("ws://" + ipAddress + ":9002"), new Draft_17()) {
+            client = new WebSocketClient( new URI("ws://" + ipAddress + ":4202"), new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                  uxIPBox.setEditable(false);
