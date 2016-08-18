@@ -1,0 +1,68 @@
+option java_package = "ksurctjavacode";
+
+message Robot {
+    // Message to the robot
+    optional LED headlights = 1;
+    optional Motor motor_left = 2;
+    optional Motor motor_left_rpm = 6; // rpm rather then percent
+    optional Motor motor_right = 3;
+    optional Motor motor_right_rpm = 7;
+    repeated Procedure procedures = 4;
+    optional Servo arm = 5;
+    optional Servo claw = 8;
+    optional Servo camera = 9;
+    optional Servo wrist = 10;
+
+    message Motor {
+        optional bool update = 1;
+        // range 0 to 100, as precent of total
+        optional int32 speed = 2;
+        optional bool breaks = 3;
+    }
+    message Servo {
+        optional bool update = 1;
+        optional int32 degree = 2;
+    }
+    message LED {
+        optional bool update = 1;
+        optional bool on = 2;
+    }
+    message Procedure {
+        oneof procedure {
+            GoInCircle circle = 1;
+            Throw throw = 2;
+            ForceUserControl forceUserControl = 3;
+        }
+
+        message GoInCircle {
+            // HACK Not implemented. An example of things to come.
+            required int32 radius = 1;
+        }
+
+        message Throw {
+            // Begin the throw procedure.
+        }
+
+        message ForceUserControl {
+            // Abort any procedure and resume user control.
+        }
+    }
+}
+
+message BaseStation {
+    // Message to the basestation
+    optional Battery battery = 1;
+    optional Distance sensor_data = 2;
+
+    message Battery {
+        optional int32 charge = 1;
+    }
+
+    message Distance {
+        optional int32 front_right = 1;
+        optional int32 front_left = 2;
+        optional int32 back_right = 3;
+        optional int32 back_left = 4;
+        optional bool update = 5;
+    }
+}
