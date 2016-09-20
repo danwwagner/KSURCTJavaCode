@@ -1,32 +1,33 @@
-# KSURCTJavaCode
+# Basestation
+KSURCT basestation code for our robot to compete in the 2016 Mercury Robotics competition.
 
-KSURCT basestation code for our robot to compete in the Mercury Robotics competition.
+Credit to https://github.com/TooTallNate/Java-WebSocket for WebSockets source.
 
-Credit to https://github.com/TooTallNate/Java-WebSocket for Websockets source.
-
-http://ksurct.herokuapp.com
+[comment]: # "http://ksurct.herokuapp.com -- change to updated website URL on OrgSync."
 
 ## Getting Started
 
-* Guaranteed to run in Linux.  Not sure for other OS.
+* Guaranteed to run in Linux and Windows.  Not sure for other OS.
 * Download the latest [NetBeans and JDK cobundle](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
-* Make sure that Main.java file and ksurobot directory are located within the project (Netbeans will help you).
+* Locate the Main.java file and protobuf-proto folder via the help of Netbeans.
 * Compile and run the program.
 
 ## Usage
 
 * The GUI contains several components:
-  * Motor power levels (obviously > 9000)
-  * IR sensor readings labels
+  * Motor power levels
+  * IR sensor readings
   * Error log
   * IP address box
+    * Static IPs are hard-coded.
   * Connect & disconnect buttons
   * Hand servo degree labels
   * Up/Down camera position adjustment sliding scale
   * Left/Right camera position adjustment sliding scale
-* Open terminal and type `avahi-browse -art | grep raspberry -A 3` to locate the IP.
-* Start video streaming with `nc.traditional 139.78.87.89 4201 | mplayer -fps 60 -cache 768 -` code.
-* Connect to the robot by entering the IP in the text box and pressing Connect button.
+
+[comment]: # "Open terminal and type `avahi-browse -art | grep raspberry -A 3` to locate the IP."
+* Start video streaming with `nc.traditional 10.243.81.158 9001 | mplayer -fps 60 -cache 768 -` code.
+* Connect to the robot by pressing the connect button.
   * Once connected, the error log will be cleared.
 * Disconnect from the robot by pressing the Disconnect button.
 * When a protobuf packet is received from the robot, the appropriate components are updated to reflect any changes in robot status.
@@ -54,6 +55,7 @@ http://ksurct.herokuapp.com
 * The I key will increase the throttle on the left motor.
 * The Q key will decrease the throttle on the left motor.
 * The E key will decrease the throttle on the right motor.
+* The X key will open or close the claw (if it is closed or open, respectively).
 
 #### Events
 * In the case of a disconnection from the robot, the GUI will display an error message and allow a retry.
