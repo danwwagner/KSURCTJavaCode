@@ -2,7 +2,7 @@
  * KSURCT Basestation GUI code for the OSU Mercury Robotics Competition 2016.
  * Networking uses Protobuf and WebSockets to send data to and from the Pi.
  * GUI keeps track of Motor status, sensor readings, servo status, and more!
- * Primary (and only) author: Dan Wagner
+ * Primary author: Dan Wagner
  * 
 */
 
@@ -46,8 +46,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         registerKeyCommands();
-
-        
     }
 
     /**
@@ -272,18 +270,15 @@ public class BasestationGUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     *  Checks the text box for a valid IP and, if valid, attempts to connect to
-     *  the Raspberry Pi.
+     * Checks the text box for a test IP or automatically connects to the Pi 
+     * via the static IP address.
      * @param evt Mouse Click event
      */
     private void uxConnectButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uxConnectButtonMouseClicked
-        
-        // Checks for a non-empty textbox.
-        if (!"".equals(uxIPBox.getText()))
+        if ("test".equals(uxIPBox.getText()))
         {
-             ipAddress = uxIPBox.getText();
+            ipAddress = uxIPBox.getText();
         }
-        else return;
         
         try
         {
@@ -305,9 +300,6 @@ public class BasestationGUI extends javax.swing.JDialog {
        {
         if ("test".equals(ipAddress))
         {
-           uxIPBox.setEditable(true);
-           uxConnectButton.setEnabled(true);
-           uxDisconnectButton.setEnabled(false);
            frontLeftIRText.setText(".");
            frontRightIRText.setText(".");
            uxEventLog.append("End of test chamber.\n");
@@ -315,6 +307,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         }
         
         else client.close();
+        
         uxIPBox.setEditable(true);
         uxConnectButton.setEnabled(true);
         uxDisconnectButton.setEnabled(false);
@@ -345,7 +338,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_uxOpenClawMouseClicked
 
     private void uxIPBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_uxIPBoxKeyPressed
-        // TODO add your handling code here:
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER)
         {
             uxConnectButtonMouseClicked(new java.awt.event.MouseEvent(null, 0,0,0,0,0,0,true,0));
@@ -402,7 +395,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     /**
      * Builds & sends a protobuf message to send to the Raspberry Pi.
      * Every servo except the armature takes 0-180.
-     * TODO: Modify for hand opening, hand angle adjustments, and webcam movement.
      */
     private void sendUpdates()
     {
@@ -420,12 +412,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         
         leftMotor.setUpdate(leftMotorUpdate);
         rightMotor.setUpdate(rightMotorUpdate);
-        
-       // arm.setDegree(wristMethod); // Why is this 1? 1 -> launch, 0 no?
-       // arm.setUpdate(armUpdate);
-       
-        // TODO -- Figure out what this exactly does
-        if (armUpdate) arm.setDegree(armDegrees);//procedure = robot.getProceduresBuilder(2); // List length 2?
+   
+        if (armUpdate) arm.setDegree(armDegrees);
         
         arm.setUpdate(armUpdate);
         camera.setUpdate(cameraUpdate);
@@ -449,7 +437,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     }
     
     /**
-     * Decodes a message from the Pi into data to display onto the GUI. TODO
+     * Decodes a message from the Pi into data to display onto the GUI.
      * @param piMessage Message from the Raspberry Pi
      * @throws InvalidProcolBufferException
      * 
@@ -478,8 +466,8 @@ public class BasestationGUI extends javax.swing.JDialog {
     {       
             if (!"test".equals(ipAddress))
             {
-            // Initialize the WebSocket Client, port 8002 - TODO: ipADDRESS IS TO BE FIXED, ALONG WITH PORT.
-            client = new WebSocketClient( new URI("ws://" + ipAddress + ":4202"), new Draft_17()) {
+            // Initialize the WebSocket Client, port 9002.
+            client = new WebSocketClient( new URI("ws://" + ipAddress + ":9002"), new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                  uxIPBox.setEditable(false);
@@ -487,7 +475,6 @@ public class BasestationGUI extends javax.swing.JDialog {
                  uxDisconnectButton.setEnabled(true);
                  uxEventLog.setText("");
                  uxEventLog.append("Connected to PEBBL.\n");
-            
             }
             
 
@@ -682,11 +669,10 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                procedureNumber = 2;
                 armUpdate = true;
-                if (armDegrees == 5304)
+                if (armDegrees == 5304) 
                 {
-                    armDegrees = 3120;
+                    armDegrees = 3120; 
                     uxEventLog.append("Arm reset.\n");
                 }
                 else
@@ -1045,7 +1031,8 @@ public class BasestationGUI extends javax.swing.JDialog {
     private static WebSocketClient client;
     
     // IP Address to connect to the Pi.
-    private String ipAddress;
+    private String ipAddress = "10.243.81.158"; // Static ZeroTier address (Internet connectivity)
+   // private String ipAddress = "192.168.0.108"; // Local (no Internet) address from Router to Pi
     
     // Robot message portions
     private Main.Robot.Builder robot = Main.Robot.newBuilder();
@@ -1056,10 +1043,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     private Main.Robot.Servo.Builder camera = robot.getCameraBuilder();
     private Main.Robot.Servo.Builder arm = robot.getArmBuilder();  // Servo control for testing non-automated launch
     private Main.Robot.Servo.Builder wrist = robot.getWristBuilder();
-    
-    
-    // Procedure list: 2 for Throw, 3 for ForceUserControl.
-    private Main.Robot.Procedure.Builder procedure;
     
     // Booleans to determine update status of certain portions of the protobuf.
     private boolean leftMotorUpdate = false;
@@ -1085,8 +1068,5 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     // Degrees of claw servo
     private int clawDegrees = 0;
-    
-    // Procedure number -- TODO: Needed?
-    private int procedureNumber = 0;
     
 }
