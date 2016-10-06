@@ -4,8 +4,7 @@ import threading
 import sys
 import os
 import time
-#from queue import Queue
-#from controller import Controller
+from controller import Controller
 
 # Create a thread to monitor the Xbox Controller
 # Send updates via IPC to the Java thread
