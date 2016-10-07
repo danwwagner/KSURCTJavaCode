@@ -29,8 +29,10 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
 
-import java.util.concurrent.*;
+// Joystick library
 import net.java.games.input.*;
+
+
 /**
  *
  * @author Dan Wagner
@@ -48,7 +50,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         initComponents();
         registerKeyCommands();
         setUpController();
-        startPolling();
     }
 
     /**
@@ -282,13 +283,14 @@ public class BasestationGUI extends javax.swing.JDialog {
         // Checks for a non-empty textbox.
         if (!"".equals(uxIPBox.getText()))
         {
-             ipAddress = uxIPBox.getText();
+             ipAddress = uxIPBox.getText(); 
         }
         else return;
         
         try
         {
             setUpNetworking();
+            startPolling();
         }       
         catch (URISyntaxException ex)
         {
@@ -320,6 +322,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         uxConnectButton.setEnabled(true);
         uxDisconnectButton.setEnabled(false);
         uxEventLog.append("Disconnected from PEBBL.\n");
+        thread.halt();
+        
        }
     }//GEN-LAST:event_uxDisconnectButtonMouseClicked
 
@@ -1035,8 +1039,7 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void startPolling()
     {
-        ControllerThread c = new ControllerThread(xbox);
-        c.run();
+        thread = new ControllerThread(xbox, uxEventLog);
     }
     
     /**
@@ -1140,4 +1143,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     // Currently connected controller
     private Controller xbox = null;
     
+    // Controller polling thread
+    private ControllerThread thread = null;
 }

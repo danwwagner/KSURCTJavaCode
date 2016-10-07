@@ -24,6 +24,9 @@
 
 package ksurctjavacode;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
 import net.java.games.input.*;
 /**
  * Defines a thread to monitor and poll the Xbox Controller.
@@ -32,38 +35,53 @@ import net.java.games.input.*;
 public class ControllerThread extends Thread {
     
     private Controller _xbox;
+    private JTextArea _eventLog;
+    private volatile boolean stop = false;
     
-    ControllerThread(Controller xbox)
+    ControllerThread(Controller xbox, JTextArea log)
     {
        this._xbox = xbox;
+       this._eventLog = log;
+       this.start();
     }
     
     public void run()
     {
-        boolean update = _xbox.poll();
-        EventQueue queue = _xbox.getEventQueue();
-        Event e = new Event();
-        
-        while (queue.getNextEvent(e))
+        while (!stop)
         {
-             StringBuffer buffer = new StringBuffer(_xbox.getName());
-               buffer.append(" at ");
-               buffer.append(e.getNanos()).append(", ");
-               Component comp = e.getComponent();
-               buffer.append(comp.getName()).append(" changed to ");
-               float value = e.getValue(); 
-               if(comp.isAnalog()) {
-                  buffer.append(value);
-               } else {
+            boolean update = _xbox.poll();
+            EventQueue queue = _xbox.getEventQueue();
+            Event e = new Event();
+            while (queue.getNextEvent(e))
+            {
+                StringBuilder buffer = new StringBuilder();
+                Component comp = e.getComponent();
+                buffer.append(comp.getName()).append(" changed to ");
+                float value = e.getValue(); 
+                if(comp.isAnalog()) {
+                    buffer.append(value);
+                } 
+                else {
                   if(value==1.0f) {
                      buffer.append("On");
                   } else {
                      buffer.append("Off");
                   }
                }
-               System.out.println(buffer.toString());
-        }
-            
+               _eventLog.append(buffer.toString() + "\n");
+               _eventLog.setCaretPosition(_eventLog.getDocument().getLength()); // polling too fast for display?
+            }
+
+      }
+        
+    }
+    
+    /**
+     * Safely stops the current thread from executing (kills the thread).
+     */
+    public void halt()
+    {
+        stop = true;
     }
         
 
