@@ -12,6 +12,11 @@ Credit to https://github.com/TooTallNate/Java-WebSocket for WebSockets source.
 * Locate the Main.java file and protobuf-proto folder via the help of Netbeans.
 * Compile and run the program.
 
+## Python-Rev Branch Notes
+
+* Install Python 3.5 version.
+* Run the `sudo pip install websocket-client` command.
+
 ## Usage
 
 * The GUI contains several components:
