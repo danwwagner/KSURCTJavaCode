@@ -29,7 +29,8 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
 
-
+import java.util.concurrent.*;
+import net.java.games.input.*;
 /**
  *
  * @author Dan Wagner
@@ -46,8 +47,8 @@ public class BasestationGUI extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         registerKeyCommands();
-
-        
+        setUpController();
+        startPolling();
     }
 
     /**
@@ -1008,7 +1009,54 @@ public class BasestationGUI extends javax.swing.JDialog {
         _rightMotorInput.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD0, 0), "sprint");
         _rightMotorAction.put("sprint", sprint);
     }
+    
+    /**
+     * Finds the Xbox controller and sets it to our private field.
+     */
+    private void setUpController()
+    {
+        Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+        for (Controller c : controllers)
+        {
+            if (c.getType() == Controller.Type.GAMEPAD)
+            {
+                xbox = c;
+            }
+        }
+        
+        if (xbox == null)
+        {
+            uxEventLog.setText("No controller found.");
+        }
+    }
+    
+    /**
+     * Start a thread that polls the Xbox controller in the background.
+     */
+    private void startPolling()
+    {
+        ControllerThread c = new ControllerThread(xbox);
+        c.run();
+    }
+    
+    /**
+     * Gets the current referenced Xbox Controller.
+     * @return Xbox controller object.
+     */
+    public Controller getController()
+    {
+        return this.xbox;
+    }
 
+    /**
+     * Multithreaded message passing?
+     */
+    private synchronized void getMessage()
+    {
+        
+    }
+            
+         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel armStateLabel;
     private javax.swing.JLabel frontLeftIRLabel;
@@ -1088,5 +1136,8 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     // Procedure number -- TODO: Needed?
     private int procedureNumber = 0;
+    
+    // Currently connected controller
+    private Controller xbox = null;
     
 }
