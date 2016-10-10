@@ -483,8 +483,8 @@ public class BasestationGUI extends javax.swing.JDialog {
     {       
             if (!"test".equals(ipAddress))
             {
-            // Initialize the WebSocket Client, port 8002 - TODO: ipADDRESS IS TO BE FIXED, ALONG WITH PORT.
-            client = new WebSocketClient( new URI("ws://" + ipAddress + ":4202"), new Draft_17()) {
+            // Initialize the WebSocket Client.
+            client = new WebSocketClient( new URI("ws://" + ipAddress + port), new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                  uxIPBox.setEditable(false);
@@ -1041,25 +1041,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     {
         thread = new ControllerThread(xbox, uxEventLog);
     }
-    
-    /**
-     * Gets the current referenced Xbox Controller.
-     * @return Xbox controller object.
-     */
-    public Controller getController()
-    {
-        return this.xbox;
-    }
 
-    /**
-     * Multithreaded message passing?
-     */
-    private synchronized void getMessage()
-    {
-        
-    }
-            
-         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel armStateLabel;
     private javax.swing.JLabel frontLeftIRLabel;
@@ -1095,8 +1077,9 @@ public class BasestationGUI extends javax.swing.JDialog {
     // WebSocket Client for the Robot.
     private static WebSocketClient client;
     
-    // IP Address to connect to the Pi.
+    // IP Address & port number to connect to the Pi.
     private String ipAddress;
+	private String port = ":4202";
     
     // Robot message portions
     private Main.Robot.Builder robot = Main.Robot.newBuilder();
