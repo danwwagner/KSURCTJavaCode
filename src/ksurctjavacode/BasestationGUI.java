@@ -8,8 +8,9 @@
 
 package ksurctjavacode;
 
-
+// Google Protobuf library
 import com.google.protobuf.InvalidProtocolBufferException;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JProgressBar;
@@ -25,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.DefaultCaret;
 
+// Networking: websocket implementation libraries
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
@@ -687,7 +689,6 @@ public class BasestationGUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                procedureNumber = 2;
                 armUpdate = true;
                 if (armDegrees == 5304)
                 {
@@ -1079,7 +1080,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     // IP Address & port number to connect to the Pi.
     private String ipAddress;
-	private String port = ":4202";
+    private String port = ":4202";
     
     // Robot message portions
     private Main.Robot.Builder robot = Main.Robot.newBuilder();
@@ -1119,9 +1120,6 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     // Degrees of claw servo
     private int clawDegrees = 0;
-    
-    // Procedure number -- TODO: Needed?
-    private int procedureNumber = 0;
     
     // Currently connected controller
     private Controller xbox = null;

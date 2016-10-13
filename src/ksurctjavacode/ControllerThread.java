@@ -65,6 +65,7 @@ public class ControllerThread extends Thread {
             {
                 StringBuilder buffer = new StringBuilder();
                 Component comp = e.getComponent();
+                
                 buffer.append(comp.getName()).append(" changed to ");
                 float value = e.getValue(); 
                 if(comp.isAnalog()) {
