@@ -71,12 +71,9 @@ public class ControllerThread extends Thread {
             {
                 StringBuilder buffer = new StringBuilder();
                 Component comp = e.getComponent();
-                String value = df.format(comp.getPollData());
-                 
                 
-                if(comp.isAnalog()) {
-                    buffer.append(value);
-                }
+                // Note: Analog sticks Y values are reversed (-1 is forward, 1 is backward)
+                String value = df.format(comp.getPollData());
                 
                 
                if (!value.equals(prevValue) && prevComp != comp)

@@ -320,10 +320,12 @@ public class BasestationGUI extends javax.swing.JDialog {
         }
         
         else client.close();
+        
         uxIPBox.setEditable(true);
         uxConnectButton.setEnabled(true);
         uxDisconnectButton.setEnabled(false);
         uxEventLog.append("Disconnected from PEBBL.\n");
+        uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
         thread.halt();
         
        }
@@ -345,6 +347,7 @@ public class BasestationGUI extends javax.swing.JDialog {
             uxEventLog.append("Claw opened.\n");
         }
         clawUpdate = true;
+        uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
         leftMotorProgress.requestFocusInWindow();
         rightMotorProgress.requestFocusInWindow();
         sendUpdates();
@@ -550,6 +553,8 @@ public class BasestationGUI extends javax.swing.JDialog {
                  frontRightIRText.setText("O");
                  uxEventLog.append("Welcome, Chell.\nReady to test?\n");
       }
+      
+      uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
     }
     
     
@@ -596,6 +601,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     }
                  
                     uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
+                    uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                     sendUpdates();
                     leftMotorUpdate = false;
                     rightMotorUpdate = false;               
@@ -622,6 +628,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 }
                 
                 uxEventLog.append("L: " + _lthrottle + "\t" + "R: " + _rthrottle + "\n");
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -639,6 +646,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                  leftMotorProgress.setValue(_lthrottle);
                  rightMotorProgress.setValue(_rthrottle);
                  uxEventLog.append("Zero Point Left\n");
+                 uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
                  sendUpdates();
@@ -658,6 +666,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                  leftMotorProgress.setValue(_lthrottle);
                  rightMotorProgress.setValue(_rthrottle);
                  uxEventLog.append("Zero Point Right\n");
+                 uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                  leftMotorUpdate = true;
                  rightMotorUpdate = true;
                  sendUpdates();
@@ -703,6 +712,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     armDegrees = 5304;
                     uxEventLog.append("Arm launched.\n");
                 }
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 sendUpdates();
                 armUpdate = false;
             }
@@ -746,7 +756,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 rightMotorProgress.setValue(_rthrottle -= 5);
                 rightMotorUpdate = true;
-                 uxEventLog.append("Turn left [R: " + _rthrottle + "]\n");
+                uxEventLog.append("Turn left [R: " + _rthrottle + "]\n");
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -761,6 +772,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 rightMotorProgress.setValue(_rthrottle += 5);
                 rightMotorUpdate = true;
                 uxEventLog.append("Turn right [R: " + _rthrottle + "]\n");
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 sendUpdates();
                 rightMotorUpdate = false;
             }
@@ -774,7 +786,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle -= 5);
                 leftMotorUpdate = true;
-                uxEventLog.append("Turn left [L" + _lthrottle + "]\n");   
+                uxEventLog.append("Turn left [L" + _lthrottle + "]\n"); 
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 sendUpdates();
                 leftMotorUpdate = false;
             }
@@ -788,7 +801,8 @@ public class BasestationGUI extends javax.swing.JDialog {
             {
                 leftMotorProgress.setValue(_lthrottle += 5);
                 leftMotorUpdate = true;
-                uxEventLog.append("Turn right [L:" + _lthrottle + "]\n");           
+                uxEventLog.append("Turn right [L:" + _lthrottle + "]\n");
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 sendUpdates();
                 leftMotorUpdate = false;
             }
@@ -808,6 +822,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 rightMotorUpdate = true;
                 setBrakes = true;
                 uxEventLog.append("HIT THE BRAKES!\n");
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 sendUpdates();
                 setBrakes = false;
                 leftMotorUpdate = false;
@@ -826,6 +841,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 leftMotorUpdate = true;
                 rightMotorUpdate = true;
                 uxEventLog.append("Ascending ramp: please wait..\n");
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 sendUpdates();
                 leftMotorUpdate = false;
                 rightMotorUpdate = false;
@@ -901,6 +917,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 _lthrottle = 500;
                 _rthrottle = 500;
                 uxEventLog.append("Sprinting.\n");
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 leftMotorUpdate = true;
                 rightMotorUpdate = true;
                 sendUpdates();
@@ -925,6 +942,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                     clawDegrees = 60;
                     uxEventLog.append("Claw opened.\n");
                 }
+                uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
                 clawUpdate = true;
                 leftMotorProgress.requestFocusInWindow();
                 rightMotorProgress.requestFocusInWindow();
