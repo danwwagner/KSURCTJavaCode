@@ -38,8 +38,13 @@ public class ControllerThread extends Thread {
     
     private final Controller _xbox;
     private final BasestationGUI _view;
-    private volatile boolean stop = false;
-    private final DecimalFormat df = new DecimalFormat("#.##");
+    private volatile boolean _stop = false;
+    
+    // Joystick radial deadzone
+    private final float _deadZone = 0.25f;
+    
+    // Format for the number on joysticks
+    private final DecimalFormat _df = new DecimalFormat("#.##");
     
     /**
      * Creates new thread to monitor the Xbox controller feedback
@@ -62,7 +67,7 @@ public class ControllerThread extends Thread {
         Component prevComp = null;
         String prevValue = "";
         int x = 0;
-        while (!stop)
+        while (!_stop)
         {
             _xbox.poll();
             EventQueue queue = _xbox.getEventQueue();
@@ -71,17 +76,23 @@ public class ControllerThread extends Thread {
             {
                 StringBuilder buffer = new StringBuilder();
                 Component comp = e.getComponent();
-                
-                // Note: Analog sticks Y values are reversed (-1 is forward, 1 is backward)
-                String value = df.format(comp.getPollData());
-                
+                String name = comp.getName();
+
+               // Note: Analog sticks Y values are reversed (-1 is forward, 1 is backward)
+               String value = _df.format(comp.getPollData());
+               if (name == "x" || name == "y" || name == "rx" ||name == "ry")
+               {
+                   if (Math.abs(comp.getPollData()) < _deadZone) value = "0";
+               }
+            
                 
                if (!value.equals(prevValue) && prevComp != comp)
                {
                    _view.sendUpdates(new StringBuilder(comp.getName() + ": " + String.valueOf(value)));
                }
-                prevValue = value;  
-                prevComp = comp;
+               
+               prevValue = value;  
+               prevComp = comp;
             }
 
       }
@@ -93,7 +104,7 @@ public class ControllerThread extends Thread {
      */
     public void halt()
     {
-        stop = true;
+        _stop = true;
     }
         
 
