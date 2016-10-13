@@ -24,8 +24,7 @@
 
 package ksurctjavacode;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.*;
 import net.java.games.input.*;
 
@@ -35,11 +34,11 @@ import net.java.games.input.*;
  */
 public class ControllerThread extends Thread {
     
-    private Controller _xbox;
-    private JTextArea _eventLog;
+    private final Controller _xbox;
+    private final JTextArea _eventLog;
     private volatile boolean stop = false;
     
-	 /**
+    /**
      * Creates new thread to monitor the Xbox controller feedback
      * @param xbox Xbox controller object
      * @param log EventLog to display information to (CHANGE TO ACTUAL GUI TO ACCESS BOXES AND FORM)
@@ -51,9 +50,10 @@ public class ControllerThread extends Thread {
        this.start();
     }
     
-	/**
-	* Begins polling on the Xbox controller.  Will stop when the thread is closed via the GUI.
-	*/
+    /**
+    * Begins polling on the Xbox controller.  Will stop when the thread is closed via the GUI.
+    */
+    @Override
     public void run()
     {
         while (!stop)

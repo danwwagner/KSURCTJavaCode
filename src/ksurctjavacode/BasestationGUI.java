@@ -376,19 +376,14 @@ public class BasestationGUI extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BasestationGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BasestationGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BasestationGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException|InstantiationException|IllegalAccessException|javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(BasestationGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 BasestationGUI dialog = new BasestationGUI(new javax.swing.JFrame(), true);
                 DefaultCaret caret = (DefaultCaret) uxEventLog.getCaret();
@@ -515,6 +510,7 @@ public class BasestationGUI extends javax.swing.JDialog {
                 uxDisconnectButton.setEnabled(false);
                 uxEventLog.append("Disconnected from PEBBL.\n");
             }
+            
 
             @Override
             public void onError(Exception ex) {
@@ -1076,21 +1072,17 @@ public class BasestationGUI extends javax.swing.JDialog {
     
     // IP Address & port number to connect to the Pi.
     private String ipAddress;
-    private String port = ":4202";
+    private final String port = ":4202";
     
     // Robot message portions
-    private Main.Robot.Builder robot = Main.Robot.newBuilder();
-    private Main.Robot.Motor.Builder leftMotor = robot.getMotorLeftRpmBuilder();
-    private Main.Robot.Motor.Builder rightMotor = robot.getMotorRightRpmBuilder();
-    private Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
-    private Main.Robot.Servo.Builder claw = robot.getClawBuilder();
-    private Main.Robot.Servo.Builder camera = robot.getCameraBuilder();
-    private Main.Robot.Servo.Builder arm = robot.getArmBuilder();  // Servo control for testing non-automated launch
-    private Main.Robot.Servo.Builder wrist = robot.getWristBuilder();
-    
-    
-    // Procedure list: 2 for Throw, 3 for ForceUserControl.
-    private Main.Robot.Procedure.Builder procedure;
+    private final Main.Robot.Builder robot = Main.Robot.newBuilder();
+    private final Main.Robot.Motor.Builder leftMotor = robot.getMotorLeftRpmBuilder();
+    private final Main.Robot.Motor.Builder rightMotor = robot.getMotorRightRpmBuilder();
+    private final Main.Robot.LED.Builder LED = robot.getHeadlightsBuilder();
+    private final Main.Robot.Servo.Builder claw = robot.getClawBuilder();
+    private final Main.Robot.Servo.Builder camera = robot.getCameraBuilder();
+    private final Main.Robot.Servo.Builder arm = robot.getArmBuilder();
+    private final Main.Robot.Servo.Builder wrist = robot.getWristBuilder();
     
     // Booleans to determine update status of certain portions of the protobuf.
     private boolean leftMotorUpdate = false;
