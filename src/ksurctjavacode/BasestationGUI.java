@@ -287,8 +287,6 @@ public class BasestationGUI extends javax.swing.JDialog {
         {
              ipAddress = uxIPBox.getText(); 
         }
-        else return;
-        
         try
         {
             setUpNetworking();
@@ -456,8 +454,62 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     public void sendUpdates(StringBuilder controllerStatus)
     {
-        uxEventLog.append(controllerStatus.toString() + "\n");
-        uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
+        String[] parts = controllerStatus.toString().split(": ");
+        String robotPart = parts[0];
+        int robotValue = Integer.getInteger(parts[1]);
+        
+        if (robotPart.equals("throttle"))
+        {
+            leftMotor.setUpdate(true);
+            rightMotor.setUpdate(true);
+            leftMotor.setSpeed(robotValue * 120);
+            rightMotor.setSpeed(robotValue * 120);
+        }
+        else if (robotPart.equals("brakes"))
+        {
+            leftMotor.setUpdate(true);
+            rightMotor.setUpdate(true);
+            leftMotor.setSpeed(0);
+            rightMotor.setSpeed(0);
+        }
+        else if (robotPart.equals("headlights"))
+        {
+            LED.setOn("ON".equals(ledStatusButton.getText()));
+            LED.setUpdate(true);
+        }
+        else if (robotPart.equals("moveCamera"))
+        {
+            camera.setUpdate(true);
+            camera.setDegree(robotValue*180);
+        }
+        else if (robotPart.equals("claw"))
+        {
+            claw.setUpdate(true);
+            claw.setDegree(robotValue*60);
+        }
+        else if (robotPart.equals("arm"))
+        {
+            arm.setUpdate(true);
+            if (armDegrees != 5304) armDegrees = 3120;
+            arm.setDegree(armDegrees);
+        }
+       /* else if (robotPart.equals("turn"))
+        {
+            leftMotor.setUpdate(true);
+            rightMotor.setUpdate(true);
+            leftMotor.setSpeed(robotValue * 120);
+            rightMotor.setSpeed(robotValue * 120);
+        }*/
+       
+        // Build the message.
+        byte[] message = robot.build().toByteArray();
+        
+        // Send the message - byte array format.
+        if (!"test".equals(ipAddress)) client.send(message);
+        
+        
+       // uxEventLog.append(controllerStatus.toString() + "\n");
+       // uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
     }
     
     /**
@@ -1052,7 +1104,7 @@ public class BasestationGUI extends javax.swing.JDialog {
         
         if (xbox == null)
         {
-            uxEventLog.setText("No controller found.");
+            uxEventLog.setText("No controller found.\nPlease use keyboard.");
         }
     }
     
@@ -1100,8 +1152,8 @@ public class BasestationGUI extends javax.swing.JDialog {
     private static WebSocketClient client;
     
     // IP Address & port number to connect to the Pi.
-    private String ipAddress;
-    private final String port = ":4202";
+    private String ipAddress = "10.243.81.158";
+    private final String port = ":9002";
     
     // Robot message portions
     private final Main.Robot.Builder robot = Main.Robot.newBuilder();

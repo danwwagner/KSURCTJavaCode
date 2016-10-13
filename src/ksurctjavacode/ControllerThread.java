@@ -85,10 +85,11 @@ public class ControllerThread extends Thread {
                    if (Math.abs(comp.getPollData()) < _deadZone) value = "0";
                }
             
-                
+               // TODO: Determine which button goes to what in order to update components
                if (!value.equals(prevValue) && prevComp != comp)
                {
-                   _view.sendUpdates(new StringBuilder(comp.getName() + ": " + String.valueOf(value)));
+                   name = getRobotName(comp.getName());
+                   if (!name.equals("")) _view.sendUpdates(new StringBuilder(getRobotName(comp.getName()) + ": " + String.valueOf(value)));
                }
                
                prevValue = value;  
@@ -106,6 +107,45 @@ public class ControllerThread extends Thread {
     {
         _stop = true;
     }
-        
+    
+    /**
+     * Determines which component is in need of update based upon the controller's button name.
+     * @param name Name of the Xbox controller part
+     * @return Returns the name of the robot part.
+     */
+    private String getRobotName(String name)
+    {
+        switch(name)
+        {
+            case "x":
+                name = "turn";
+                break;
+            case "y":
+                name = "throttle";
+                break;
+            case "ry":
+                name = "moveCamera";
+                break;
+            case "rx":
+                name = "moveCamera";
+                break;
+            case "A":
+                name = "claw";
+                break;
+            case "B":
+                name = "brakes";
+                break;
+            case "Y":
+                name = "headlights";
+                break;
+            case "rz":
+                name = "arm";
+                break;
+            default:
+                name = "";
+                break; 
+        }         
+        return name;
+    }
 
 }
