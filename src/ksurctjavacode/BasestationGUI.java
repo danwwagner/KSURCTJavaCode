@@ -405,7 +405,7 @@ public class BasestationGUI extends javax.swing.JDialog {
      * Builds & sends a protobuf message to send to the Raspberry Pi.
      * Every servo except the armature takes 0-180.
      */
-    private void sendUpdates()
+    public void sendUpdates()
     {
         DefaultCaret caret = (DefaultCaret) uxEventLog.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -444,6 +444,17 @@ public class BasestationGUI extends javax.swing.JDialog {
         
         // Send the message - byte array format.
         if (!"test".equals(ipAddress)) client.send(message);
+    }
+    
+    /**
+     * Builds & sends a protobuf message to send to the Raspberry Pi.
+     * Every servo except the armature takes 0-180.
+     * @param controllerStatus Status of the Xbox controller.
+     */
+    public void sendUpdates(StringBuilder controllerStatus)
+    {
+        uxEventLog.append(controllerStatus.toString() + "\n");
+        uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
     }
     
     /**
@@ -1032,7 +1043,7 @@ public class BasestationGUI extends javax.swing.JDialog {
      */
     private void startPolling()
     {
-        thread = new ControllerThread(xbox, uxEventLog);
+        thread = new ControllerThread(xbox, this);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

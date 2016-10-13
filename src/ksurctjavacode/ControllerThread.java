@@ -24,8 +24,10 @@
 
 package ksurctjavacode;
 
+// Formatting the number to reduce polling spam.
+import java.text.DecimalFormat;
 
-import javax.swing.*;
+// Controller libraries
 import net.java.games.input.*;
 
 /**
@@ -35,18 +37,19 @@ import net.java.games.input.*;
 public class ControllerThread extends Thread {
     
     private final Controller _xbox;
-    private final JTextArea _eventLog;
+    private final BasestationGUI _view;
     private volatile boolean stop = false;
+    private final DecimalFormat df = new DecimalFormat("#.##");
     
     /**
      * Creates new thread to monitor the Xbox controller feedback
      * @param xbox Xbox controller object
      * @param log EventLog to display information to (CHANGE TO ACTUAL GUI TO ACCESS BOXES AND FORM)
      */
-    ControllerThread(Controller xbox, JTextArea log)
+    ControllerThread(Controller xbox, BasestationGUI gui)
     {
        this._xbox = xbox;
-       this._eventLog = log;
+       this._view = gui;
        this.start();
     }
     
@@ -56,30 +59,32 @@ public class ControllerThread extends Thread {
     @Override
     public void run()
     {
+        Component prevComp = null;
+        String prevValue = "";
+        int x = 0;
         while (!stop)
         {
-            boolean update = _xbox.poll();
+            _xbox.poll();
             EventQueue queue = _xbox.getEventQueue();
             Event e = new Event();
             while (queue.getNextEvent(e))
             {
                 StringBuilder buffer = new StringBuilder();
                 Component comp = e.getComponent();
+                String value = df.format(comp.getPollData());
+                 
                 
-                buffer.append(comp.getName()).append(" changed to ");
-                float value = e.getValue(); 
                 if(comp.isAnalog()) {
                     buffer.append(value);
-                } 
-                else {
-                  if(value==1.0f) {
-                     buffer.append("On");
-                  } else {
-                     buffer.append("Off");
-                  }
+                }
+                
+                
+               if (!value.equals(prevValue) && prevComp != comp)
+               {
+                   _view.sendUpdates(new StringBuilder(comp.getName() + ": " + String.valueOf(value)));
                }
-               _eventLog.append(buffer.toString() + "\n");
-               _eventLog.setCaretPosition(_eventLog.getDocument().getLength()); // polling too fast for display?
+                prevValue = value;  
+                prevComp = comp;
             }
 
       }
