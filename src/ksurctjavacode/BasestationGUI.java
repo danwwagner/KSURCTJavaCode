@@ -352,7 +352,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_uxOpenClawMouseClicked
 
     private void uxIPBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_uxIPBoxKeyPressed
-        // TODO add your handling code here:
+        
         if (evt.getKeyCode() == KeyEvent.VK_ENTER)
         {
             uxConnectButtonMouseClicked(new java.awt.event.MouseEvent(null, 0,0,0,0,0,0,true,0));
@@ -409,12 +409,12 @@ public class BasestationGUI extends javax.swing.JDialog {
     /**
      * Builds & sends a protobuf message to send to the Raspberry Pi.
      * Every servo except the armature takes 0-180.
-     * TODO: Modify for hand opening, hand angle adjustments, and webcam movement.
      */
     private void sendUpdates()
     {
         DefaultCaret caret = (DefaultCaret) uxEventLog.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        
         // Set the correct values of each motor or brakes and signify update.
         if (!setBrakes)
         {
@@ -427,14 +427,10 @@ public class BasestationGUI extends javax.swing.JDialog {
         
         leftMotor.setUpdate(leftMotorUpdate);
         rightMotor.setUpdate(rightMotorUpdate);
-        
-       // arm.setDegree(wristMethod); // Why is this 1? 1 -> launch, 0 no?
-       // arm.setUpdate(armUpdate);
-       
-        // TODO -- Figure out what this exactly does
-        if (armUpdate) arm.setDegree(armDegrees);//procedure = robot.getProceduresBuilder(2); // List length 2?
-        
+
+        if (armUpdate) arm.setDegree(armDegrees);
         arm.setUpdate(armUpdate);
+        
         camera.setUpdate(cameraUpdate);
         camera.setDegree(cameraDegrees);
         
@@ -456,7 +452,7 @@ public class BasestationGUI extends javax.swing.JDialog {
     }
     
     /**
-     * Decodes a message from the Pi into data to display onto the GUI. TODO
+     * Decodes a message from the Pi into data to display onto the GUI.
      * @param piMessage Message from the Raspberry Pi
      * @throws InvalidProcolBufferException
      * 
