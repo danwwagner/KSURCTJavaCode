@@ -89,7 +89,7 @@ public class ControllerThread extends Thread {
                if (!value.equals(prevValue) && prevComp != comp)
                {
                    name = getRobotName(comp.getName());
-                   if (!name.equals("")) _view.sendUpdates(new StringBuilder(getRobotName(comp.getName()) + ": " + String.valueOf(value)));
+                   if (!name.equals("")) _view.sendUpdates(getRobotName(comp.getName()), Float.parseFloat(value));
                }
                
                prevValue = value;  

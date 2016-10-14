@@ -452,64 +452,60 @@ public class BasestationGUI extends javax.swing.JDialog {
      * Every servo except the armature takes 0-180.
      * @param controllerStatus Status of the Xbox controller.
      */
-    public void sendUpdates(StringBuilder controllerStatus)
+    public void sendUpdates(String controllerStatus, float controllerValue)
     {
-        String[] parts = controllerStatus.toString().split(": ");
-        String robotPart = parts[0];
-        int robotValue = Integer.getInteger(parts[1]);
-        
-        if (robotPart.equals("throttle"))
+      /*  if (controllerStatus.equals("throttle"))
         {
             leftMotor.setUpdate(true);
             rightMotor.setUpdate(true);
-            leftMotor.setSpeed(robotValue * 120);
-            rightMotor.setSpeed(robotValue * 120);
+            leftMotor.setSpeed((int)(controllerValue * 120));
+            rightMotor.setSpeed((int)(controllerValue * 120));
         }
-        else if (robotPart.equals("brakes"))
+        else if (controllerStatus.equals("brakes"))
         {
             leftMotor.setUpdate(true);
             rightMotor.setUpdate(true);
             leftMotor.setSpeed(0);
             rightMotor.setSpeed(0);
         }
-        else if (robotPart.equals("headlights"))
+        else if (controllerStatus.equals("headlights"))
         {
-            LED.setOn("ON".equals(ledStatusButton.getText()));
+            LED.setOn(1 == controllerValue);
             LED.setUpdate(true);
         }
-        else if (robotPart.equals("moveCamera"))
+        else if (controllerStatus.equals("moveCamera"))
         {
             camera.setUpdate(true);
-            camera.setDegree(robotValue*180);
+            camera.setDegree((int)(controllerValue * 180));
         }
-        else if (robotPart.equals("claw"))
+        else if (controllerStatus.equals("claw"))
         {
             claw.setUpdate(true);
-            claw.setDegree(robotValue*60);
+            claw.setDegree((int)(controllerValue * 60));
         }
-        else if (robotPart.equals("arm"))
+        else if (controllerStatus.equals("arm"))
         {
             arm.setUpdate(true);
             if (armDegrees != 5304) armDegrees = 3120;
             arm.setDegree(armDegrees);
         }
-       /* else if (robotPart.equals("turn"))
+        else if (robotPart.equals("turn"))
         {
             leftMotor.setUpdate(true);
             rightMotor.setUpdate(true);
             leftMotor.setSpeed(robotValue * 120);
             rightMotor.setSpeed(robotValue * 120);
-        }*/
+        }
        
         // Build the message.
         byte[] message = robot.build().toByteArray();
         
         // Send the message - byte array format.
-        if (!"test".equals(ipAddress)) client.send(message);
+        if (!"test".equals(ipAddress)) client.send(message); 
         
-        
-       // uxEventLog.append(controllerStatus.toString() + "\n");
-       // uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
+       */
+        uxEventLog.append(controllerStatus + "\n");
+        uxEventLog.setCaretPosition(uxEventLog.getDocument().getLength());
     }
     
     /**
